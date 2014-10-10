@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - @localhost" uuid="cce2cd5c-f487-401b-86e4-4f05fc475b21">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>nestq.*</schema-pattern>
+      <default-schemas>performance_schema.*</default-schemas>
+    </data-source>
+  </component>
+</project>
+

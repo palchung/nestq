@@ -1,0 +1,62 @@
+
+
+.activepush{
+
+	position:fixed;
+
+	color: #ffffff;
+	background-color: @primaryColor;
+	top:80%;
+	padding: @std-padding;
+	left:3px;
+	border: 1px solid #575757;
+	border-radius: 4px;
+	width: 25%;
+    font-size: 15px;
+	z-index: 10;
+	a{
+		color: #ffffff;
+	}
+	// opacity: 0.9;
+
+}
+
+// for angularjs
+
+
+
+.activepush.ng-hide-add, .activepush.ng-hide-remove {
+  -webkit-transition:all linear 0.5s;
+  -moz-transition:all linear 0.5s;
+  -o-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+  display:block!important;
+}
+
+.activepush.ng-hide-add.ng-hide-add-active,
+.activepush.ng-hide-remove {
+  opacity:0;
+}
+
+.activepush.ng-hide-add,
+.activepush.ng-hide-remove.ng-hide-remove-active {
+  opacity:1;
+}
+
+
+
+// .showpush.ng-enter, .showpush.ng-move {
+// 	-webkit-transition:0.5s linear all;
+// 	-moz-transition:0.5s linear all;
+// 	-o-transition:0.5s linear all;
+// 	transition:0.5s linear all;
+// 	opacity:0;
+// }
+
+// .showpush.ng-leave {
+// 	-webkit-animation:0.5s my_animation;
+// 	-moz-animation:0.5s my_animation;
+// 	-o-animation:0.5s my_animation;
+// 	animation:0.5s my_animation;
+// }
+
