@@ -18,10 +18,11 @@ class messengerController extends BaseController {
         header("Content-Type: text/event-stream\n\n");
         header('Cache-Control: no-cache');
 
+
         $message = $this->loadMessageInDatabase($conversationId);
 
 
-            $this->pushMessage($message);
+        $this->pushMessage($message);
 
 
     }
@@ -43,10 +44,10 @@ class messengerController extends BaseController {
             ->orderBy('message.created_at', 'DESC')
             ->first();
 
-//        if (sizeof($messages) == 0 || $messages->account_id == Auth::user()->id)
-//        {
-//            $messages = 'no_new_message';
-//        }
+        if (sizeof($messages) == 0 || $messages->account_id == Auth::user()->id)
+        {
+            $messages = 'no_message';
+        }
 
         return $messages;
 
@@ -58,7 +59,7 @@ class messengerController extends BaseController {
     {
         echo "retry: " . Config::get('nestq.ACTIVE_PUSH_INTERVAL') . "\n\n";
         echo "data:" . json_encode($msg) . "\n\n";
-        echo "data:" . $msg . PHP_EOL;
+//        echo "data:" . $msg . PHP_EOL;
         echo PHP_EOL;
         ob_flush();
         flush();

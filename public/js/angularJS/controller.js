@@ -68,7 +68,6 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
         $scope.message.toDisplay = [];
 
 
-
         var currPanel = 0;
         var $slider = $('#full-slider');
         var $sliderPanels = $slider.children('.slide-panel');
@@ -136,16 +135,14 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
                             //$scope.message.databaseMessage = JSON.parse(event.data);
                             //$scope.message.totalMessage = $scope.pushMessage ;
 
-
-                            $scope.message.toDisplay.push(event.data);
-
+                            if (event.data != 'no_message') {
+                                $scope.message.toDisplay.push(event.data);
+                            }
 
                             console.log("Listener ", $scope.message.toDisplay);
 
                         });
                     };
-
-
 
 
                     //console.log("loadMessage: ", data.response);
@@ -222,7 +219,6 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
                     $scope.message.new = '';
                     $scope.message.toDisplay.push(data.response);
                     //i++;
-
 
 
                     //console.log("sendMesage: ", data.response);
