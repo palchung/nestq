@@ -5,8 +5,8 @@ class messengerController extends BaseController {
     public function Messenger()
     {
 
-        header("Content-Type: text/event-stream\n\n");
-        header('Cache-Control: no-cache');
+//        header("Content-Type: text/event-stream\n\n");
+//        header('Cache-Control: no-cache');
 
         $properties = $this->loadContactOnMessenger();
         $this->pushMessage($properties);
@@ -15,16 +15,8 @@ class messengerController extends BaseController {
 
     public function Messages($conversationId)
     {
-        header("Content-Type: text/event-stream\n\n");
-        header('Cache-Control: no-cache');
-
-
         $message = $this->loadMessageInDatabase($conversationId);
-
-
         $this->pushMessage($message);
-
-
     }
 
     public function loadMessageInDatabase($conversation_id)
@@ -38,25 +30,30 @@ class messengerController extends BaseController {
                 'message.created_at as message_created_at',
                 'account.firstname as account_firstname',
                 'account.lastname as account_lastname',
-                'account.id as account_id'
+                'account.id as account_id',
+                'account.profile_pic as account_profile_pic'
             ])
             ->where('message.conversation_id', '=', $conversation_id)
+//            ->where('account.id','<>',Auth::user()->id)
             ->orderBy('message.created_at', 'DESC')
+            ->distinct()
             ->first();
 
-        if (sizeof($messages) == 0 || $messages->account_id == Auth::user()->id)
-        {
-            $messages = 'no_message';
+        if ($messages->account_id == Auth::user()->id){
+            $messages = 'no_new_message';
         }
 
         return $messages;
-
 
     }
 
 
     public function pushMessage($msg)
     {
+
+        header("Content-Type: text/event-stream\n\n");
+        header('Cache-Control: no-cache');
+
         echo "retry: " . Config::get('nestq.ACTIVE_PUSH_INTERVAL') . "\n\n";
         echo "data:" . json_encode($msg) . "\n\n";
 //        echo "data:" . $msg . PHP_EOL;

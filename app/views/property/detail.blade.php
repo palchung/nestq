@@ -124,15 +124,16 @@
         <br/>
 
         <div class="media">
-          <a class="pull-left" href="{{ url('inquiry/guide')}}">
-            <i class="icon-user-guide"></i>
-        </a>
-        <div class="media-body">
-            <h4 class="media-heading"><a href="{{ url('inquiry/guide')}}" ><span class="underline">用戶指南</span></a></h4>
-            瀏覽用戶指南，了解更多！
+            <a class="pull-left" href="{{ url('inquiry/guide')}}">
+                <i class="icon-user-guide"></i>
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading"><a href="{{ url('inquiry/guide')}}" ><span class="underline">用戶指南</span></a></h4>
+                瀏覽用戶指南，了解更多！
+            </div>
         </div>
-    </div>
 
+        <hr/>
 
 
     @endif
@@ -186,7 +187,8 @@
         <small>{{$message->message_created_at}}</small>
     </span>
     <br/>
-    {{$message->message_message}}
+    <span class="break-word">{{$message->message_message}}</span>
+
     <hr>
 </li>
 </ul>
@@ -239,7 +241,7 @@
 {{ Form::open(array('url'=>'conversation/property', 'class'=>'')) }}
 <span class="sub-title"> 留言 </span>
 
-    <br/>
+<br/>
 <ul>
     @foreach($errors->all() as $error)
     <li>{{ $error }}</li>

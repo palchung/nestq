@@ -9364,6 +9364,9 @@ pre {
   padding: 1px;
   font-weight: bold;
 }
+.break-word {
+  word-wrap: break-word;
+}
 .std-badge-primary {
   border: 1px solid #475f77;
   border-radius: 4px;
@@ -11871,11 +11874,13 @@ input:active + .checkbox-label {
   overflow-y: scroll;
   background-color: #ffffff;
   padding: 0px;
+  z-index: 1000;
 }
 #full-slider {
   position: relative;
   width: 100%;
   margin: 0 auto;
+  z-index: 1000;
 }
 #full-slider .slide-panel {
   position: absolute;
@@ -11883,20 +11888,17 @@ input:active + .checkbox-label {
   left: 0;
   width: 100%;
   height: 100%;
+  margin-top: 3em;
+  background-color: #ffffff;
   visibility: hidden;
+  z-index: 1000;
 }
 #full-slider .slide-panel.active {
   visibility: visible;
 }
 /* styles below are only for this example */
-#full-slider .slide-panel {
-  background-color: #ffffff;
-  color: #333333;
-  margin-top: 3em;
-  z-index: 0;
-}
 .messenger {
-  z-index: 1;
+  z-index: 1000;
   position: fixed;
   color: #354B5E;
   margin: 0px;
@@ -11905,35 +11907,39 @@ input:active + .checkbox-label {
   margin-bottom: 5px;
   background-color: #ffffff;
   font-size: 1.2em;
+  height: 50px;
 }
 .messenger-title {
-  color: #D74B4B;
+  color: #d74b4b;
 }
 .messenger-backward {
-  font-size: 1.6em;
-  color: #D74B4B;
+  color: #d74b4b;
   cursor: pointer;
 }
 .messenger-backward :link {
-  color: #D74B4B;
+  color: #d74b4b;
   text-decoration: none;
 }
 .messenger-backward :hover {
-  color: #D74B4B;
+  color: #d74b4b;
   background-color: #fafafa;
 }
 .messenger-backward :visited {
-  color: #D74B4B;
+  color: #d74b4b;
 }
 .messenger-backward :active {
-  color: #D74B4B;
+  color: #d74b4b;
 }
 .backward {
   margin-top: 5px;
   padding-left: 10px;
+  padding-top: 12px;
   border-top: 1px solid #dcddd8;
   border-bottom: 1px solid #dcddd8;
   width: 100%;
+  font-size: 1.6em;
+  height: 50px;
+  background-color: #fafafa;
 }
 .messenger-content {
   cursor: pointer;
@@ -11943,20 +11949,22 @@ input:active + .checkbox-label {
 .messenger-content :hover {
   color: #333333;
   text-decoration: none;
-  background-color: #fafafa;
+  background-color: #ffffff;
 }
 .messenger-block {
   border-bottom: 1px solid #dcddd8;
   padding-left: 10px;
   padding-right: 10px;
   word-wrap: break-word;
+  background-color: #ffffff;
 }
 .messenger-input-block {
-  color: #dddddd;
+  color: #ffffff;
   border-bottom: 1px solid #dcddd8;
   padding-left: 10px;
   padding-right: 10px;
   word-wrap: break-word;
+  background-color: #475f77;
 }
 .messenger-heading {
   padding-left: 10px;
@@ -11974,6 +11982,7 @@ input:active + .checkbox-label {
   margin-bottom: 0;
   margin-left: -15px;
   margin-right: -15px;
+  z-index: 2000;
 }
 .messenger-two-col .left {
   padding: 1em;
@@ -12037,6 +12046,7 @@ input:active + .checkbox-label {
   display: block;
   margin-top: 60px;
   padding: 1.5em;
+  z-index: 2000;
 }
 .dashboard-list-wrapper {
   margin-right: auto;
@@ -12052,9 +12062,9 @@ input:active + .checkbox-label {
   position: fixed;
   color: #ffffff;
   background-color: #475f77;
-  top: 80%;
+  top: 70%;
   padding: 0.5em;
-  left: 3px;
+  right: 3px;
   border: 1px solid #575757;
   border-radius: 4px;
   width: 25%;

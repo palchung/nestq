@@ -32,7 +32,7 @@ return array(
     'ACTIVE_MAIL_ID' => 3,
     'MESSENGER_ID' => 4,
     'REQUISITION_ID' => 5,
-    'ACTIVE_PUSH_INTERVAL' => 1000, // 1000 = 1s
+    'ACTIVE_PUSH_INTERVAL' => 14000, // 1000 = 1s
 
     // payment
     'PERMISSION_PERIOD' => 7, // 7 days

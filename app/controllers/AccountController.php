@@ -96,7 +96,7 @@ class AccountController extends BaseController {
 
             if ($newPassword != $password_confirmation)
             {
-                return Redirect::to('account/edit')->with('flash_message', 'confirm password not match');
+                return Redirect::to('account/dashboard/account_edit')->with('flash_message', 'confirm password not match');
             } else
             {
 
@@ -104,7 +104,7 @@ class AccountController extends BaseController {
 
                 if ($saveNewPassword == 'ok')
                 {
-                    return Redirect::to('account/edit')->with('flash_message', 'Password changed');
+                    return Redirect::to('account/dashboard/account_edit')->with('flash_message', 'Password changed');
                 } else
                 {
                     throw new Exception("Error Processing Request", 1);
@@ -113,7 +113,7 @@ class AccountController extends BaseController {
             }
         } else
         {
-            return Redirect::to('account/edit')->with('flash_message', 'existing password not match');
+            return Redirect::to('account/dashboard/account_edit')->with('flash_message', 'existing password not match');
         }
     }
 
@@ -329,10 +329,10 @@ class AccountController extends BaseController {
             $setting = $this->account->configSetting();
             Session::flash('flash_message', 'your setting saved');
 
-            return Redirect::to('account/setting')->withInput();
+            return Redirect::to('account/dashboard/account_setting')->withInput();
         } else
         {
-            return Redirect::to('account/setting')->with('flash_message', 'The following errors occurred')->withErrors($validator)->withInput();
+            return Redirect::to('account/dashboard/account_setting')->with('flash_message', 'The following errors occurred')->withErrors($validator)->withInput();
         }
     }
 
@@ -372,7 +372,7 @@ class AccountController extends BaseController {
                     return Redirect::to('account/dashboard/property')->with('flash_message', 'Account updated!')->with('identity', 'agent');
                 } else
                 {
-                    return Redirect::to('account/edit')->with('flash_message', 'The following errors occurred')->withErrors($validator)->withInput();
+                    return Redirect::to('account/dashboard/account_edit')->with('flash_message', 'The following errors occurred')->withErrors($validator)->withInput();
                 }
             }
         } elseif ($identity == 'user')
@@ -405,7 +405,7 @@ class AccountController extends BaseController {
                     return Redirect::to('account/dashboard/property')->with('flash_message', 'Account updated!')->with('identity', 'user');
                 } else
                 {
-                    return Redirect::to('account/edit')->with('flash_message', 'The following errors occurred')->withErrors($validator)->withInput();
+                    return Redirect::to('account/dashboard/account_edit')->with('flash_message', 'The following errors occurred')->withErrors($validator)->withInput();
                 }
             }
         }

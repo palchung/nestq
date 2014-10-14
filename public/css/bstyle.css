@@ -11728,11 +11728,13 @@ fieldset[disabled] .button_normal_green.active {
   overflow-y: scroll;
   background-color: #ffffff;
   padding: 0px;
+  z-index: 1000;
 }
 #full-slider {
   position: relative;
   width: 100%;
   margin: 0 auto;
+  z-index: 1000;
 }
 #full-slider .slide-panel {
   position: absolute;
@@ -11740,20 +11742,17 @@ fieldset[disabled] .button_normal_green.active {
   left: 0;
   width: 100%;
   height: 100%;
+  margin-top: 3em;
+  background-color: #ffffff;
   visibility: hidden;
+  z-index: 1000;
 }
 #full-slider .slide-panel.active {
   visibility: visible;
 }
 /* styles below are only for this example */
-#full-slider .slide-panel {
-  background-color: #ffffff;
-  color: #333333;
-  margin-top: 3em;
-  z-index: 0;
-}
 .messenger {
-  z-index: 1;
+  z-index: 1000;
   position: fixed;
   color: #354B5E;
   margin: 0px;
@@ -11762,35 +11761,39 @@ fieldset[disabled] .button_normal_green.active {
   margin-bottom: 5px;
   background-color: #ffffff;
   font-size: 1.2em;
+  height: 50px;
 }
 .messenger-title {
-  color: #D74B4B;
+  color: #d74b4b;
 }
 .messenger-backward {
-  font-size: 1.6em;
-  color: #D74B4B;
+  color: #d74b4b;
   cursor: pointer;
 }
 .messenger-backward :link {
-  color: #D74B4B;
+  color: #d74b4b;
   text-decoration: none;
 }
 .messenger-backward :hover {
-  color: #D74B4B;
+  color: #d74b4b;
   background-color: #fafafa;
 }
 .messenger-backward :visited {
-  color: #D74B4B;
+  color: #d74b4b;
 }
 .messenger-backward :active {
-  color: #D74B4B;
+  color: #d74b4b;
 }
 .backward {
   margin-top: 5px;
   padding-left: 10px;
+  padding-top: 12px;
   border-top: 1px solid #dcddd8;
   border-bottom: 1px solid #dcddd8;
   width: 100%;
+  font-size: 1.6em;
+  height: 50px;
+  background-color: #fafafa;
 }
 .messenger-content {
   cursor: pointer;
@@ -11800,20 +11803,22 @@ fieldset[disabled] .button_normal_green.active {
 .messenger-content :hover {
   color: #333333;
   text-decoration: none;
-  background-color: #fafafa;
+  background-color: #ffffff;
 }
 .messenger-block {
   border-bottom: 1px solid #dcddd8;
   padding-left: 10px;
   padding-right: 10px;
   word-wrap: break-word;
+  background-color: #ffffff;
 }
 .messenger-input-block {
-  color: #dddddd;
+  color: #ffffff;
   border-bottom: 1px solid #dcddd8;
   padding-left: 10px;
   padding-right: 10px;
   word-wrap: break-word;
+  background-color: #475f77;
 }
 .messenger-heading {
   padding-left: 10px;
@@ -11831,6 +11836,7 @@ fieldset[disabled] .button_normal_green.active {
   margin-bottom: 0;
   margin-left: -15px;
   margin-right: -15px;
+  z-index: 2000;
 }
 .messenger-two-col .left {
   padding: 1em;
@@ -11894,6 +11900,7 @@ fieldset[disabled] .button_normal_green.active {
   display: block;
   margin-top: 60px;
   padding: 1.5em;
+  z-index: 2000;
 }
 .dashboard-list-wrapper {
   margin-right: auto;

@@ -121,6 +121,30 @@ class ConversationRepository {
 //                return $recipient[0];
     }
 
+    public function loadMessageInDatabase($conversation_id)
+    {
+        $messages = DB::table('message')
+            ->join('account', 'account.id', '=', 'message.sender_id')
+            ->select([
+                'message.conversation_id as message_conversation_id',
+                'message.message as message',
+                'message.id as message_id',
+                'message.created_at as message_created_at',
+                'account.firstname as account_firstname',
+                'account.lastname as account_lastname',
+                'account.id as account_id',
+                'account.profile_pic as account_profile_pic'
+            ])
+            ->where('message.conversation_id', '=', $conversation_id)
+            ->where('account.id', '=', Auth::user()->id)
+            ->orderBy('message.created_at', 'DESC')
+            ->distinct()
+            ->first();
+
+        return $messages;
+
+    }
+
     public function getRecipientExistingConversation($sender_id = null, $conversation_id = null)
     {
 

@@ -40,8 +40,9 @@
             </span>
             <span class="pull-right"><small>{{$message->message_created_at}}</small></span>
             <br/>
-            {{$message->message_message}}
-
+            <span class="break-word">
+                {{$message->message_message}}
+            </span>
 
             <hr/>
 

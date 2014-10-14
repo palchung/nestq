@@ -14,9 +14,11 @@ class PaymentController extends BaseController {
     }
 
     public function getSuccess() {
-        session_start();
-        $updateStatus = $this->payment->saveTransactionId($_SESSION['payment_id'], $_SESSION['transaction_id']);
 
+        session_start();
+
+        $this->payment->saveTransactionId($_SESSION['payment_id'], $_SESSION['transaction_id']);
+        $this->payment->updateServiceDueDate($_SESSION['payment_id']);
         $activate_service = $this->payment->activateService($_SESSION['payment_id']);
 
         // $payment = $this->payment->loadPaymentDetailById($_SESSION['payment_id']);
@@ -112,11 +114,19 @@ class PaymentController extends BaseController {
         $payment_id = Input::get('paymentId');
         $channel = Input::get('channel');
 
-
         if ($channel == 'bank_in') {
+
+            $validator = Validator::make(Input::all(), Payment::$paymentRules);
+            if ($validator->fails())
+            {
+                return Redirect::to('payment/purchasepackage')->with('flash_message', 'The following errors occurred');
+            }
+
             $transferNo = Input::get('transferNo');
+
         } else {
             $transferNo = null ;
+            $receipt = null;
         }
 
         $process = $this->payment->processPayment($payment_id, $channel, $transferNo);
@@ -127,8 +137,9 @@ class PaymentController extends BaseController {
             $this->layout->content = View::make('payment.fail');
         }
         exit();
-    }
 
+
+    }
 
 
 

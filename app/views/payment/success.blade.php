@@ -43,6 +43,17 @@
 
 <hr/>
 
+@if ($receipt)
+
+<span class='title'>存根</span>
+<br/>
+<br/>
+{{ HTML::image( 'receipt/' . $payment->receipt, 'alt-text') }}
+<hr/>
+@endif
+
+
+
 
 <span class='title'>客戶資料</span>
 <br/>

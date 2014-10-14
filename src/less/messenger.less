@@ -6,6 +6,7 @@
     overflow-y: scroll;
     background-color:@messenger-bg-color;
     padding:0px;
+    z-index: 1000;
 
 }
 
@@ -13,7 +14,7 @@
     position: relative;
     width: 100%;
     margin: 0 auto;
-
+    z-index: 1000;
 }
 
 #full-slider .slide-panel {
@@ -22,7 +23,10 @@
     left: 0;
     width: 100%;
     height: 100%;
+    margin-top: 3em;
+    background-color:@messenger-bg-color;
     visibility: hidden;
+    z-index: 1000;
 }
 
 #full-slider .slide-panel.active {
@@ -33,16 +37,9 @@
 
 /* styles below are only for this example */
 
-#full-slider .slide-panel {
-    background-color: @messenger-bg-color;
-    color: @messenger-color;
-    margin-top: 3em;
-    z-index: 0;
-
-}
 
 .messenger{
-    z-index: 1;
+    z-index: 1000;
     position: fixed;
     color: #354B5E;
     margin: 0px;
@@ -51,30 +48,31 @@
     margin-bottom:5px;
     background-color: @messenger-bg-color;
     font-size: @font-size-h1;
+    height:50px;
 }
 
 .messenger-title{
-    color: #D74B4B;
+    color: @secondColor;
 }
 
 .messenger-backward{
 
-    font-size: @font-size-mobile;
-    color:#D74B4B;
+
+    color:@secondColor;
     cursor: pointer;
     :link{
-        color:#D74B4B;
+        color:@secondColor;
         text-decoration:none;
     }
     :hover{
-        color:#D74B4B;
+        color:@secondColor;
         background-color: @background_color;
     }
     :visited{
-        color:#D74B4B;
+        color:@secondColor;
     }
     :active{
-        color:#D74B4B;
+        color:@secondColor;
     }
 
 }
@@ -82,9 +80,13 @@
 .backward{
     margin-top:5px;
     padding-left:10px;
+    padding-top:12px;
     border-top: 1px solid @line-color;
     border-bottom: 1px solid @line-color;
     width:100%;
+    font-size: @font-size;
+    height: 50px;
+    background-color: @background_color;
 }
 
 .messenger-content{
@@ -95,7 +97,7 @@
     :hover{
         color:@messenger-color;
         text-decoration:none;
-        background-color: @background_color;
+        background-color:@messenger-bg-color;
     }
 }
 
@@ -105,15 +107,17 @@
     padding-left:10px;
     padding-right:10px;
     word-wrap: break-word;
+    background-color:@messenger-bg-color;
 }
 
 
 .messenger-input-block{
-    color: @light-color;
+    color: #ffffff;
     border-bottom: 1px solid @line-color;
     padding-left:10px;
     padding-right:10px;
     word-wrap: break-word;
+    background-color:@primaryColor;
 }
 
 
@@ -141,6 +145,7 @@
     margin-top:     0;
     margin-bottom:  0;
     .make-row();
+    z-index: 2000;
     .left {
         padding: 1em;
         .make-xs-column(3);
@@ -162,6 +167,7 @@
     display: block;
     margin-top: 60px;
     padding: @std-padding*3;
+    z-index: 2000;
 
 }
 

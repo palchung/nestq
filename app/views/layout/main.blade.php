@@ -56,7 +56,7 @@
             </a>
         </div>
 
-        {{--@include('frontpage.activepush')--}}
+        {{--@include('frontpage.activepush') --}}
 
 
         @include('frontpage.flashmessage')

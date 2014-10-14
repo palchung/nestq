@@ -19,7 +19,7 @@ nestq.controller('ActivePushCtrl', ['$scope', '$interval', '$http', 'Activepush'
                 $scope.pushproperty = JSON.parse(event.data);
                 $interval(function () {
                     $scope.showpush = true;
-                }, 2000);  //1000 = 1s
+                }, 7000);  //1000 = 1s
                 $scope.showpush = false;
                 $scope.ajax.propertyId = $scope.pushproperty.id;
                 Activepush.save($scope.ajax)
@@ -66,6 +66,7 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
         $scope.message = {};
         $scope.properties = [];
         $scope.message.toDisplay = [];
+        $scope.hideMessage = true;
 
 
         var currPanel = 0;
@@ -125,6 +126,12 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
                     slidePanel(currPanel, 'left');
 
                     $scope.pushMessage = data.response;
+                    $scope.hideMessage = false;
+
+                    var lastCell = $scope.pushMessage.length - 1;
+
+
+                    $scope.message.lastid = $scope.pushMessage[lastCell].message_id;
 
 
                     var listener = new EventSource("http://localhost:8888/nestq/public/messengerMessage/" + conversation_id);
@@ -132,14 +139,15 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
                     listener.onmessage = function (event) {
                         $scope.$apply(function () {
 
-                            //$scope.message.databaseMessage = JSON.parse(event.data);
+                            $scope.message.databaseMessage = JSON.parse(event.data);
                             //$scope.message.totalMessage = $scope.pushMessage ;
 
-                            if (event.data != 'no_message') {
-                                $scope.message.toDisplay.push(event.data);
+                            if ($scope.message.databaseMessage.message_id != $scope.message.lastid && $scope.message.databaseMessage != 'no_new_message') {
+                                $scope.message.toDisplay.push($scope.message.databaseMessage);
+                                $scope.message.lastid = $scope.message.databaseMessage.message_id;
                             }
 
-                            console.log("Listener ", $scope.message.toDisplay);
+                            //console.log("Listener ", $scope.message.databaseMessage);
 
                         });
                     };
@@ -169,6 +177,9 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
             if (currPanel < 0)
                 currPanel = $sliderPanels.length - 1;
             slidePanel(currPanel, 'right');
+
+            $scope.message.toDisplay.length = 0;
+
         };
 
         function slidePanel(newPanel, direction) {
@@ -199,10 +210,9 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
         }
 
         $scope.disabled = false;
-        $scope.hideMessage = true;
 
 
-        $scope.submitMessage = function (pushMessage, conversation_id, property_id) {
+        $scope.submitMessage = function (conversation_id, property_id) {
 
             $scope.disabled = true;
             $scope.hideMessage = false;
@@ -217,11 +227,11 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
                 .success(function (data) {
 
                     $scope.message.new = '';
+                    //$scope.message.savedData = JSON.parse(data.response)
                     $scope.message.toDisplay.push(data.response);
-                    //i++;
 
 
-                    //console.log("sendMesage: ", data.response);
+                    console.log("sendMesage: ", data.response);
                     $scope.disabled = false;
                 })
                 .error(function (data) {

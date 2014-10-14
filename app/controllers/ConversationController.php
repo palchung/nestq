@@ -80,8 +80,9 @@ class ConversationController extends BaseController {
         if ($validator->passes())
         {
 
-            $this->conversation->saveConversation(Input::get('conversationId'));
-            $newMessage = Input::get('message');
+            $conversation_id = $this->conversation->saveConversation(Input::get('conversationId'));
+//            $newMessage = Input::get('message');
+            $newMessage = $this->conversation->loadMessageInDatabase($conversation_id);
 
             return Response::json(array('response' => $newMessage));
         } else

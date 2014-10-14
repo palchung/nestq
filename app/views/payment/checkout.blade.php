@@ -87,11 +87,12 @@
 
         <div class='left-panel'>
 
-            {{ Form::open(array('url'=>'payment/checkout', 'class'=>'')) }}
+
+            {{ Form::open(array('url'=>'payment/checkout', 'files'=>true, 'class'=>'')) }}
 
             <h1>存根號碼</h1>
             <br/>
-
+            {{ Form::file('receipt','',array('id'=>'','class'=>'')) }}
             {{ Form::text('transferNo', null, array('class'=>'form-control', 'placeholder'=>'e.g. 432-7896-089')) }}
 
             <br/>
@@ -99,6 +100,7 @@
             {{ Form::hidden('paymentId', $payment->id) }}
             {{ Form::hidden('channel', 'bank_in') }}
             {{ Form::submit('確認', array('class'=>'button_normal'))}}
+            {{ Form::reset('重設', array('class'=>'button_normal')) }}
             {{ Form::close() }}
 
         </div>
