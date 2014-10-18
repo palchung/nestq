@@ -26,6 +26,7 @@ return array(
     'PAYPAL_API_END_POINT' => 'https://api-3t.sandbox.paypal.com/nvp', //sandbox
     //email
     'ADMIN_EMAIL' => 'palchung@gmail.com',
+    'SERVICE_EMAIL' => 'service@nestq.com',
     //service ID
     'POSTING_PROPERTY_ID' => 1,
     'ACTIVE_PUSH_ID' => 2,
@@ -33,7 +34,6 @@ return array(
     'MESSENGER_ID' => 4,
     'REQUISITION_ID' => 5,
     'ACTIVE_PUSH_INTERVAL' => 14000, // 1000 = 1s
-
     // payment
     'PERMISSION_PERIOD' => 7, // 7 days
 

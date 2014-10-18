@@ -3,17 +3,11 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/vendor/artdarek/oauth-4-laravel" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/cboden/ratchet" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/classpreloader/classpreloader" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/d11wtq/boris" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/evenement/evenement" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/filp/whoops" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fzaninotto/faker" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/guzzle/common" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/guzzle/http" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/guzzle/parser" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/guzzle/stream" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/intervention/image" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ircmaxell/password-compat" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
@@ -27,9 +21,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpseclib/phpseclib" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/predis/predis" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/log" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/react/event-loop" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/react/socket" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/react/stream" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/stack/builder" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/swiftmailer/swiftmailer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/browser-kit" />
@@ -53,14 +44,10 @@
     <orderEntry type="module-library">
       <library name="PHP">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/react/stream" />
           <root url="file://$MODULE_DIR$/vendor/symfony/routing" />
           <root url="file://$MODULE_DIR$/vendor/symfony/debug" />
-          <root url="file://$MODULE_DIR$/vendor/guzzle/parser" />
           <root url="file://$MODULE_DIR$/vendor/symfony/translation" />
-          <root url="file://$MODULE_DIR$/vendor/evenement/evenement" />
           <root url="file://$MODULE_DIR$/vendor/symfony/process" />
-          <root url="file://$MODULE_DIR$/vendor/react/event-loop" />
           <root url="file://$MODULE_DIR$/vendor/symfony/finder" />
           <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
           <root url="file://$MODULE_DIR$/vendor/artdarek/oauth-4-laravel" />
@@ -70,7 +57,6 @@
           <root url="file://$MODULE_DIR$/vendor/composer" />
           <root url="file://$MODULE_DIR$/vendor/symfony/http-foundation" />
           <root url="file://$MODULE_DIR$/vendor/ircmaxell/password-compat" />
-          <root url="file://$MODULE_DIR$/vendor/react/socket" />
           <root url="file://$MODULE_DIR$/vendor/predis/predis" />
           <root url="file://$MODULE_DIR$/vendor/symfony/console" />
           <root url="file://$MODULE_DIR$/vendor/symfony/filesystem" />
@@ -80,17 +66,13 @@
           <root url="file://$MODULE_DIR$/vendor/symfony/browser-kit" />
           <root url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
           <root url="file://$MODULE_DIR$/vendor/symfony/security" />
-          <root url="file://$MODULE_DIR$/vendor/cboden/ratchet" />
           <root url="file://$MODULE_DIR$/vendor/symfony/http-kernel" />
           <root url="file://$MODULE_DIR$/vendor/intervention/image" />
-          <root url="file://$MODULE_DIR$/vendor/guzzle/common" />
           <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
           <root url="file://$MODULE_DIR$/vendor/lusitanian/oauth" />
           <root url="file://$MODULE_DIR$/vendor/fzaninotto/faker" />
-          <root url="file://$MODULE_DIR$/vendor/guzzle/http" />
           <root url="file://$MODULE_DIR$/vendor/d11wtq/boris" />
           <root url="file://$MODULE_DIR$/vendor/psr/log" />
-          <root url="file://$MODULE_DIR$/vendor/guzzle/stream" />
           <root url="file://$MODULE_DIR$/vendor/symfony/event-dispatcher" />
           <root url="file://$MODULE_DIR$/vendor/monolog/monolog" />
           <root url="file://$MODULE_DIR$/vendor/symfony/dom-crawler" />
@@ -100,14 +82,10 @@
           <root url="file://$MODULE_DIR$/vendor/symfony/security-core" />
         </CLASSES>
         <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/react/stream" />
           <root url="file://$MODULE_DIR$/vendor/symfony/routing" />
           <root url="file://$MODULE_DIR$/vendor/symfony/debug" />
-          <root url="file://$MODULE_DIR$/vendor/guzzle/parser" />
           <root url="file://$MODULE_DIR$/vendor/symfony/translation" />
-          <root url="file://$MODULE_DIR$/vendor/evenement/evenement" />
           <root url="file://$MODULE_DIR$/vendor/symfony/process" />
-          <root url="file://$MODULE_DIR$/vendor/react/event-loop" />
           <root url="file://$MODULE_DIR$/vendor/symfony/finder" />
           <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
           <root url="file://$MODULE_DIR$/vendor/artdarek/oauth-4-laravel" />
@@ -117,7 +95,6 @@
           <root url="file://$MODULE_DIR$/vendor/composer" />
           <root url="file://$MODULE_DIR$/vendor/symfony/http-foundation" />
           <root url="file://$MODULE_DIR$/vendor/ircmaxell/password-compat" />
-          <root url="file://$MODULE_DIR$/vendor/react/socket" />
           <root url="file://$MODULE_DIR$/vendor/predis/predis" />
           <root url="file://$MODULE_DIR$/vendor/symfony/console" />
           <root url="file://$MODULE_DIR$/vendor/symfony/filesystem" />
@@ -127,17 +104,13 @@
           <root url="file://$MODULE_DIR$/vendor/symfony/browser-kit" />
           <root url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
           <root url="file://$MODULE_DIR$/vendor/symfony/security" />
-          <root url="file://$MODULE_DIR$/vendor/cboden/ratchet" />
           <root url="file://$MODULE_DIR$/vendor/symfony/http-kernel" />
           <root url="file://$MODULE_DIR$/vendor/intervention/image" />
-          <root url="file://$MODULE_DIR$/vendor/guzzle/common" />
           <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
           <root url="file://$MODULE_DIR$/vendor/lusitanian/oauth" />
           <root url="file://$MODULE_DIR$/vendor/fzaninotto/faker" />
-          <root url="file://$MODULE_DIR$/vendor/guzzle/http" />
           <root url="file://$MODULE_DIR$/vendor/d11wtq/boris" />
           <root url="file://$MODULE_DIR$/vendor/psr/log" />
-          <root url="file://$MODULE_DIR$/vendor/guzzle/stream" />
           <root url="file://$MODULE_DIR$/vendor/symfony/event-dispatcher" />
           <root url="file://$MODULE_DIR$/vendor/monolog/monolog" />
           <root url="file://$MODULE_DIR$/vendor/symfony/dom-crawler" />

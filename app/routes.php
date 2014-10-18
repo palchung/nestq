@@ -2,6 +2,8 @@
 
 
 
+
+
 Route::get('/account/dashboard/{dashboard_content}', 'AccountController@getDashboard');
 
 
@@ -13,6 +15,7 @@ Route::controller('conversation', 'ConversationController');
 Route::controller('payment', 'PaymentController');
 Route::controller('paypal', 'PaypalController');
 Route::controller('backoffice', 'BackofficeController');
+Route::controller('reminders', 'RemindersController');
 
 //Route::controller('inquiry', 'InquiryController');
 //
@@ -130,16 +133,6 @@ Route::any("search/property", [
 ]);
 
 
-Route::any("/resetpassword", [
-    "as"   => "account/resetpassword",
-    "uses" => "AccountController@postResetpassword"
-]);
-
-
-Route::any("/reset", [
-    "as"   => "account/reset",
-    "uses" => "AccountController@postReset"
-]);
 
 
 Route::any("/", [

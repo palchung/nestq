@@ -5,7 +5,7 @@
 	<div class="messenger">即時通 / <small class="messenger-title"><[title]></small> </div>
 
 	@if (Auth::check())
-	@if(Auth::user()->identity == 0 || (Auth::user()->identity == 1 && Service::checkmessengerPaidStatus()))
+	@if(Auth::user()->identity == 0 || (Auth::user()->identity == 1 && Service::checkServicePayment(Config::get('nestq.MESSENGER_ID') == 'paid')))
 
 
 	<div id="full-slider">
@@ -167,7 +167,7 @@
 
 
 
-@elseif(Auth::user()->identity == 1 && !Service::checkmessengerPaidStatus())
+@elseif(Auth::user()->identity == 1 && Service::checkServicePayment(Config::get('nestq.MESSENGER_ID') != 'paid'))
 
 <!-- AD for agent -->
 

@@ -1,8 +1,6 @@
 <?php
 
 use Repository\AccountRepository;
-use Illuminate\Support\MessageBag;
-
 use Repository\PropertyRepository;
 use Repository\PaymentRepository;
 
@@ -53,10 +51,10 @@ class AccountController extends BaseController {
     }
 
 
-    public function getForgetpassword()
-    {
-        $this->layout->content = View::make('account.forgetpassword');
-    }
+//    public function getForgetpassword()
+//    {
+//        $this->layout->content = View::make('account.forgetpassword');
+//    }
 
     public function getLogin()
     {
@@ -482,73 +480,73 @@ class AccountController extends BaseController {
         return Redirect::action('AccountController@getLookUpAccount', array($rank));
     }
 
-    public function postResetpassword()
-    {
-        $data = [
-        "requested" => Input::old("requested")
-        ];
+//    public function postResetpassword()
+//    {
+//        $data = [
+//        "requested" => Input::old("requested")
+//        ];
+//
+//        $validator = Validator::make(Input::all(), Account::$registerUserRules);
+//        if ($validator->passes())
+//        {
+//            $credentials = [
+//            "email" => Input::get("email")
+//            ];
+//            Password::remind($credentials, function ($message, $user)
+//            {
+//                $message->from(Config::get('nestq.SERVICE_EMAIL'));
+//            }
+//            );
+//            $data["requested"] = true;
+//
+//            return Redirect::to('account/login')->with('flash_message', 'A Reset mail have sent to your email account');
+//            /*
+//              return Redirect::route("account/request")
+//              ->withInput($data);
+//
+//             */
+//          }
+//
+//          $this->layout->content = View::make("account/request", $data)->with('flash_message', 'We cant read your email');
+//      }
 
-        $validator = Validator::make(Input::all(), Account::$registerUserRules);
-        if ($validator->passes())
-        {
-            $credentials = [
-            "email" => Input::get("email")
-            ];
-            Password::remind($credentials, function ($message, $user)
-            {
-                $message->from("hello@nestq.com");
-            }
-            );
-            $data["requested"] = true;
-
-            return Redirect::to('account/forgetpassword')->with('flash_message', 'A Reset mail have sent to your email account');
-            /*
-              return Redirect::route("account/request")
-              ->withInput($data);
-
-             */
-          }
-
-          $this->layout->content = View::make("account/request", $data)->with('flash_message', 'We cant read your email');
-      }
-
-      public function postReset()
-      {
-        $token = "?token=" . Input::get("token");
-        $errors = new MessageBag();
-        if ($old = Input::old("errors"))
-        {
-            $errors = $old;
-        }
-        $data = [
-        "token"  => $token,
-        "errors" => $errors
-        ];
-
-        $validator = Validator::make(Input::all(), Account::$registerUserRules);
-        if ($validator->passes())
-        {
-            $credentials = [
-            "email" => Input::get("email")
-            ];
-            Password::reset($credentials, function ($user, $password)
-            {
-                $user->password = Hash::make($password);
-                $user->save();
-                Auth::login($user);
-
-                return Redirect::to('account/dashboard/property')->with('flash_message', 'Welcome back');
-                    /*
-                      return Redirect::route("account/dashboard");
-                     */
-                  }
-                  );
-        }
-        $data["email"] = Input::get("email");
-        $data["errors"] = $validator->errors();
-
-        return Redirect::to(URL::route("account/reset") . $token)
-        ->withInput($data);
-    }
+//      public function postReset()
+//      {
+//        $token = "?token=" . Input::get("token");
+//        $errors = new MessageBag();
+//        if ($old = Input::old("errors"))
+//        {
+//            $errors = $old;
+//        }
+//        $data = [
+//        "token"  => $token,
+//        "errors" => $errors
+//        ];
+//
+//        $validator = Validator::make(Input::all(), Account::$registerUserRules);
+//        if ($validator->passes())
+//        {
+//            $credentials = [
+//            "email" => Input::get("email")
+//            ];
+//            Password::reset($credentials, function ($user, $password)
+//            {
+//                $user->password = Hash::make($password);
+//                $user->save();
+//                Auth::login($user);
+//
+//                return Redirect::to('account/dashboard/property')->with('flash_message', 'Welcome back');
+//                    /*
+//                      return Redirect::route("account/dashboard");
+//                     */
+//                  }
+//                  );
+//        }
+//        $data["email"] = Input::get("email");
+//        $data["errors"] = $validator->errors();
+//
+//        return Redirect::to(URL::route("account/reset") . $token)
+//        ->withInput($data);
+//    }
 
 }

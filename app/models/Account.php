@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
 class Account extends Eloquent implements UserInterface, RemindableInterface {

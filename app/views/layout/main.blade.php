@@ -38,7 +38,7 @@
             <a href="#menu-top" class='header-menu-button'><i class="icon-menu-button"></i></a>
             <a href="#menu-right" class="header-messager-button right">
                 @if (Auth::check())
-                @if(Auth::user()->identity == 0 || Auth::user()->identity == 1 && Service::checkmessengerPaidStatus())
+                @if(Auth::user()->identity == 0 || (Auth::user()->identity == 1 && Service::checkServicePayment(Config::get('nestq.MESSENGER_ID') == 'paid')))
                 <div ng-controller="NotificationCtrl">
                     <span class="std-badge notice">
                         <[notice.unread]>

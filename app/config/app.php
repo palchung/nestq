@@ -2,6 +2,12 @@
 
 return array(
 
+
+
+    'cipher' => MCRYPT_RIJNDAEL_256,
+
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -109,7 +115,7 @@ return array(
         'Artdarek\OAuth\OAuthServiceProvider',
         'Intervention\Image\ImageServiceProvider'
 
-        ),
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -177,6 +183,6 @@ return array(
         'OAuth'       => 'Artdarek\OAuth\Facade\OAuth',
         'Image'       => 'Intervention\Image\Facades\Image'
 
-        ),
+    ),
 
 );

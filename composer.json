@@ -4,12 +4,12 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "laravel/framework": "4.1.*",
+        "laravel/framework": "4.2.*",
         "fzaninotto/faker": "dev-master",
         "natxet/CssMin": "dev-master",
         "artdarek/oauth-4-laravel": "dev-master",
-        "intervention/image": "2.*",
-        "cboden/Ratchet"    : "0.3.*"
+        "intervention/image": "2.*"
+
     },
     "autoload": {
         "classmap": [
