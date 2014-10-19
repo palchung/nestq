@@ -42,7 +42,7 @@ class AdminContentController extends BaseController {
             $active = Input::get('active');
             $edit = $this->adminContent->editContent($id, $toEdit, $data, $active);
             if ($edit == 'success') {
-                return Redirect::to('adminContent/content/' . $toEdit)->with('flash_message', $toEdit . ' edited');
+                return Redirect::to('adminContent/content/' . $toEdit);
             } else {
                 return Redirect::to('adminContent/content/' . $toEdit)->with('flash_message', $toEdit . ' cant edit, some error');
             }
@@ -57,7 +57,7 @@ class AdminContentController extends BaseController {
         } else {
             $create = $this->adminContent->createContent($toCreate, $data);
             if ($create == 'success') {
-                return Redirect::to('adminContent/content/' . $toCreate)->with('flash_message', $toCreate . ' edited');
+                return Redirect::to('adminContent/content/' . $toCreate);
             } else {
                 return Redirect::to('adminContent/content/' . $toCreate)->with('flash_message', $toCreate . ' cant edit, some error');
             }
@@ -70,7 +70,7 @@ class AdminContentController extends BaseController {
         $id = Input::get('id');
         $delete = $this->adminContent->deleteContent($id, $toEdit);
         if ($delete == 'success') {
-            return Redirect::to('adminContent/content/' . $toEdit)->with('flash_message', $toEdit . ' deleted');
+            return Redirect::to('adminContent/content/' . $toEdit);
         } else {
             return Redirect::to('adminContent/content/' . $toEdit)->with('flash_message', $toEdit . ' cant delete, some error');
         }

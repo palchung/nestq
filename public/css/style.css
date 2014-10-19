@@ -11475,6 +11475,8 @@ input:active + .checkbox-label {
   display: -ms-flex;
   display: flex;
   margin: 0 auto;
+  margin-left: 0;
+  margin-right: 0px;
   padding: 0;
   max-width: 1200px;
   list-style: none;

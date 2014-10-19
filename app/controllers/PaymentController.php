@@ -17,7 +17,7 @@ class PaymentController extends BaseController {
 
         session_start();
 
-        $this->payment->saveTransactionId($_SESSION['payment_id'], $_SESSION['transaction_id']);
+        $this->payment->saveTransactionId($_SESSION['payment_id'], $_SESSION['transaction_id'], $_SESSION['channel']);
         $this->payment->updateServiceDueDate($_SESSION['payment_id']);
         $activate_service = $this->payment->activateService($_SESSION['payment_id']);
 

@@ -37,6 +37,28 @@ class AdminDocumentationController extends BaseController {
             ->with('subcategories', $subcategories);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function postCreateCategory() {
         $category = Input::get('category');
         if ($category == '') {

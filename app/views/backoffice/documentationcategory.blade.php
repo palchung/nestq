@@ -2,12 +2,12 @@
 @include('backoffice.documentmenu')
 
 <br/>
-<div class="main-title">Documentation Category Management</div>
+<span class="main-title">Documentation Category Management</span>
+<br/>
 <br/>
 
 
-
-<div class="two-col-panel">
+<div class="two-col-panel std-border white-bg std-padding">
 	<div class="left-panel">
 
 		<span class="title">Create Category</span>  
@@ -96,18 +96,17 @@
 </div>
 
 
+
+<hr/>
+
+
+
+<span class="main-title">Sub-Category Management</span>
+<br/>
 <br/>
 
 
-
-
-<br/>
-<div class="main-title">Sub-Category Management</div>
-<br/>
-
-
-
-<div class="two-col-panel">
+<div class="two-col-panel std-border white-bg std-padding">
 	<div class="left-panel">
 
 		<span class="title">Create Sub-Category</span>  

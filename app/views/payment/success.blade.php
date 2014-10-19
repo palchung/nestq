@@ -43,7 +43,7 @@
 
 <hr/>
 
-@if ($receipt)
+@if ($payment->receipt)
 
 <span class='title'>存根</span>
 <br/>

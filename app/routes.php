@@ -30,64 +30,6 @@ Route::group(['prefix' => 'inquiry'], function ()
 });
 
 
-Route::group(['prefix' => 'adminDocumentation'], function ()
-{
-    Route::get('/index', 'AdminDocumentationController@getIndex');
-    Route::get('/new', 'AdminDocumentationController@getNew');
-    Route::get('/category', 'AdminDocumentationController@getCategory');
-    Route::post('/createCategory', 'AdminDocumentationController@postCreateCategory');
-    Route::post('/createSubCategory', 'AdminDocumentationController@postCreateSubCategory');
-    Route::post('/deleteCategory', 'AdminDocumentationController@postDeleteCategory');
-    Route::post('/deleteSubCategory', 'AdminDocumentationController@postDeleteSubCategory');
-    Route::post('/editSubCategory', 'AdminDocumentationController@postEditSubCategory');
-    Route::post('/editCategory', 'AdminDocumentationController@postEditCategory');
-    Route::post('/createDocumentation', 'AdminDocumentationController@postCreateDocumentation');
-});
-
-
-Route::group(['prefix' => 'adminOrder'], function ()
-{
-    Route::get('/index', 'AdminOrderController@getIndex');
-    Route::post('/searchAccount', 'AdminOrderController@postAccount');
-});
-
-
-Route::group(['prefix' => 'adminPricing'], function ()
-{
-    Route::get('/index', 'AdminPricingController@getIndex');
-    Route::post('/edit', 'AdminPricingController@postEdit');
-    Route::post('/delete', 'AdminPricingController@postDelete');
-    Route::post('/editScheme', 'AdminPricingController@postEditScheme');
-    Route::post('/deleteScheme', 'AdminPricingController@postDeleteScheme');
-    Route::post('/create', 'AdminPricingController@postCreate');
-    Route::post('/createScheme', 'AdminPricingController@postCreateScheme');
-});
-
-
-Route::group(['prefix' => 'adminContent'], function ()
-{
-    Route::get('/index', 'AdminContentController@getIndex');
-    Route::post('/delete', 'AdminContentController@postDelete');
-    Route::post('/deactivate', 'AdminContentController@postDeactivate');
-    Route::post('/activate', 'AdminContentController@postActivate');
-    Route::post('/edit', 'AdminContentController@postEdit');
-    Route::post('/create', 'AdminContentController@postCreate');
-    Route::get('content/{whatToLoad}', 'AdminContentController@getContent');
-});
-
-Route::group(['prefix' => 'adminAccount'], function ()
-{
-    Route::get('/index', 'AdminAccountController@getIndex');
-    Route::post('/search', 'AdminAccountController@postSearch');
-});
-
-
-Route::any("/admin", [
-    "as"   => "/backoffice",
-    "uses" => "BackofficeController@IndexAction"
-]);
-
-
 Route::group(['prefix' => 'messenger'], function ()
 {
     Route::post('/save_message', 'ConversationController@saveMessage');
@@ -133,6 +75,38 @@ Route::any("search/property", [
 ]);
 
 
+//
+//Route::group(['prefix' => 'adminDocumentation'], function ()
+//{
+//    Route::get('/index', 'AdminDocumentationController@getIndex');
+//    Route::get('/new', 'AdminDocumentationController@getNew');
+//    Route::get('/category', 'AdminDocumentationController@getCategory');
+//    Route::post('/createCategory', 'AdminDocumentationController@postCreateCategory');
+//    Route::post('/createSubCategory', 'AdminDocumentationController@postCreateSubCategory');
+//    Route::post('/deleteCategory', 'AdminDocumentationController@postDeleteCategory');
+//    Route::post('/deleteSubCategory', 'AdminDocumentationController@postDeleteSubCategory');
+//    Route::post('/editSubCategory', 'AdminDocumentationController@postEditSubCategory');
+//    Route::post('/editCategory', 'AdminDocumentationController@postEditCategory');
+//    Route::post('/createDocumentation', 'AdminDocumentationController@postCreateDocumentation');
+//});
+
+
+
+
+
+Route::controller('adminDocumentation', 'AdminDocumentationController');
+Route::controller('adminOrder', 'AdminOrderController');
+Route::controller('adminPricing', 'AdminPricingController');
+Route::controller('adminContent', 'AdminContentController');
+Route::controller('adminAccount', 'AdminAccountController');
+
+
+
+
+Route::any("/admin", [
+    "as"   => "/backoffice",
+    "uses" => "BackofficeController@IndexAction"
+]);
 
 
 Route::any("/", [

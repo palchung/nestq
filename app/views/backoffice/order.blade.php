@@ -6,15 +6,17 @@
         <span class="title">Search</span>
         <br/>
         <br/>
-        {{ Form::open(array('url'=>'adminOrder/searchAccount', 'class'=>'')) }}
-        {{ Form::text('email', '', array('class'=>'input-block-level', 'placeholder'=>'Account Email')) }}
-
+        {{ Form::open(array('url'=>'adminOrder/account', 'class'=>'')) }}
+        {{ Form::text('email', '', array('class'=>'form-control', 'placeholder'=>'Account Email')) }}
+        <br/>
         {{ Form::submit('Search', array('class'=>'button_sm'))}}
         {{ Form::close() }}
-        <br/>
-        {{ Form::open(array('url'=>'adminOrder/searchPayment', 'class'=>'')) }}
-        {{ Form::text('paymentId', '', array('class'=>'input-block-level', 'placeholder'=>'Payment No.')) }}
 
+        <hr/>
+
+        {{ Form::open(array('url'=>'adminOrder/payment', 'class'=>'')) }}
+        {{ Form::text('paymentId', '', array('class'=>'form-control', 'placeholder'=>'Payment No.')) }}
+        <br/>
         {{ Form::submit('Search', array('class'=>'button_sm'))}}
         {{ Form::close() }}
 
@@ -28,6 +30,12 @@
 
 
         @elseif($toShow == 'account_history')
+
+        @if ($histories == 'no_record')
+
+        沒有記錄。
+
+        @else
 
         <table class="form-table">
             <thead>
@@ -77,7 +85,7 @@
             </tbody>
         </table>
 
-
+        @endif
 
 
         @endif

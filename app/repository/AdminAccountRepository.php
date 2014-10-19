@@ -29,6 +29,7 @@ class AdminAccountRepository {
             ->join('territory', 'territory.id', '=', 'region.territory_id')
             ->select([
                 'property.created_at as property_created_at',
+                'property.updated_at as property_updated_at',
                 'property.responsible_id as property_responsible_id',
                 'property.name as property_name',
                 'property.soldorrent as property_soldorrent',

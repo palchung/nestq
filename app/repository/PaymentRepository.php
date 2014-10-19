@@ -219,14 +219,22 @@ class PaymentRepository {
         }
     }
 
-    public static function saveTransactionId($payment_id, $transaction_id)
+    public static function saveTransactionId($payment_id, $transaction_id, $channel)
     {
+//        DB::table('transaction')
+//            ->where('payment_id', $payment_id)
+//            ->update(array(
+//                'transaction_id' => $transaction_id,
+//                'channel' => $channel
+//            ));
 
-        $transaction = DB::table('transaction')
-            ->where('payment_id', $payment_id)
-            ->update(array('transaction_id' => $transaction_id));
+        $transaction = new Transaction();
+        $transaction->payment_id = $payment_id;
+        $transaction->channel = $channel;
+        $transaction->transaction_id = $transaction_id;
+        $transaction->save();
 
-        $payment = DB::table('payment')
+        DB::table('payment')
             ->where('id', $payment_id)
             ->update(array('status' => 1)); // 1 stand for paid
 
