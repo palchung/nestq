@@ -32,7 +32,7 @@ return array(
     |
     */
 
-    'url'       => 'http://localhost:8888',
+    'url'       => 'http://nestq.local:8000',
 
     /*
     |--------------------------------------------------------------------------
@@ -113,7 +113,8 @@ return array(
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
         'Artdarek\OAuth\OAuthServiceProvider',
-        'Intervention\Image\ImageServiceProvider'
+        'Intervention\Image\ImageServiceProvider',
+        'Msurguy\Honeypot\HoneypotServiceProvider'
 
     ),
 

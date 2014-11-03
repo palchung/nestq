@@ -4,8 +4,8 @@ return array(
     'home' => 'localhost/nestq/public',
     'USER_PUBLISH_NOS' => 2,
     // app useage setting
-    'SEARCH_PRICE_RANGE' => 1,
-    'SEARCH_SIZE_RANGE' => 30,
+    'SEARCH_PRICE_RANGE' => null,
+    'SEARCH_SIZE_RANGE' => null,
     'SEARCH_NOS_OF_RESULT' => 20,
     // Facebook
     'FACEBOOK_CLIENT_ID' => '247631415370862',

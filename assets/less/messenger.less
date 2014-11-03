@@ -1,0 +1,182 @@
+
+#full-slider-wrapper {
+
+    height:100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color:@messenger-bg-color;
+    padding:0px;
+    z-index: 1000;
+
+}
+
+#full-slider {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    z-index: 1000;
+}
+
+#full-slider .slide-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin-top: 3em;
+    background-color:@messenger-bg-color;
+    visibility: hidden;
+    z-index: 1000;
+}
+
+#full-slider .slide-panel.active {
+    visibility: visible;
+}
+
+
+
+/* styles below are only for this example */
+
+
+.messenger{
+    z-index: 1000;
+    position: fixed;
+    color: #354B5E;
+    margin: 0px;
+    width: 100%;
+    padding:10px 10px 10px 10px;
+    margin-bottom:5px;
+    background-color: @messenger-bg-color;
+    font-size: @font-size-h1;
+    height:50px;
+}
+
+.messenger-title{
+    color: @secondColor;
+}
+
+.messenger-backward{
+
+
+    color:@secondColor;
+    cursor: pointer;
+    :link{
+        color:@secondColor;
+        text-decoration:none;
+    }
+    :hover{
+        color:@secondColor;
+        background-color: @background_color;
+    }
+    :visited{
+        color:@secondColor;
+    }
+    :active{
+        color:@secondColor;
+    }
+
+}
+
+.backward{
+    margin-top:5px;
+    padding-left:10px;
+    padding-top:12px;
+    border-top: 1px solid @line-color;
+    border-bottom: 1px solid @line-color;
+    width:100%;
+    font-size: @font-size;
+    height: 50px;
+    background-color: @background_color;
+}
+
+.messenger-content{
+
+    cursor: pointer;
+    text-decoration:none;
+    color:@messenger-color;
+    :hover{
+        color:@messenger-color;
+        text-decoration:none;
+        background-color:@messenger-bg-color;
+    }
+}
+
+.messenger-block{
+
+    border-bottom: 1px solid @line-color;
+    padding-left:10px;
+    padding-right:10px;
+    word-wrap: break-word;
+    background-color:@messenger-bg-color;
+}
+
+
+.messenger-input-block{
+    color: #ffffff;
+    border-bottom: 1px solid @line-color;
+    padding-left:10px;
+    padding-right:10px;
+    word-wrap: break-word;
+    background-color:@primaryColor;
+}
+
+
+
+
+.messenger-heading{
+    padding-left:10px;
+    padding-right:10px;
+
+}
+
+
+.messenger-input{
+    width:95%;
+    color:@font_color;
+    margin:1em 1em 1em 0em;
+    padding-bottom: 1em;
+    word-wrap: break-word;
+}
+
+
+
+
+.messenger-two-col{
+    margin-top:     0;
+    margin-bottom:  0;
+    .make-row();
+    z-index: 2000;
+    .left {
+        padding: 1em;
+        .make-xs-column(3);
+        .make-sm-column(3);
+        .make-md-column(3);
+        .make-lg-column(3);
+    }
+    .right {
+        padding: 1em;
+        .make-xs-column(3);
+        .make-sm-column(9);
+        .make-md-column(9);
+        .make-lg-column(9);
+    }
+}
+
+.messenger-ad{
+    .center();
+    display: block;
+    margin-top: 60px;
+    padding: @std-padding*3;
+    z-index: 2000;
+
+}
+
+
+
+
+
+
+
+
+
+

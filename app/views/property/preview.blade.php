@@ -31,6 +31,12 @@
         {{ Form::submit('發佈', array('class'=>'button_lg'))}}
         {{ Form::close() }}
 
+        <br/>
+        <a class="button_normal" href="{{ url('account/dashboard/property')}}" role="button">
+            稍後
+        </a>
+
+
 
 
     </div>

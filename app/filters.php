@@ -13,33 +13,45 @@ use Repository\IndexRepository;
   |
  */
 
-App::before(function($request) {
-        // $myApp Singleton object
+App::before(function ($request)
+{
+    // $myApp Singleton object
 
-        App::singleton('Nestq', function() {
+    App::singleton('Nestq', function ()
+    {
 
-                $app = new stdClass;
-                $app->title = "NestQ";
-                if (Auth::check()) {
-                        $app->account = Auth::User();
-                        $app->isLogedin = TRUE;
-                } else {
-                        $app->isLogedin = FALSE;
-                        $app->account = FALSE;
-                }
-                return $app;
-        });
-        $Nestq = App::make('Nestq');
-        View::share('Nestq', $Nestq);
+        $app = new stdClass;
+        $app->title = "NestQ";
+        if (Auth::check())
+        {
+            $app->account = Auth::User();
+            $app->isLogedin = true;
+        } else
+        {
+            $app->isLogedin = false;
+            $app->account = false;
+        }
 
-        // XSS prevention
-        Input::merge(array_strip_tags(Input::all()));
+        return $app;
+    });
+    $Nestq = App::make('Nestq');
+    View::share('Nestq', $Nestq);
+
+    // XSS prevention
+    Input::merge(array_strip_tags(Input::all()));
+
+    //trim all input
+//    Input::merge(array_map('trim', Input::all()));
 
 });
 
 
-App::after(function($request, $response) {
-        //
+App::after(function ($request, $response)
+{
+    // Prevent Back Login After Logout by hitting the Back button
+    $response->headers->set("Cache-Control", "no-cache,no-store, must-revalidate");
+    $response->headers->set("Pragma", "no-cache"); //HTTP 1.0
+    $response->headers->set("Expires", " Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 });
 
 /*
@@ -53,14 +65,22 @@ App::after(function($request, $response) {
   |
  */
 
-Route::filter('auth', function() {
-        if (Auth::guest())
-                return Redirect::guest('account/login');
+Route::filter('auth', function ()
+{
+    if (Auth::guest())
+        return Redirect::guest('account/login');
+});
+
+Route::filter('admin', function ()
+{
+    if ( Auth::guest() || ! Auth::user()->permission < 3)
+        return Redirect::guest('/');
 });
 
 
-Route::filter('auth.basic', function() {
-        return Auth::basic();
+Route::filter('auth.basic', function ()
+{
+    return Auth::basic();
 });
 
 /*
@@ -74,9 +94,10 @@ Route::filter('auth.basic', function() {
   |
  */
 
-Route::filter('guest', function() {
-        if (Auth::check())
-                return Redirect::to('/');
+Route::filter('guest', function ()
+{
+    if (Auth::check())
+        return Redirect::to('/');
 });
 
 /*
@@ -90,20 +111,22 @@ Route::filter('guest', function() {
   |
  */
 
-Route::filter('csrf', function() {
-        if (Session::token() != Input::get('_token')) {
-                throw new Illuminate\Session\TokenMismatchException;
-        }
+Route::filter('csrf', function ()
+{
+    if (Session::token() != Input::get('_token'))
+    {
+        throw new Illuminate\Session\TokenMismatchException;
+    }
 });
 
 
+View::composer('layout.main', function ($view)
+{
 
-View::composer('layout.main', function($view) {
-
-        // pass search box data to all view
-        $territory = IndexRepository::loadTerritoryList();
-        $region = IndexRepository::loadRegionList();
-        $category = IndexRepository::loadCategoryList();
-        $facility = IndexRepository::loadFacilityList();
-        $view->with('territories', $territory)->with('regions', $region)->with('categories', $category)->with('facilities', $facility);
+    // pass search box data to all view
+    $territory = IndexRepository::loadTerritoryList();
+    $region = IndexRepository::loadRegionList();
+    $category = IndexRepository::loadCategoryList();
+    $facility = IndexRepository::loadFacilityList();
+    $view->with('territories', $territory)->with('regions', $region)->with('categories', $category)->with('facilities', $facility);
 });

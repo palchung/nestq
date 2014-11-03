@@ -2,14 +2,21 @@
 
 Class Setting extends Eloquent {
 
-        protected $table = 'setting';
+    protected $table = 'setting';
 
-        public function region() {
-                return $this->belongsToMany('Region', 'setting_region');
-        }
+    public function region()
+    {
+        return $this->belongsToMany('Region', 'setting_region');
+    }
 
-        public function account() {
-                return $this->belongsTo('Account');
-        }
+    public function category()
+    {
+        return $this->belongsToMany('Category', 'setting_category');
+    }
+
+    public function account()
+    {
+        return $this->belongsTo('Account');
+    }
 
 }

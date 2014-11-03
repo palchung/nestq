@@ -3,11 +3,12 @@
 namespace Repository;
 
 use Account;
-use Service;
+use MailList;
 use Oauth;
 use Property;
 use Setting;
 use Region;
+use Category;
 use Hash;
 use Input;
 use Auth;
@@ -15,7 +16,6 @@ use DB;
 use Rating;
 use Image;
 use File;
-
 
 
 class AccountRepository {
@@ -67,6 +67,13 @@ class AccountRepository {
             $setting->disclose_contact = 0; // default not show contact
             $setting->agent_request = 1; // default allow agent request
             $setting->save();
+
+            $mail_list = new MailList;
+            $mail_list->account_id = $account->id;
+            $mail_list->status = 0;
+            $mail_list->sent = 0;
+            $mail_list->save();
+
         }
 
         //Oauth for user
@@ -115,131 +122,147 @@ class AccountRepository {
           $message->to(Input::get('email'), Input::get('firstname') . ' ' . Input::get('lastname'))->subject('Welcome to NestQ!');
           });
          */
-return;
-}
+        return;
+    }
 
 
-public function saveNewPassword($password)
-{
+    public function saveNewPassword($password)
+    {
 
-    $password = Hash::make($password);
-    $account = DB::table('account')
-    ->where('id', Auth::user()->id)
+        $password = Hash::make($password);
+        $account = DB::table('account')
+            ->where('id', Auth::user()->id)
             ->update(array('password' => $password)); // 1 stand for paid
 
+        return 'ok';
+    }
+
+
+    public function checkExistingPassword($password)
+    {
+
+        $existingPassword = Account::find(Auth::user()->id)->password;
+
+        if (Hash::check($password, $existingPassword))
+        {
             return 'ok';
+        } else
+        {
+            return 'no_ok';
         }
 
+    }
 
-        public function checkExistingPassword($password)
+
+    public static function checkIdentity()
+    {
+
+        $account = Account::findOrFail(Auth::user()->id);
+        if ($account->identity == 0)
+        {
+            return "user";
+        } else
+        {
+            return "agent";
+        }
+    }
+
+
+    public function saveProfilePic()
+    {
+
+
+        $account = Account::find(Auth::user()->id);
+
+        if ($account->profile_pic)
+        {
+            $deletePath = public_path('profilepic/' . $account->profile_pic);
+            $deleteThumbnailPath = public_path('profilepic/thumbnail/' . $account->profile_pic);
+            File::delete($deletePath);
+            File::delete($deleteThumbnailPath);
+        }
+
+        $image = Input::file('profilePic');
+        $filename = sha1(time() . Auth::user()->email) . '.' . $image->getClientOriginalExtension();
+        $path = public_path('profilepic/' . $filename);
+        $thumbnail_path = public_path('profilepic/thumbnail/' . $filename);
+
+        Image::make($image->getRealPath())->resize(100, 100)->save($path);
+        Image::make($image->getRealPath())->resize(50, 50)->save($thumbnail_path);
+
+        $account = Account::find(Auth::user()->id);
+        $account->profile_pic = $filename;
+        $account->save();
+
+        return true;
+
+    }
+
+
+    public function loadSetting()
+    {
+
+        $setting = Setting::where('account_id', '=', Auth::user()->id)->firstOrFail();
+
+        return $setting;
+    }
+
+    public static function loadRegionList($whatToLoad = null)
+    {
+        $list = Region::where('active', '=', 1)->get();
+
+        return $list;
+    }
+
+    public static function loadCategoryList($whatToLoad = null)
+    {
+        $list = Category::where('active', '=', 1)->get();
+
+        return $list;
+    }
+
+
+    public function configSetting()
+    {
+
+
+        $settingId = Input::get('settingId');
+
+        if (isset($settingId))
         {
 
-            $existingPassword = Account::find(Auth::user()->id)->password;
+            $setting = Setting::find((Input::get('settingId')));
+            $setting->agent_request = Input::get('agent_request');
+            $setting->promotion_email = Input::get('promotion_email');
+            $setting->disclose_contact = Input::get('disclose_contact');
+            $setting->price = Input::get('price');
+            $setting->rentprice = Input::get('rentprice');
+            $setting->soldorrent = Input::get('soldorrent');
+            $setting->actualsize = Input::get('actualsize');
+            $setting->source = Input::get('source');
 
-            if (Hash::check($password, $existingPassword))
+            $setting->save();
+
+            $regionChecked = Input::get('region');
+            if (is_array($regionChecked))
             {
-                return 'ok';
-            } else
-            {
-                return 'no_ok';
+                $setting->region()->sync($regionChecked);
             }
 
-        }
-
-
-        public static function checkIdentity()
-        {
-
-            $account = Account::findOrFail(Auth::user()->id);
-            if ($account->identity == 0)
+            $categoryChecked = Input::get('category');
+            if (is_array($categoryChecked))
             {
-                return "user";
-            } else
-            {
-                return "agent";
+                $setting->category()->sync($categoryChecked);
             }
-        }
-
-
-
-        public function saveProfilePic()
-        {
-
-
-            $account = Account::find(Auth::user()->id);
-
-            if($account->profile_pic)
-            {
-                $deletePath = public_path('profilepic/' . $account->profile_pic);
-                File::delete($deletePath);
-            }
-
-            $image = Input::file('profilePic');
-            $filename  = sha1(time() . Auth::user()->email) . '.' . $image->getClientOriginalExtension();
-            $path = public_path('profilepic/' . $filename);
-
-            Image::make($image->getRealPath())->resize(100, 100)->save($path);
-
-            $account = Account::find(Auth::user()->id);
-            $account->profile_pic = $filename ;
-            $account->save();
-
-            return true;
-
-        }
-
-
-
-
-        public function loadSetting()
-        {
-
-            $setting = Setting::where('account_id', '=', Auth::user()->id)->firstOrFail();
 
             return $setting;
         }
+    }
 
-        public static function loadRegionList($whatToLoad = null)
-        {
-            $list = Region::where('active', '=', 1)->get();
+    public function loadPropertyByAccount()
+    {
 
-            return $list;
-        }
-
-        public function configSetting()
-        {
-
-
-            $settingId = Input::get('settingId');
-
-            if (isset($settingId))
-            {
-
-                $setting = Setting::find((Input::get('settingId')));
-                $setting->agent_request = Input::get('agent_request');
-                $setting->promotion_email = Input::get('promotion_email');
-                $setting->disclose_contact = Input::get('disclose_contact');
-                $setting->price = Input::get('price');
-                $setting->soldorrent = Input::get('soldorrent');
-                $setting->actualsize = Input::get('actualsize');
-                $setting->source = Input::get('source');
-
-                $setting->save();
-
-                $regionChecked = Input::get('region');
-                if (is_array($regionChecked))
-                {
-                    $setting->region()->sync($regionChecked);
-                }
-
-                return $setting;
-            }
-        }
-
-        public function loadPropertyByAccount()
-        {
-
-            $properties = DB::table('property')
+        $properties = DB::table('property')
             ->join('propertystat', 'property.id', '=', 'propertystat.property_id')
             ->select([
                 'property.id as property_id',
@@ -251,6 +274,7 @@ public function saveNewPassword($password)
                 'property.structuresize as property_structuresize',
                 'property.actualsize as property_actualsize',
                 'property.price as property_price',
+                'property.publish as property_publish',
                 'property.rentprice as property_rentprice',
                 'property.photo as property_photo',
                 'property.geolocation as property_geolocation',
@@ -264,75 +288,71 @@ public function saveNewPassword($password)
                 'propertystat.conversation as conversation',
                 'propertystat.activepush as activepush',
                 'propertystat.activemail as activemail'
-                ])
-->where('property.responsible_id', '=', Auth::user()->id)
-->orWhere('property.owner_id', '=', Auth::user()->id)
-->groupBy('property.id')
-->get();
+            ])
+            ->where('property.responsible_id', '=', Auth::user()->id)
+            ->orWhere('property.owner_id', '=', Auth::user()->id)
+            ->groupBy('property.id')
+            ->get();
 
 
-return $properties;
-}
+        return $properties;
+    }
 
 
-public static function loadActivePropertyByAccount($account_id)
-{
-
-    $active_property = Property::where('owner_id', '=', $account_id)
-    ->orWhere('responsible_id', '=', $account_id)
-    ->where('publish', '=', 1)
-    ->groupBy('id')
-    ->get();
-    $nos = sizeof($active_property);
-
-    return $nos;
-}
-
-public static function loadNosOfResponsibleProperty($account_id)
-{
-    $active_property = Property::where('responsible_id', '=', $account_id)
-    ->where('publish', '=', 1)
-    ->groupBy('id')
-    ->get();
-    $nos = sizeof($active_property);
-
-    return $nos;
-}
-
-
-public function loadRequestByAccount()
-{
-
-
-    $request = DB::table('requisition')
-    ->join('property', 'property.id', '=', 'requisition.property_id')
-    ->select(
-        'requisition.property_id', DB::raw('COUNT(requisition.property_id) as nosrequest')
-        )
-    ->where('property.owner_id', '=', Auth::user()->id)
-    ->where('property.responsible_id', '=', Auth::user()->id)
-    ->groupBy('requisition.id')
-    ->get();
-
-    return $request;
-}
-
-public function lookUpAccountByID($account_id)
-{
-
-    $account = DB::table('account')
-    ->where('id', '=', $account_id)
-    ->get();
-
-    if ($account[0]->identity == 1)
+    public static function loadActivePropertyByAccount($account_id)
     {
-        $showContact = true;
-    } elseif ($account[0]->identity == 0)
+
+        $nos = Property::where('owner_id', '=', $account_id)
+            ->orWhere('responsible_id', '=', $account_id)
+            ->where('publish', '=', 1)
+            ->count();
+
+        return $nos;
+    }
+
+    public static function loadNosOfResponsibleProperty($account_id)
     {
-        $disclose_contact = DB::table('setting')
-        ->where('account_id', '=', $account_id)
-        ->pluck('disclose_contact');
-        if ($disclose_contact == 1)
+        $nos = Property::where('responsible_id', '=', $account_id)
+            ->where('publish', '=', 1)
+            ->count();
+
+        return $nos;
+    }
+
+
+    public function loadRequestByAccount()
+    {
+
+
+        $request = DB::table('requisition')
+            ->join('property', 'property.id', '=', 'requisition.property_id')
+            ->select(
+                'requisition.property_id', DB::raw('COUNT(requisition.property_id) as nosrequest')
+            )
+            ->where('property.owner_id', '=', Auth::user()->id)
+            ->where('property.responsible_id', '=', Auth::user()->id)
+            ->groupBy('requisition.id')
+            ->get();
+
+        return $request;
+    }
+
+    public function lookUpAccountByID($account_id)
+    {
+
+        $account = DB::table('account')
+            ->where('id', '=', $account_id)
+            ->get();
+
+        if ($account[0]->identity == 1)
+        {
+            $showContact = true;
+        } elseif ($account[0]->identity == 0)
+        {
+            $disclose_contact = DB::table('setting')
+                ->where('account_id', '=', $account_id)
+                ->pluck('disclose_contact');
+            if ($disclose_contact == 1)
             {  // 1 stand for allow disclosure
                 $showContact = true;
             } elseif ($disclose_contact == 0)
@@ -341,8 +361,8 @@ public function lookUpAccountByID($account_id)
             }
         }
         $result = [
-        'account'     => $account,
-        'showContact' => $showContact
+            'account'     => $account,
+            'showContact' => $showContact
         ];
 
         return $result;
@@ -361,9 +381,11 @@ public function lookUpAccountByID($account_id)
     public static function loadTemplate()
     {
         $template = DB::table('account')
-        ->select('template')
-        ->where('id', '=', Auth::user()->id)
-        ->get();
+            ->select('template')
+            ->where('id', '=', Auth::user()->id)
+            ->get();
+
+//        $template = Account::find(Auth::user()->id)->template;
 
         return $template;
     }
@@ -371,10 +393,10 @@ public function lookUpAccountByID($account_id)
     public static function checkRequestAllowance($property_id)
     {
         $allowance = DB::table('property')
-        ->join('setting', 'property.responsible_id', '=', 'setting.account_id')
-        ->select('setting.agent_request')
-        ->where('property.id', '=', $property_id)
-        ->get();
+            ->join('setting', 'property.responsible_id', '=', 'setting.account_id')
+            ->select('setting.agent_request')
+            ->where('property.id', '=', $property_id)
+            ->get();
         if ($allowance[0]->agent_request == 1)
         {
             return 'ok';
@@ -394,12 +416,12 @@ public function lookUpAccountByID($account_id)
             {
 
                 $existRating = DB::table('account')->where('id', $agent_id)
-                ->pluck('rating');
+                    ->pluck('rating');
 
 
                 $newRating = DB::table('account')
-                ->where('id', $agent_id)
-                ->update(array('rating' => $existRating + 1));
+                    ->where('id', $agent_id)
+                    ->update(array('rating' => $existRating + 1));
 
                 $rating = new Rating;
                 $rating->user_id = Auth::user()->id;
@@ -414,9 +436,9 @@ public function lookUpAccountByID($account_id)
     public function checkRepeatRank($agent_id)
     {
         $check = DB::table('rating')
-        ->where('agent_id', '=', $agent_id)
-        ->where('user_id', '=', Auth::user()->id)
-        ->get();
+            ->where('agent_id', '=', $agent_id)
+            ->where('user_id', '=', Auth::user()->id)
+            ->get();
 
         if (sizeof($check) == 0)
         {

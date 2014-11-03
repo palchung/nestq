@@ -6,7 +6,7 @@
     <div class='row'>
         @foreach($row as $property)
 
-        <a href= '{{action('PropertyController@getPropertyDetail', array('id'=>$property->property_id)) }}' >
+        <a href= '{{action("PropertyController@getPropertyDetail", array("id"=>$property->property_id)) }}' >
             <li>
             <div class="list-wrapper">
                 <div class="thumbnail std-padding">
@@ -14,7 +14,7 @@
 
                     <div class="two-col">
                         <div class="left center">
-                            @if($property->property_photo)
+                            @if($photos[$property->property_id] != 'no_photo')
                             {{ HTML::image( 'upload/' . $property->property_photo . '/thumbnail/' . $photos[$property->property_id], 'alt-text') }}
                             @else
                             <i class="icon-home-5x"></i>

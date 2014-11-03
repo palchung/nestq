@@ -64,7 +64,7 @@ return array(
 
 		'table' => 'token',
 
-		'expire' => 60, // mins
+		'expire' => 10, // mins
 
 	),
 

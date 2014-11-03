@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="MySQL - @localhost" uuid="cce2cd5c-f487-401b-86e4-4f05fc475b21">
-    <database-info product="MySQL" version="5.5.38" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.31 ( Revision: alexander.soklakov@oracle.com-20140520065950-groqzzbvxprqdmnz )">
+  <data-source name="MySQL - nestq@nestq.local" uuid="45d1c02a-572b-4fdb-ac53-2d947473e5e4">
+    <database-info product="MySQL" version="5.5.38-0ubuntu0.14.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.31 ( Revision: alexander.soklakov@oracle.com-20140520065950-groqzzbvxprqdmnz )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
-    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper"/>
+    <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
     <schema name="" catalog="nestq"/>
     <table name="account" schema="" catalog="nestq" type="TABLE">
       <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -49,6 +49,7 @@
       <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="setting_category_category_id_foreign" table="setting_category" schema="" catalog="nestq" columns="category_id"/>
     </table>
     <table name="conversation" schema="" catalog="nestq" type="TABLE">
       <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -115,6 +116,16 @@
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="property_feature_feature_id_foreign" table="property_feature" schema="" catalog="nestq" columns="feature_id"/>
     </table>
+    <table name="maillist" schema="" catalog="nestq" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="deleted_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="account_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="status" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="sent" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
     <table name="message" schema="" catalog="nestq" type="TABLE">
       <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
@@ -157,8 +168,8 @@
       <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="payment_pricepage_payment_id_foreign" columns="payment_id" ref-table="payment" ref-schema="" ref-catalog="nestq" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="payment_pricepage_pricepage_id_foreign" columns="pricepage_id" ref-table="pricepage" ref-schema="" ref-catalog="nestq" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="payment_pricepage_payment_id_foreign" columns="payment_id" ref-table="payment" ref-schema="" ref-catalog="nestq" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
       <index name="payment_pricepage_payment_id_foreign" unique="false" columns="payment_id"/>
       <index name="payment_pricepage_pricepage_id_foreign" unique="false" columns="pricepage_id"/>
     </table>
@@ -243,8 +254,8 @@
       <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="property_transportation_property_id_foreign" columns="property_id" ref-table="property" ref-schema="" ref-catalog="nestq" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
       <foreign-key name="property_transportation_transportation_id_foreign" columns="transportation_id" ref-table="transportation" ref-schema="" ref-catalog="nestq" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="property_transportation_property_id_foreign" columns="property_id" ref-table="property" ref-schema="" ref-catalog="nestq" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
       <index name="property_transportation_property_id_foreign" unique="false" columns="property_id"/>
       <index name="property_transportation_transportation_id_foreign" unique="false" columns="transportation_id"/>
     </table>
@@ -301,14 +312,28 @@
       <column name="agent_request" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
       <column name="promotion_email" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
       <column name="disclose_contact" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
-      <column name="price" sqlType="DECIMAL" precision="5" scale="2" nullable="false" jdbcType="3"/>
       <column name="soldorrent" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
-      <column name="actualsize" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="price" sqlType="DECIMAL" precision="5" scale="2" nullable="true" jdbcType="3"/>
+      <column name="rentprice" sqlType="DECIMAL" precision="5" scale="2" nullable="true" jdbcType="3"/>
+      <column name="actualsize" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="source" sqlType="SMALLINT" precision="5" scale="0" nullable="false" jdbcType="5"/>
       <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="setting_category_setting_id_foreign" table="setting_category" schema="" catalog="nestq" columns="setting_id"/>
       <exported-key name="setting_region_setting_id_foreign" table="setting_region" schema="" catalog="nestq" columns="setting_id"/>
+    </table>
+    <table name="setting_category" schema="" catalog="nestq" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="setting_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="category_id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="updated_at" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="setting_category_category_id_foreign" columns="category_id" ref-table="category" ref-schema="" ref-catalog="nestq" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="setting_category_setting_id_foreign" columns="setting_id" ref-table="setting" ref-schema="" ref-catalog="nestq" ref-columns="id" update-rule="3" delete-rule="0" deferrability="2"/>
+      <index name="setting_category_category_id_foreign" unique="false" columns="category_id"/>
+      <index name="setting_category_setting_id_foreign" unique="false" columns="setting_id"/>
     </table>
     <table name="setting_region" schema="" catalog="nestq" type="TABLE">
       <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -331,9 +356,11 @@
       <primary-key name="PRIMARY" columns="id"/>
     </table>
     <table name="token" schema="" catalog="nestq" type="TABLE">
-      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="token" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="token" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn"/>
+      <index name="token_email_index" unique="false" columns="email"/>
+      <index name="token_token_index" unique="false" columns="token"/>
     </table>
     <table name="transaction" schema="" catalog="nestq" type="TABLE">
       <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>

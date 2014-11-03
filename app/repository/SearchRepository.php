@@ -31,6 +31,7 @@ class SearchRepository {
 
         $this->facility = Input::get('facility');
         $this->facility = (isset($this->facility)) ? $this->facility : null;
+        Session::put('facility', $this->facility);
 
         $this->rent = Input::get('rent');
         Session::put('rent', $this->rent);

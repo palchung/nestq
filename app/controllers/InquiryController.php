@@ -1,17 +1,20 @@
 <?php
 
 use Repository\InquiryRepository;
+use Repository\AdminDocumentationRepository;
 
 class InquiryController extends BaseController {
 
     protected $layout = "layout.main";
     protected $inquiry;
+    protected $adminDocumentation;
 
-    public function __construct(InquiryRepository $inquiry)
+    public function __construct(InquiryRepository $inquiry, AdminDocumentationRepository $adminDocumentation)
     {
         $this->beforeFilter('csrf', array('on' => 'post'));
         //$this->beforeFilter('auth', array('only' => array('getAdd')));
         $this->inquiry = $inquiry;
+        $this->adminDocumentation = $adminDocumentation;
     }
 
     public function getAbout()
@@ -29,13 +32,30 @@ class InquiryController extends BaseController {
         $this->layout->content = View::make('inquiry.search');
     }
 
-    public function getGuide()
+    public function getGuide($document_id = null, $toedit = null)
     {
-        $category = $this->inquiry->loadDocumentActiveCategory('category');
-        //$subcategory = $this->inquiry->loadDocumentActiveCategory('subcategory');
+        $edit = false;
+        $categories = $this->adminDocumentation->loadDocumentActiveCategory('category');
+        $subcategories = $this->adminDocumentation->loadDocumentActiveSubCategory();
+        $documents = $this->adminDocumentation->loadDocumentsTitle();
+
+        if ($document_id == null)
+        {
+            $guide = null;
+
+        } else
+        {
+            $guide = $this->adminDocumentation->loadDocumentById($document_id);
+        }
+
         $this->layout->content = View::make('inquiry.guide')
-            ->with('categories', $category);
-        //->with('subcategories',$subcategory);
+            ->with('subcategories', $subcategories)
+            ->with('categories', $categories)
+            ->with('documents', $documents)
+            ->with('edit', $edit)
+            ->with('guide', $guide);
+
+
     }
 
     public function getCategory($categoryId)

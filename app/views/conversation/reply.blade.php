@@ -1,7 +1,4 @@
-
-
 <div class="two-col-panel-convert">
-
 
 
     <div class="left-panel-convert">
@@ -9,7 +6,6 @@
         <div class="std-border white-bg std-padding">
             @include('property.propertyInfo')
         </div>
-
 
 
     </div>
@@ -22,9 +18,9 @@
         <br/>
 
         {{ link_to_action('PropertyController@getPropertyDetail',
-            'return to property',
-            $parameters = array('id' => $property->property_id),
-            $attributes = array('class' => 'button_normal'))
+        'return to property',
+        $parameters = array('id' => $property->property_id),
+        $attributes = array('class' => 'button_normal'))
         }}
 
         <br/>
@@ -47,14 +43,10 @@
             <hr/>
 
 
-
             @endforeach
 
 
-
-
             <small>{{Auth::user()->firstname}} {{Auth::user()->lastname}}</small>
-
 
 
             {{ Form::open(array('url'=>'conversation/reply', 'class'=>'')) }}
@@ -70,7 +62,7 @@
             {{ Form::hidden('propertyId', $property->property_id) }}
 
             <br/>
-
+            {{ Form::honeypot('my_name', 'my_time') }}
             {{ Form::submit('Send', array('class'=>'button_normal'))}}
             {{ Form::close() }}
 

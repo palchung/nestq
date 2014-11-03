@@ -16,24 +16,33 @@ $(function () {
 
     // Initialize the jQuery File Upload widget:
     //$('#fileupload').fileupload({
-        // Uncomment the following to send cross-domain cookies:
-        //xhrFields: {withCredentials: true},
-        //url: '../../app/fileupload/server/php/'
-   // });
+    // Uncomment the following to send cross-domain cookies:
+    //xhrFields: {withCredentials: true},
+    //url: '../../app/fileupload/server/php/'
+    // });
 
 
-$('#fileupload').fileupload({
-        url: '../../app/fileupload/server/php/'
-}).on('fileuploadsubmit', function (e, data) {
-    data.formData = data.context.find(':input').serializeArray();
-});
+    $('#fileupload').fileupload({
+        url: '/fileupload/server/php/',
+        maxFileSize: 5000000, // 5MB
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+    }).on('fileuploadsubmit', function (e, data) {
+        data.formData = data.context.find(':input').serializeArray();
+    });
 
 
-
-
-
-
-
+    //$('#fileupload').fileupload('option', {
+    //    url: '/fileupload/server/php/',
+    //    // Enable image resizing, except for Android and Opera,
+    //    // which actually support image resizing, but fail to
+    //    // send Blob objects via XHR requests:
+    //    disableImageResize: /Android(?!.*Chrome)|Opera/
+    //        .test(window.navigator.userAgent),
+    //    maxFileSize: 5000000, // 5MB
+    //    acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+    //}).on('fileuploadsubmit', function (e, data) {
+    //    data.formData = data.context.find(':input').serializeArray();
+    //});
 
 
     // Enable iframe cross-domain access via redirect option:
@@ -66,7 +75,7 @@ $('#fileupload').fileupload({
             }).fail(function () {
                 $('<div class="alert alert-danger"/>')
                     .text('Upload server currently unavailable - ' +
-                            new Date())
+                    new Date())
                     .appendTo('#fileupload');
             });
         }
@@ -86,10 +95,7 @@ $('#fileupload').fileupload({
                 .call(this, $.Event('done'), {result: result});
         });
     }
-      
-    
-    
-    
+
 
 });
 

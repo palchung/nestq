@@ -17,11 +17,19 @@ class SearchController extends BaseController {
         $this->property = $property;
     }
 
+    public function getReset()
+    {
+        Session::flush();
+
+        return Redirect::to('/');
+
+    }
+
 
     public function getProperty()
     {
 
-        $validator = Validator::make(Input::all(), Search::$searchRules);
+        $validator = Validator::make(Input::all(), Search::$SearchRules);
         if ($validator->passes())
         {
 
@@ -51,7 +59,7 @@ class SearchController extends BaseController {
 
             if (sizeof($properties) == 0)
             {
-                return Redirect::to('inquiry/search')->with('flash_message', 'No result match');
+                return Redirect::to('inquiry/search')->with('flash_message', '沒有相配的物業資訊');
             } else
             {
 
@@ -69,7 +77,7 @@ class SearchController extends BaseController {
             }
         } else
         {
-            return Redirect::to('inquiry/search')->with('flash_message', 'You may interest in following guide');
+            return Redirect::to('inquiry/search')->with('flash_message', '找不到物業資訊');
         }
     }
 

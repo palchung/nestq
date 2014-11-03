@@ -5,7 +5,7 @@ angular.module('messengerService', [])
             save: function (messageData) {
                 return $http({
                     method: 'POST',
-                    url: 'http://localhost:8888/nestq/public/messenger/save_message',
+                    url: 'http://nestq.local:8000/messenger/save_message',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     data: $.param(messageData)
                 });
@@ -18,7 +18,7 @@ angular.module('messengerService', [])
             loadConversation: function(conversationData){
                 return $http({
                     method: 'POST',
-                    url: 'http://localhost:8888/nestq/public/messenger/load_conversation',
+                    url: 'http://nestq.local:8000/messenger/load_conversation',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     data: $.param(conversationData)
                 });
@@ -27,7 +27,7 @@ angular.module('messengerService', [])
             loadMessage: function(messageData){
                 return $http({
                     method: 'POST',
-                    url: 'http://localhost:8888/nestq/public/messenger/load_message',
+                    url: 'http://nestq.local:8000/messenger/load_message',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     data: $.param(messageData)
                 });

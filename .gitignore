@@ -1,5 +1,6 @@
 /bootstrap/compiled.php
 /vendor
+/node_modules
 composer.phar
 composer.lock
 .env.local.php
@@ -7,3 +8,12 @@ composer.lock
 .DS_Store
 Thumbs.db
 _ide_helper.php
+
+npm-debug.log
+package.json
+readme.md
+.vagrant
+Vagrantfile
+f947cc45-48e8-48de-a19a-20502df1f202.dmp
+Gruntfile.js
+.idea

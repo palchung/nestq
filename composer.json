@@ -8,8 +8,10 @@
         "fzaninotto/faker": "dev-master",
         "natxet/CssMin": "dev-master",
         "artdarek/oauth-4-laravel": "dev-master",
-        "intervention/image": "2.*"
-
+        "intervention/image": "2.*",
+        "guzzlehttp/guzzle": "~4.0",
+        "msurguy/honeypot": "dev-master",
+        "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
         "classmap": [

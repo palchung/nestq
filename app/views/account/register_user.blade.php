@@ -116,6 +116,7 @@
 <div class="form-group">
   <div class="col-sm-offset-2 col-sm-10">
     {{Form::hidden('identity', 'user')}}
+    {{ Form::honeypot('my_name', 'my_time') }}
     {{Form::submit('提交', array('class'=>'button_normal'))}}
     {{Form::close()}}
 </div>

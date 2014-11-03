@@ -17,15 +17,15 @@ class IndexController extends BaseController {
 
                 $this->layout->content = View::make('frontpage.index');
 
-                $territory = $this->index->loadTerritoryList();
-                $region = $this->index->loadRegionList();
-                $category = $this->index->loadCategoryList();
-                $facility = $this->index->loadFacilityList();
-                $this->layout->searchbox = View::make('frontpage.searchbox')
-                ->with('territories', $territory)
-                ->with('regions', $region)
-                ->with('categories', $category)
-                ->with('facilities', $facility);
+//                $territory = $this->index->loadTerritoryList();
+//                $region = $this->index->loadRegionList();
+//                $category = $this->index->loadCategoryList();
+//                $facility = $this->index->loadFacilityList();
+//                $this->layout->searchbox = View::make('frontpage.searchbox')
+//                ->with('territories', $territory)
+//                ->with('regions', $region)
+//                ->with('categories', $category)
+//                ->with('facilities', $facility);
         }
 
 }

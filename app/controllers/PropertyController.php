@@ -4,8 +4,7 @@ use Repository\PropertyRepository;
 use Repository\ConversationRepository;
 use Repository\AccountRepository;
 
-class PropertyController extends BaseController
-{
+class PropertyController extends BaseController {
 
     protected $layout = "layout.main";
     protected $property;
@@ -23,7 +22,8 @@ class PropertyController extends BaseController
         $identity = $this->property->checkIdentity();
         $checkPublishLimit = $this->property->checkPublishLimit($identity);
 
-        if ($checkPublishLimit == 'ok') {
+        if ($checkPublishLimit == 'ok')
+        {
 
             session_start();
             $_SESSION['photofolder'] = sha1(time());
@@ -35,14 +35,15 @@ class PropertyController extends BaseController
             $regionList = $this->property->loadRegionList();
 
             $data = [
-                'features' => $feature,
+                'features'        => $feature,
                 'transportations' => $transportation,
-                'facilities' => $facilities,
-                'categoryList' => $categoryList,
-                'regionList' => $regionList
+                'facilities'      => $facilities,
+                'categoryList'    => $categoryList,
+                'regionList'      => $regionList
             ];
             $this->layout->content = View::make('property.create', compact('data'));
-        } else {
+        } else
+        {
             $this->layout->content = View::make('property.exceed');
         }
     }
@@ -50,6 +51,7 @@ class PropertyController extends BaseController
     public function postEdit()
     {
         Session::forget('flash_message');
+
 
         session_start();
         $_SESSION['photofolder'] = Input::get('directory');
@@ -67,6 +69,8 @@ class PropertyController extends BaseController
             ->with('property', $property)
             ->with('categoryList', $categoryList)
             ->with('regionList', $regionList);
+
+
     }
 
     public function postPublish()
@@ -75,40 +79,63 @@ class PropertyController extends BaseController
         $identity = $this->property->checkIdentity();
         $checkPublishLimit = $this->property->checkPublishLimit($identity);
 
-        if ($checkPublishLimit == 'ok') {
-
-            $publish = $this->property->publishProperty();
-            if ($publish == 'ok') {
-                Session::flash('flash_message', 'you published a new property.');
+        if ($checkPublishLimit == 'ok')
+        {
+            $property_id = Input::get('propertyId');
+            $publish = $this->property->publishProperty($property_id);
+            if ($publish == 'ok')
+            {
+                Session::flash('flash_message', '成功為您發佈了物業資訊');
 
                 return Redirect::to('account/dashboard/property');
             }
-        } else {
+        } else
+        {
             $this->layout->content = View::make('property.exceed');
         }
     }
 
+    public function postLaydown(){
+
+        $property_id = Input::get('propertyId');
+        $this->property->laydownProperty($property_id);
+        Session::flash('flash_message', '停止發佈了物業資訊');
+
+        return Redirect::to('account/dashboard/property');
+
+    }
+
+
+
+
+
     public function postCreate()
     {
 
-        $validator = Validator::make(Input::all(), Property::$propertyRules);
-        if ($validator->passes()) {
+        $validator = Validator::make(Input::all(), Property::$PropertyRules);
+        if ($validator->passes())
+        {
 
             $property_id = Input::get('propertyId');
-
+            // if $property != null then it mean editing
             $createProperty = $this->property->createProperty($property_id);
-            Session::flash('flash_message', 'You property has created, would you like publish now ?');
+            Session::flash('flash_message', '物業資訊以被記錄了，您希望現在就發佈它嗎？');
 
+            // add watermark
+            $this->property->addWaterMarkToPhoto($createProperty->photo);
 
             $attr = $this->property->loadPropertyData($createProperty->id);
             $features = $this->property->loadFeatureList();
             $transportations = $this->property->loadTransportationList();
             $facilities = $this->property->loadFacilityList();
             $property = $this->property->lookUpPropertyByID($createProperty->id);
+
             // load image
-            if ($property[0]->property_photo) {
-                $photo = $this->property->loadPropertyImages($property[0]->property_photo);
-            } else {
+            if ($createProperty->photo)
+            {
+                $photo = $this->property->loadPropertyImages($createProperty->photo);
+            } else
+            {
                 $photo = 'no_photo';
             }
             $this->layout->content = View::make('property.preview')
@@ -118,12 +145,9 @@ class PropertyController extends BaseController
                 ->with('facilities', $facilities)
                 ->with('photos', $photo)
                 ->with('properties', $property);
-
-
-        } else {
-            return Redirect::to('property/create')
-                ->with('flash_message', 'The following errors occurred')
-                ->withErrors($validator)->withInput();
+        } else
+        {
+            return Redirect::to('property/addproperty')->with('flash_message', '以下錯誤發生了')->withErrors($validator)->withInput();
         }
     }
 
@@ -144,40 +168,51 @@ class PropertyController extends BaseController
         $property_owner = $property[0]->property_owner_id;
         $property_resonsible_identity = $property[0]->account_identity;
 
-        if ($property_resonsible_identity == 1) { // a agent
+        if ($property_resonsible_identity == 1)
+        { // a agent
             $property_responible_allow_request = true;
-        } else { // a user
+        } else
+        { // a user
             $allow_request = AccountRepository::checkRequestAllowance($property_id);
-            if ($allow_request == 'ok') {
+            if ($allow_request == 'ok')
+            {
                 $property_responible_allow_request = true;
-            } else {
+            } else
+            {
                 $property_responible_allow_request = false;
             }
         }
 
 
-        if (Auth::check()) {
+        if (Auth::check())
+        {
 
 
-            if (Auth::user()->identity == 0) {
+            if (Auth::user()->identity == 0)
+            {
                 $identity = 'user';
-            } elseif (Auth::user()->identity == 1) {
+            } elseif (Auth::user()->identity == 1)
+            {
                 $identity = 'agent';
             }
 
             // logic for message showing
-            if ($property_responsible == Auth::user()->id) {
+            if ($property_responsible == Auth::user()->id)
+            {
                 $responsible = 'yes';
                 $message = ConversationRepository::loadMessageByProperty($property_id, $responsible);
                 $showMessage = 'yes';
-            } else {
+            } else
+            {
 
                 $hasConversation = ConversationRepository::checkHasConversation($property_id);
-                if ($hasConversation == 'yes') {
+                if ($hasConversation == 'yes')
+                {
                     $showMessage = 'yes';
                     $responsible = 'no';
                     $message = ConversationRepository::loadMessageByProperty($property_id, $responsible);
-                } else {
+                } else
+                {
                     $showMessage = 'no';
                     $message = null;
                 }
@@ -190,35 +225,43 @@ class PropertyController extends BaseController
                 && ($property_responsible == $property_owner) //
                 && ($property_resonsible_identity != 1) //
                 && ($property_responible_allow_request == true)
-            ) {
+            )
+            {
                 $identity = AccountRepository::checkIdentity();
                 $repeat_request = $this->property->checkRepeatRequest($property_id);
-                if (($identity == 'agent') && $repeat_request == 'no') {
+                if (($identity == 'agent') && $repeat_request == 'no')
+                {
 
 
                     $service = Config::get('nestq.REQUISITION_ID');
                     $paid = Service::checkServicePayment($service);
 
-                    if ($paid == 'paid') {
+                    if ($paid == 'paid')
+                    {
                         $template = AccountRepository::loadTemplate();
                         $showRequest = 'yes';
-                    } else {
+                    } else
+                    {
                         $template = '';
                         $showRequest = 'no';
                     }
-                } elseif (($identity == 'agent') && $repeat_request == 'yes') {
+                } elseif (($identity == 'agent') && $repeat_request == 'yes')
+                {
                     Session::flash('flash_message', 'Request sent');
                     $showRequest = 'no';
                     $template = '';
-                } else {
+                } else
+                {
                     $showRequest = 'no';
                     $template = '';
                 }
-            } else {
+            } else
+            {
                 $showRequest = 'no';
                 $template = '';
             }
-        } else {
+        } else
+        {
             $identity = 'someone';
             $showMessage = 'no';
             $template = '';
@@ -229,9 +272,15 @@ class PropertyController extends BaseController
         // load image
         $photo = $this->property->loadPropertyImages($property[0]->property_photo);
 
+        if (sizeof($photo) == 0)
+        {
+            $photo = 'no_photo';
+        }
+
         // count page view
         $countView = $this->property->countPageView($property_id);
-        if ($countView != 'ok') {
+        if ($countView != 'ok')
+        {
             throw new Exception("Cant count page view", 1);
         }
 
@@ -254,25 +303,43 @@ class PropertyController extends BaseController
 
     public function postRequisition()
     {
-
         $propertyId = Input::get('propertyId');
-        $check = $this->property->checkRequest();
-        $service = Config::get('nestq.REQUISITION_ID');
-        $paid = Service::checkServicePayment($service);
-        if ($check == 'ok' && $paid == 'paid') {
-            $request = $this->property->saveRequest();
-            Session::flash('flash_message', 'request sent');
+
+        $validator = Validator::make(Input::all(), Property::$RequisitionRules);
+        if ($validator->passes())
+        {
+
+//            $propertyId = Input::get('propertyId');
+            $check = $this->property->checkRequest();
+            $service = Config::get('nestq.REQUISITION_ID');
+            $paid = Service::checkServicePayment($service);
+            if ($check == 'ok' && $paid == 'paid')
+            {
+                $request = $this->property->saveRequest();
+                Session::flash('flash_message', 'request sent');
+
+                return Redirect::action('PropertyController@getPropertyDetail', array($propertyId));
+            } elseif ($check == 'repeat' && $paid == 'paid')
+            {
+                Session::flash('flash_message', 'Repeat request');
+
+                return Redirect::action('PropertyController@getPropertyDetail', array($propertyId));
+            } elseif ($paid == 'not_paid')
+            {
+                $this->layout->content = View::make('payment.pricepage');
+            } else
+            {
+                $this->layout->content = View::make('system.error');
+            }
+
+        } else
+        {
+            Session::flash('flash_message', '輸入的請求超過了字數限制');
 
             return Redirect::action('PropertyController@getPropertyDetail', array($propertyId));
-        } elseif ($check == 'repeat' && $paid == 'paid') {
-            Session::flash('flash_message', 'Repeat request');
-
-            return Redirect::action('PropertyController@getPropertyDetail', array($propertyId));
-        } elseif ($paid == 'not_paid') {
-            $this->layout->content = View::make('payment.pricepage');
-        } else {
-            $this->layout->content = View::make('system.error');
         }
+
+
     }
 
     public function getRequestByProperty($property_id)
@@ -280,13 +347,15 @@ class PropertyController extends BaseController
 
         $auth = $this->property->checkOwnership($property_id);
 
-        if ($auth == 'ok') {
+        if ($auth == 'ok')
+        {
             $request = $this->property->loadRequestByPropertyId($property_id);
             $property = $this->property->lookUpPropertyByID($property_id);
             $this->layout->content = View::make('property.request')
                 ->with('property', $property[0])
                 ->with('requests', $request);
-        } else {
+        } else
+        {
             $this->layout->content = View::make('system.error');
         }
     }
@@ -303,8 +372,8 @@ class PropertyController extends BaseController
     public function postAccept()
     {
 
-        $accept_agent = $this->property->handOverPropertyToAgent();
-        Session::flash('flash_message', 'Your Property has hand over');
+        $this->property->handOverPropertyToAgent();
+        Session::flash('flash_message', '您的物業資訊成功轉交代理人');
 
         // return Redirect::action('AccountController@getDashboard', array('dashboard_content'=>'property'));
         return Redirect::to('account/dashboard/property');

@@ -11,3 +11,7 @@
 |
 */
 
+Artisan::add(new SendActiveMailCommand());
+
+
+//Artisan::add(App::make(new SendActiveMailCommand(new \Repository\ActiveMailRepository())));

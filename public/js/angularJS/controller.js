@@ -10,7 +10,7 @@ nestq.controller('ActivePushCtrl', ['$scope', '$interval', '$http', 'Activepush'
 
         $scope.showpush = false;
         $scope.ajax = {};
-        var activepush = new EventSource("http://localhost:8888/nestq/public/activepush");
+        var activepush = new EventSource("http://nestq.local:8000/activepush");
         //activepush.onopen = function (event) {
         //    console.log("open: ", event.data);
         //};
@@ -40,7 +40,7 @@ nestq.controller('ActivePushCtrl', ['$scope', '$interval', '$http', 'Activepush'
 
 nestq.controller('NotificationCtrl', ['$scope',
     function ($scope) {
-        var notification = new EventSource("http://localhost:8888/nestq/public/notification");
+        var notification = new EventSource("http://nestq.local:8000/notification");
 //        notification.onopen = function(event) {
 //            console.log("open: ", event.data);
 //        };
@@ -73,7 +73,7 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
         var $slider = $('#full-slider');
         var $sliderPanels = $slider.children('.slide-panel');
 
-        var connection = new EventSource("http://localhost:8888/nestq/public/angularJS");
+        var connection = new EventSource("http://nestq.local:8000/angularJS");
 
         connection.onmessage = function (event) {
             $scope.$apply(function () {
@@ -134,7 +134,7 @@ nestq.controller('messengerCtrl', ['$scope', '$http', 'Messenger',
                     $scope.message.lastid = $scope.pushMessage[lastCell].message_id;
 
 
-                    var listener = new EventSource("http://localhost:8888/nestq/public/messengerMessage/" + conversation_id);
+                    var listener = new EventSource("http://nestq.local:8000/messengerMessage/" + conversation_id);
 
                     listener.onmessage = function (event) {
                         $scope.$apply(function () {

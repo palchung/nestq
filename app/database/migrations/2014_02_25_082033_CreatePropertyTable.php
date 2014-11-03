@@ -18,8 +18,8 @@ class CreatePropertyTable extends Migration {
                         $table->boolean('deal', 64)->nullable();
                         $table->integer('structuresize');
                         $table->integer('actualsize');
-                        $table->decimal('price', 5, 2);
-                        $table->decimal('rentprice', 5, 2);
+                        $table->integer('price');
+                        $table->integer('rentprice');
                         $table->smallInteger('soldorrent');
                         $table->mediumText('photo')->nullable();
                         $table->string('geolocation');

@@ -76,19 +76,19 @@ class ConversationController extends BaseController {
     public function saveMessage()
     {
 
-        $validator = Validator::make(Input::all(), Conversation::$messageRules);
-        if ($validator->passes())
-        {
+//        $validator = Validator::make(Input::all(), Conversation::$messageRules);
+//        if ($validator->passes())
+//        {
 
             $conversation_id = $this->conversation->saveConversation(Input::get('conversationId'));
 //            $newMessage = Input::get('message');
             $newMessage = $this->conversation->loadMessageInDatabase($conversation_id);
 
             return Response::json(array('response' => $newMessage));
-        } else
-        {
-            return Response::json(array('response' => false));
-        }
+//        } else
+//        {
+//            return Response::json(array('response' => false));
+//        }
 
     }
 

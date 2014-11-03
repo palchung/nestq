@@ -28,9 +28,10 @@
                 Email:
                 <span class="pull-right std-bold">{{$account->email}} </span> <br/>
                 電話: <span class="pull-right std-bold">{{$account->tel}}</span> <br/>
-                手機: <span class="pull-right std-bold">{{$account->cell_tel}}</span></li> <br/>
+
 
                 @if ($account->identity == 1)
+                手機: <span class="pull-right std-bold">{{$account->cell_tel}}</span></li> <br/>
                 <hr/>
                 評級: <span class="pull-right std-bold">{{$account->rating}}</span> <br/>
                 牌照: <span class="pull-right std-bold">{{$account->license}}</span></li> <br/>

@@ -22,7 +22,6 @@ class RemindersController extends BaseController {
     public function postRemind()
     {
 
-
         $response = Password::remind(Input::only('email'), function ($message)
         {
             $message->subject('重新設定 Nestq 登入密碼');
