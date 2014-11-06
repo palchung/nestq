@@ -3,9 +3,7 @@
 return array(
 
 
-
-    'cipher' => MCRYPT_RIJNDAEL_256,
-
+    'cipher'    => MCRYPT_RIJNDAEL_256,
 
 
     /*
@@ -114,7 +112,8 @@ return array(
         'Illuminate\Workbench\WorkbenchServiceProvider',
         'Artdarek\OAuth\OAuthServiceProvider',
         'Intervention\Image\ImageServiceProvider',
-        'Msurguy\Honeypot\HoneypotServiceProvider'
+        'Msurguy\Honeypot\HoneypotServiceProvider',
+        'Laracasts\Flash\FlashServiceProvider'
 
     ),
 
@@ -182,7 +181,8 @@ return array(
         'Validator'   => 'Illuminate\Support\Facades\Validator',
         'View'        => 'Illuminate\Support\Facades\View',
         'OAuth'       => 'Artdarek\OAuth\Facade\OAuth',
-        'Image'       => 'Intervention\Image\Facades\Image'
+        'Image'       => 'Intervention\Image\Facades\Image',
+        'Flash'       => 'Laracasts\Flash\Flash'
 
     ),
 

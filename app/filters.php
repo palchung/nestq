@@ -41,7 +41,7 @@ App::before(function ($request)
     Input::merge(array_strip_tags(Input::all()));
 
     //trim all input
-//    Input::merge(array_map('trim', Input::all()));
+    Input::merge(array_map('trim', Input::all()));
 
 });
 
