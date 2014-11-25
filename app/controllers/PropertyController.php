@@ -111,6 +111,8 @@ class PropertyController extends BaseController {
 
     public function postCreate()
     {
+        // trim all input
+        Input::merge(array_map('trim', Input::all()));
 
         $validator = Validator::make(Input::all(), Property::$PropertyRules);
         if ($validator->passes())
