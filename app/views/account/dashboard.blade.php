@@ -33,6 +33,12 @@
         <section class="tabs">
             <ul class="">
                 <li>
+                    <a class="" href="{{ url('account/dashboard/activity_log')}}" role="button">
+                        <i class="icon-home-1x"></i>
+                        訊息
+                    </a>
+                </li>
+                <li>
                     <a class="" href="{{ url('account/dashboard/property')}}" role="button">
                         <i class="icon-home-1x"></i>
                         物業
@@ -75,6 +81,8 @@
             @include ('account.dashboard_account_setting')
             @elseif ($dashboard_content == 'account_edit')
             @include ('account.dashboard_account_edit')
+            @elseif ($dashboard_content == 'activity_log')
+            @include ('account.dashboard_activity_log')
             @endif
         </div>
     </div>

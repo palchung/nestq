@@ -117,7 +117,7 @@ class PushController extends BaseController {
         echo "data:" . json_encode($msg) . "\n\n";
 
         echo "data:" . $msg . PHP_EOL;
-        echo PHP_EOL;
+        // echo PHP_EOL;
         ob_flush();
         flush();
 //        sleep(Config::get('nestq.ACTIVE_PUSH_INTERVAL'));

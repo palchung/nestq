@@ -1,9 +1,9 @@
 <?php
 
-Route::any("/property/create", [
-    "as"   => "/property/create",
-    "uses" => "PropertyController@postCreate"
-]);
+// Route::any("/property/create", [
+//     "as"   => "/property/create",
+//     "uses" => "PropertyController@postCreate"
+// ]);
 
 
 Route::controller('property', 'PropertyController');

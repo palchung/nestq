@@ -91,6 +91,42 @@
 
         <hr>
 
+            <table class="std-table">
+                <tr>
+                    <td>
+                        <div class="searchbox-label"><span class="std-bold">業主</span></div>
+                    </td>
+                    <td>
+                        <?php if (Session::has('user'))
+                        {
+                            $user_default = Session::get('user');
+                        } else
+                        {
+                            $user_default = null;
+                        } ?>
+                        {{ Form::checkbox('user', 'user', $user_default, ['id' => 'searchbox-user','class'=>'std-checkbox']) }}
+                        <label for="searchbox-user" class="checkbox-label"></label>
+                    </td>
+                    <td>
+                        <div class="searchbox-label"><span class="std-bold">物業代理</span></div>
+                    </td>
+                    <td>
+                        <?php if (Session::has('agent'))
+                        {
+                            $agent_default = Session::get('agent');
+                        } else
+                        {
+                            $agent_default = null;
+                        } ?>
+                        {{ Form::checkbox('agent', 'agent', $agent_default, ['id' => 'searchbox-agent','class'=>'std-checkbox'])}}
+                        <label for="searchbox-agent" class="checkbox-label"></label>
+
+                    </td>
+                </tr>
+            </table>
+
+
+            <hr>
 
         <table class="std-table">
 
@@ -266,42 +302,6 @@
         <div class="panel-body">
 
 
-            <table class="std-table">
-                <tr>
-                    <td>
-                        <div class="searchbox-label"><span class="std-bold">業主</span></div>
-                    </td>
-                    <td>
-                        <?php if (Session::has('user'))
-                        {
-                            $user_default = Session::get('user');
-                        } else
-                        {
-                            $user_default = null;
-                        } ?>
-                        {{ Form::checkbox('user', 'user', $user_default, ['id' => 'searchbox-user','class'=>'std-checkbox']) }}
-                        <label for="searchbox-user" class="checkbox-label"></label>
-                    </td>
-                    <td>
-                        <div class="searchbox-label"><span class="std-bold">物業代理</span></div>
-                    </td>
-                    <td>
-                        <?php if (Session::has('agent'))
-                        {
-                            $agent_default = Session::get('agent');
-                        } else
-                        {
-                            $agent_default = null;
-                        } ?>
-                        {{ Form::checkbox('agent', 'agent', $agent_default, ['id' => 'searchbox-agent','class'=>'std-checkbox'])}}
-                        <label for="searchbox-agent" class="checkbox-label"></label>
-
-                    </td>
-                </tr>
-            </table>
-
-
-            <hr>
 
             {{ Form::label('發佈時間') }}
             <span class="pull-right">
@@ -399,7 +399,7 @@
 
 </div>
 
-{{ Form::honeypot('my_name', 'my_time') }}
+
 {{ Form::submit('搜尋', array('class'=>'btn btn-large btn-primary btn-block'))}}
 {{ Form::close() }}
 

@@ -24,102 +24,114 @@
                         <div class="media-body">
                             @if ($property->property_publish == 1)
                             <span class="color-secondary std-bold">
-                                 已發佈 -
-                            </span>
-                            @elseif ($property->property_publish == 0)
-                            <span class="std-bold">
-                                 未發佈 -
-                            </span>
-                            @endif
-                            <span class="media-heading underline">
-                                {{ link_to_action('PropertyController@getPropertyDetail',
-                                    $property->property_name,
-                                    $parameters = array('id' => $property->property_id),
-                                    $attributes = array('class' => 'std-link'))
-                                }}
-                            </span>
+                               已發佈 -
+                           </span>
+                           @elseif ($property->property_publish == 0)
+                           <span class="std-bold">
+                               未發佈 -
+                           </span>
+                           @endif
+                           <span class="media-heading underline">
+                            {{ link_to_action('PropertyController@getPropertyDetail',
+                                $property->property_name,
+                                $parameters = array('id' => $property->property_id),
+                                $attributes = array('class' => 'std-link'))
+                            }}
+                        </span>
 
-                            <!-- button -->
-                            <span class="pull-right">
+                        <!-- button -->
+                        <span class="pull-right">
 
-                                <ul class="list-inline">
-                                    <li>
-                                        @if ($property->property_publish == 1)
-                                        {{ Form::open(array('url'=>'property/laydown', 'class'=>'')) }}
-                                        {{ Form::hidden('propertyId', $property->property_id) }}
-                                        {{ Form::submit('停止發佈', array('class'=>'button_sm'))}}
-                                        {{ Form::close() }}
-                                        @elseif ($property->property_publish == 0)
-                                        {{ Form::open(array('url'=>'property/publish', 'class'=>'')) }}
-                                        {{ Form::hidden('propertyId', $property->property_id) }}
-                                        {{ Form::submit('發佈', array('class'=>'button_sm_red'))}}
-                                        {{ Form::close() }}
-                                        @endif
-                                    </li>
-                                    <li>
-                                        @if ($property->property_responsible_id == Auth::user()->id)
-                                        {{ Form::open(array('url'=>'property/edit', 'class'=>'')) }}
-                                        {{ Form::hidden('propertyId', $property->property_id) }}
-                                        {{ Form::hidden('directory', $property->property_photo) }}
-                                        {{ Form::submit('編輯', array('class'=>'button_sm'))}}
-                                        {{ Form::close() }}
-                                        @endif
-                                    </li>
-                                </ul>
-                            </span>
+                            <ul class="list-inline">
+                                <li>
+                                    @if ($property->property_publish == 1)
+                                    {{ Form::open(array('url'=>'property/laydown', 'class'=>'')) }}
+                                    {{ Form::hidden('propertyId', $property->property_id) }}
+                                    {{ Form::submit('停止發佈', array('class'=>'button_sm'))}}
+                                    {{ Form::close() }}
+                                    @elseif ($property->property_publish == 0)
+                                    {{ Form::open(array('url'=>'property/publish', 'class'=>'')) }}
+                                    {{ Form::hidden('propertyId', $property->property_id) }}
+                                    {{ Form::submit('發佈', array('class'=>'button_sm_red'))}}
+                                    {{ Form::close() }}
+                                    @endif
+                                </li>
+                                <li>
+                                    @if ($property->property_responsible_id == Auth::user()->id)
+                                    {{ Form::open(array('url'=>'property/edit', 'class'=>'')) }}
+                                    {{ Form::hidden('propertyId', $property->property_id) }}
+                                    {{ Form::hidden('directory', $property->property_photo) }}
+                                    {{ Form::submit('編輯', array('class'=>'button_sm'))}}
+                                    {{ Form::close() }}
+                                    @endif
+                                </li>
+                            </ul>
+                        </span>
 
-                            <br/>
+                        <br/>
 
-                            <small> - 最後更新: {{ $property->property_updated_at}}</small>
-                            <br/>
-                            售價: {{$property->property_price}} 萬 / 租金: {{$property->property_rentprice}} 千
+                        <small> - 最後更新: {{ $property->property_updated_at}}</small>
+                        <br/>
+                        售價: {{$property->property_price}} 萬 / 租金: {{$property->property_rentprice}} 千
 
 
-                            @if ($property->property_owner_id != $property->property_responsible_id)
-                            <hr/>
-                            @if ($property->property_owner_id == Auth::user()->id)
+                        @if ($property->property_owner_id != $property->property_responsible_id)
+                        <hr/>
+                        @if ($property->property_owner_id == Auth::user()->id)
 
-                            {{HTML :: linkAction ('AccountController@getLookUpAccount', '代理資料', array
-                            ($property->property_responsible_id), array ('class' => 'std-link color-secondary'))}}
-                            @elseif ($property->property_responsible_id == Auth::user()->id)
-                            {{HTML :: linkAction ('AccountController@getLookUpAccount', '業主資料', array
-                            ($property->property_owner_id), array ('class' => 'std-link color-secondary'))}}
-                            @endif
+                        <ul class="list-inline">
+                            <li>
+                                {{HTML :: linkAction ('AccountController@getLookUpAccount', '代理資料', array
+                                ($property->property_responsible_id), array ('class' => 'std-link color-secondary'))}}
+                            </li>
+                            <li>
 
-                            @elseif ($property->property_owner_id == $property->property_responsible_id)
+                                {{HTML :: linkAction ('PropertyController@postCanelRequest', '取回代理權', array
+                                ($property->id), array ('class' => 'std-link color-secondary'))}}
+                            </li>
+                        </ul>
 
-                            @if($showPropertyRequest == 'yes')
-                            <hr/>
-                            @foreach ($requests as $request)
-                            @if ($request->property_id == $property->property_id)
-                            {{HTML :: linkAction ('PropertyController@getRequestByProperty',
+                        @elseif ($property->property_responsible_id == Auth::user()->id)
+
+                        {{HTML :: linkAction ('AccountController@getLookUpAccount', '業主資料', array
+                        ($property->property_owner_id, $property->property_responsible_id), array ('class' => 'std-link color-secondary'))}}
+
+                        @endif
+
+                        @elseif ($property->property_owner_id == $property->property_responsible_id)
+
+                        @if($showPropertyRequest == 'yes')
+                        <hr/>
+                        @foreach ($requests as $request)
+                        @if ($request->property_id == $property->property_id)
+                        {{HTML :: linkAction ('PropertyController@getRequestByProperty',
                             '代理請求 :'. $request->nosrequest,
                             array ($property->property_id),
                             array ('class' => 'std-link color-secondary'))
-                            }}
-                            @endif
-                            @endforeach
-                            @endif
+                        }}
+                        @endif
+                        @endforeach
+                        @endif
 
-                            @endif
+                        @endif
 
 
-                            Nos of view: <span class="std-badge-primary">{{$property->view}}</span> -
-                            Nos of activepush: <span class="std-badge-primary">{{$property->activepush}}</span> -
-                            nos of activemail: <span class="std-badge-primary">{{$property->activemail}}</span> -
-                            nos of conversation: <span class="std-badge-primary">{{$property->conversation}}</span>
+                        總瀏覽: <span class="std-badge-primary">{{$property->view}}</span> -
+                        推播: <span class="std-badge-primary">{{$property->activepush}}</span> -
+                        物業報: <span class="std-badge-primary">{{$property->activemail}}</span> -
+                        會話: <span class="std-badge-primary">{{$property->conversation}}</span>
 
-                        </div>
+                    </div>
 
-                    </li>
-                </ul>
-            </div>
+                </li>
+            </ul>
+        </div>
 
-            <br/>
+        <br/>
 
-        </td>
-    </tr>
-    @endforeach
+    </td>
+</tr>
+@endforeach
 </table>
 
 

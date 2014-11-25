@@ -2,10 +2,10 @@
 
 
 
-    <div class="three-col center-block">
+    <div class="three-col center-block bg-grey">
 
 
-        <div class="left">
+        <div class="left center">
 
         <div class="brand-name-footer">
                 <a href="{{ url('/')}}" >
@@ -14,13 +14,13 @@
             </div>
             <hr/>
             <div>
-                Nestq Company Limited © 2014. All Rights Reserved.
+                Nestq Company Limited © 2015. All Rights Reserved.
             </div>
 
 
         </div>
 
-        <div class="middle">
+        <div class="middle center">
             <br/>
             <h1><span class="std-bold">Nestq</span></h1><br/>
 
@@ -43,7 +43,7 @@
     </div>
 
 
-    <div class="right">
+    <div class="right center">
 
         <i class="icon-envelope-o"></i>
         <br/>
@@ -54,7 +54,7 @@
 
         有疑問？找我們談談吧 :)<br/>
         <span class="std-bold">email: </span><span class="underline">service@nestq.com</span> <br/>
-        <span class="std-bold">電話: </span><span class="underline">2325 8977</span>
+
 
     </div>
 

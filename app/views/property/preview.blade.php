@@ -105,7 +105,7 @@
 
 <?php $nosOfRow = 6; ?>
 
-<span class="title">特色</span>
+<span class="sub-title">特色</span>
 <br/>
 <br/>
 <table class="std-table">
@@ -126,7 +126,7 @@
         @endif
 
         <td>
-          <div class="searchbox-label">{{ $feature->name }}</div>
+          <div class="boxcheck-label">{{ $feature->name }}</div>
       </td>
       <td>
           {{ Form::checkbox('featuresList[]', $feature->id,  $checked, ['disabled','class'=>'std-checkbox','id' => 'property-create-feature' . $feature->id]) }}<label class="checkbox-label" for = {{'property-create-feature' . $feature->id}}></label>
@@ -140,7 +140,7 @@
 </table>
 
 <br/>
-<span class="title">附近設施</span>
+<span class="sub-title">附近設施</span>
 <br/>
 <br/>
 <table class="std-table">
@@ -161,7 +161,7 @@
         @endif
 
         <td>
-          <div class="searchbox-label">{{ $facility->name }}</div>
+          <div class="boxcheck-label">{{ $facility->name }}</div>
       </td>
       <td>
           {{ Form::checkbox('facilitiesList[]', $facility->id,  $checked, ['disabled','class'=>'std-checkbox','id' => 'property-create-facility' . $facility->id]) }}<label class="checkbox-label" for = {{'property-create-facility' . $facility->id}}></label>
@@ -176,7 +176,7 @@
 
 <br/>
 
-<span class="title">交通</span>
+<span class="sub-title">交通</span>
 <br/>
 <br/>
 <table class="std-table">
@@ -197,7 +197,7 @@
         @endif
 
         <td>
-          <div class="searchbox-label">{{ $transportation->name }}</div>
+          <div class="boxcheck-label">{{ $transportation->name }}</div>
       </td>
       <td>
           {{ Form::checkbox('transportationsList[]', $transportation->id,  $checked, ['disabled','class'=>'std-checkbox','id' => 'property-create-transportation' . $transportation->id]) }}<label class="checkbox-label" for = {{'property-create-transportation' . $transportation->id}}></label>

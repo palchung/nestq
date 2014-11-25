@@ -19,16 +19,30 @@ Class Service extends Eloquent {
 //    }
 
     public static function checkServicePayment($service_id = null) {
-        $check = DB::table('service')
-            ->where('account_id', '=', Auth::user()->id)
-            ->where('item_id', '=', $service_id)
-            ->where('period', '>', new DateTime('today'))
-            ->get();
-        if (sizeof($check) == 0) {
+
+        $free = Config::get('nestq.FREE');
+
+        if ($free == true)
+        {
+         return 'paid';
+     }elseif($free == false)
+     {
+         $check = DB::table('service')
+         ->where('account_id', '=', Auth::user()->id)
+         ->where('item_id', '=', $service_id)
+         ->where('period', '>', new DateTime('today'))
+         ->get();
+         if (sizeof($check) == 0) {
             return 'not_paid';
         } else {
             return 'paid';
         }
     }
+
+
+
+
+
+}
 
 }

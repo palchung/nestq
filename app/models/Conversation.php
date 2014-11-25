@@ -4,7 +4,7 @@ Class Conversation extends Eloquent {
 
         protected $table = 'conversation';
         public static $messageRules = array(
-            'message'           => 'required|alpha|min:2',
+            // 'message'           => 'required|alpha|min:2',
             //spam prevention
             'my_name'   => 'honeypot',
             'my_time'   => 'required|honeytime:5',
@@ -17,8 +17,8 @@ Class Conversation extends Eloquent {
         public function property() {
                 return $this->hasOne('Property');
         }
-        
-        
-        
-        
+
+
+
+
 }

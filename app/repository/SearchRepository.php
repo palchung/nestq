@@ -18,8 +18,25 @@ use StdClass;
 
 class SearchRepository {
 
-    public function __construct()
-    {
+    public $region;
+    public $category;
+    public $facility;
+    public $rent;
+    public $sale;
+    public $user;
+    public $agent;
+    public $price;
+    public $priceRange;
+    public $rentprice;
+    public $rentpriceRange;
+    public $actualsize;
+    public $sizeRange;
+    public $period;
+    public $nosroom;
+    public $noslivingroom;
+
+
+    public function cacheInput(){
 
         $this->region = Input::get('region');
         $this->region = (isset($this->region)) ? $this->region : null;
@@ -62,58 +79,94 @@ class SearchRepository {
         Session::put('sizeRange', $this->sizeRange);
 
         $this->period = Input::get('period');
+        Session::put('period', $this->period);
         $this->nosroom = Input::get('nosroom');
+        Session::put('nosroom', $this->nosroom);
         $this->noslivingroom = Input::get('noslivingroom');
+        Session::put('noslivingroom', $this->noslivingroom);
+
+        return;
     }
 
-    public function searchProperty()
+
+
+    public function storeQuerystring(){
+
+        $querystring = [
+        'region'         => Session::get('region'),
+        'category'       => Session::get('category'),
+        'rent'           => Session::get('rent'),
+        'sale'           => Session::get('sale'),
+        'price'          => Session::get('price'),
+        'priceRange'     => Session::get('priceRange'),
+        'rentprice'      => Session::get('rentprice'),
+        'rentpriceRange' => Session::get('rentpriceRange'),
+        'actualsize'     => Session::get('actualsize'),
+        'sizeRange'      => Session::get('sizeRange'),
+        'rent'           => Session::get('rent'),
+        'user'           => Session::get('user'),
+        'agent'          => Session::get('agent'),
+        'period'         => Session::get('period'),
+        'nosroom'        => Session::get('nosroom'),
+        'noslivingroom'  => Session::get('noslivingroom'),
+        'facility'       => Session::get('facility')
+        ];
+
+        return $querystring;
+
+    }
+
+
+
+    public function searchProperty($querystring, $sort = null)
     {
 
         $seeking_rental = false;
 
-        $query = DB::table('property');
+        $query = Property::query();
 
-        if ( ! ( ! empty($this->user) && ! empty($this->agent)))
+
+        if ( ! ( ! empty($querystring['user']) && ! empty($querystring['agent'])))
         {
-            if ( ! empty($this->user) || ! empty($this->agent))
+            if ( ! empty($querystring['user']) || ! empty($querystring['agent']))
             {
                 $query->join('account', 'property.responsible_id', '=', 'account.id');
             }
 
-            if ( ! empty($this->user))
+            if ( ! empty($querystring['user']))
             {
                 $query->where('account.identity', '=', 0); //property ppst from user
-            } elseif ( ! empty($this->agent))
+            } elseif ( ! empty($querystring['agent']))
             {
                 $query->where('account.identity', '=', 1); //property post from agent
             }
         }
-        if ( ! is_null($this->region))
+        if ( ! is_null($querystring['region']))
         {
             $query->join('region', 'property.region_id', '=', 'region.id');
-            $query->whereIn('region.id', $this->region);
+            $query->whereIn('region.id', $querystring['region']);
             //$query->where('region.active','=',1);
         }
-        if ( ! is_null($this->category))
+        if ( ! is_null($querystring['category']))
         {
             $query->join('category', 'property.category_id', '=', 'category.id');
-            $query->whereIn('category.id', $this->category);
+            $query->whereIn('category.id', $querystring['category']);
             //$query->where('category.active','=',1);
         }
-        if ( ! is_null($this->facility))
+        if ( ! is_null($querystring['facility']))
         {
             $query->join('property_facility', 'property.id', '=', 'property_facility.property_id');
             $query->join('facility', 'property_facility.facility_id', '=', 'facility.id');
-            $query->whereIn('property_facility.facility_id', $this->facility);
+            $query->whereIn('property_facility.facility_id', $querystring['facility']);
             //$query->where('facility.active','=',1);
         }
-        if ( ! ( ! empty($this->rent) && ! empty($this->sale)))
+        if ( ! ( ! empty($querystring['rent']) && ! empty($querystring['sale'])))
         {
-            if ( ! empty($this->rent))
+            if ( ! empty($querystring['rent']))
             {
                 $y = Array(0, 2); // 0 stand for rental
                 $seeking_rental = true;
-            } elseif ( ! empty($this->sale))
+            } elseif ( ! empty($querystring['sale']))
             {
                 $y = Array(1, 2);
             } else
@@ -124,52 +177,52 @@ class SearchRepository {
             $query->whereIn('property.soldorrent', $y);
         }
 
-        if ( ! empty($this->price))
+        if ( ! empty($querystring['price']))
         {
-            $priceUpper = $this->price + $this->priceRange;
-            $priceLower = $this->price - $this->priceRange;
+            $priceUpper = $querystring['price'] + $querystring['priceRange'];
+            $priceLower = $querystring['price'] - $querystring['priceRange'];
             $query->where('property.price', '<=', $priceUpper);
             $query->where('property.price', '>=', $priceLower);
         }
 
-        if ($seeking_rental && ! empty($this->rentprice))
+        if ($seeking_rental && ! empty($querystring['rentprice']))
         {
-            $rentpriceUpper = $this->rentprice + $this->rentpriceRange;
-            $rentpriceLower = $this->rentprice - $this->rentpriceRange;
+            $rentpriceUpper = $querystring['rentprice'] + $querystring['rentpriceRange'];
+            $rentpriceLower = $querystring['rentprice'] - $querystring['rentpriceRange'];
             $query->where('property.rentprice', '<=', $rentpriceUpper);
             $query->where('property.rentprice', '>=', $rentpriceLower);
         }
-        if ( ! empty($this->actualsize))
+        if ( ! empty($querystring['actualsize']))
         {
-            $areaUpper = $this->actualsize + $this->sizeRange;
-            $areaLower = $this->actualsize - $this->sizeRange;
+            $areaUpper = $querystring['actualsize'] + $querystring['sizeRange'];
+            $areaLower = $querystring['actualsize'] - $querystring['sizeRange'];
             $query->where('property.actualsize', '<=', $areaUpper);
             $query->where('property.actualsize', '>=', $areaLower);
         }
 
-        if ($this->period != 'all')
+        if ($querystring['period'] != 'all')
         {
-            $x = date('Y-m-d') - $this->period;
+            $x = date('Y-m-d') - $querystring['period'];
             $query->where('property.created_at', '>=', $x);
         }
-        if ($this->nosroom != 'all')
+        if ($querystring['nosroom'] != 'all')
         {
-            if ($this->nosroom == '4')
+            if ($querystring['nosroom'] == '4')
             {
-                $query->where('property.nosroom', '>=', $this->nosroom);
+                $query->where('property.nosroom', '>=', $querystring['nosroom']);
             } else
             {
-                $query->where('property.nosroom', '=', $this->nosroom);
+                $query->where('property.nosroom', '=', $querystring['nosroom']);
             }
         }
-        if ($this->noslivingroom != 'all')
+        if ($querystring['noslivingroom'] != 'all')
         {
-            if ($this->noslivingroom == 4)
+            if ($querystring['noslivingroom'] == 4)
             {
-                $query->where('property.noslivingroom', '>=', $this->noslivingroom);
+                $query->where('property.noslivingroom', '>=', $querystring['noslivingroom']);
             } else
             {
-                $query->where('property.noslivingroom', '=', $this->noslivingroom);
+                $query->where('property.noslivingroom', '=', $querystring['noslivingroom']);
             }
         }
         $query->select([
@@ -190,11 +243,26 @@ class SearchRepository {
             'property.floor as property_floor',
             'property.room as property_room',
             'property.block as property_block'
-        ]);
+            ]);
         $query->where('property.publish', '=', 1);
 
         $query->groupBy('property.id');
-        $query->orderBy('property.updated_at', 'desc');
+
+
+        switch ($sort) {
+            case 'period':
+                $query->orderBy('property.updated_at', 'desc');
+            break;
+            case 'price':
+                $query->orderBy('property.price', 'desc');
+            break;
+            case 'rentprice':
+                $query->orderBy('property.rentprice', 'desc');
+            break;
+            default:
+                $query->orderBy('property.updated_at', 'desc');
+            break;
+        }
 
         return $query;
     }

@@ -69,9 +69,9 @@
 
 
     <div class="left-panel">
-        <span class="sub-title"> promotion text </span>
+        <span class="sub-title"> 設定 </span>
         <br/>
-        sadasdasdasdas
+
     </div>
 
 
@@ -84,58 +84,58 @@
 
 
             <div class="form-group">
-                <label for="inputAllowAgent" class="col-sm-5 control-label">Allow agent request you</label>
+                <label for="inputAllowAgent" class="col-sm-5 control-label">容許物業代理請求</label>
 
                 <div class="col-sm-3">
-                    {{ Form::select('agent_request', array('0' => 'No', '1' => 'Yes'), $setting['agent_request'],
+                    {{ Form::select('agent_request', array('0' => '不可以', '1' => '可以'), $setting['agent_request'],
                     array('id' =>'inputAllowAgent', 'class' => 'form-control')) }}
                 </div>
             </div>
 
 
             <div class="form-group">
-                <label for="inputAllowContact" class="col-sm-5 control-label">Allow disclose contact</label>
+                <label for="inputAllowContact" class="col-sm-5 control-label">透露個人資料</label>
 
                 <div class="col-sm-3">
-                    {{ Form::select('disclose_contact', array('0' => 'No', '1' => 'Yes'), $setting['disclose_contact'],
+                    {{ Form::select('disclose_contact', array('0' => '不可以', '1' => '可以'), $setting['disclose_contact'],
                     array('id' =>'inputAllowContact', 'class' => 'form-control')) }}
                 </div>
             </div>
 
 
-            <div class="form-group">
-                <label for="inputAllowEmail" class="col-sm-5 control-label">allow promotion email</label>
 
-                <div class="col-sm-3">
-                    {{ Form::select('promotion_email', array('0' => 'No', '1' => 'Yes'), $setting['promotion_email'],
-                    array('id' =>'inputAllowEmail', 'class' => 'form-control')) }}
-                </div>
-            </div>
 
 
             <hr/>
 
 
-            <span class="sub-title"> Active Mail setting </span>
+            <span class="sub-title"> 物業報設定 </span>
             <br/>
             <br/>
-
-
             <div class="form-group">
-                <label for="inputSource" class="col-sm-5 control-label">Source</label>
+                <label for="inputAllowEmail" class="col-sm-5 control-label">接收物業報</label>
 
                 <div class="col-sm-3">
-                    {{ Form::select('source', array('0' => 'user', '1' => 'agent', '2' => 'both'), $setting['source'],
+                    {{ Form::select('promotion_email', array('0' => '不接收', '1' => '不接收'), $setting['promotion_email'],
+                    array('id' =>'inputAllowEmail', 'class' => 'form-control')) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputSource" class="col-sm-5 control-label">物業來源</label>
+
+                <div class="col-sm-3">
+                    {{ Form::select('source', array('0' => '業主', '1' => '物業代理', '2' => '所有'), $setting['source'],
                     array('id' =>'inputSource', 'class' => 'form-control')) }}
                 </div>
             </div>
 
 
             <div class="form-group">
-                <label for="inputSoldorrent" class="col-sm-5 control-label">Sold or rent</label>
+                <label for="inputSoldorrent" class="col-sm-5 control-label">租售</label>
 
                 <div class="col-sm-3">
-                    {{ Form::select('soldorrent', array('0' => 'rent', '1' => 'sold', '2' => 'both'), $setting['soldorrent'],
+                    {{ Form::select('soldorrent', array('0' => '租盤', '1' => '售盤', '2' => '所有'), $setting['soldorrent'],
                     array('id' =>'inputSoldorrent', 'class' => 'form-control')) }}
                 </div>
             </div>
@@ -143,7 +143,7 @@
 
 
             <div class="form-group">
-                <label for="inputPrice" class="col-sm-5 control-label">Price</label>
+                <label for="inputPrice" class="col-sm-5 control-label">售價 (萬)</label>
 
                 <div class="col-sm-3">
                     {{ Form::text('price', $setting['price'], array('id' => 'inputPrice','class'=>'form-control',
@@ -152,7 +152,7 @@
             </div>
 
             <div class="form-group">
-                <label for="inputRentPrice" class="col-sm-5 control-label">Rent price</label>
+                <label for="inputRentPrice" class="col-sm-5 control-label">租金 (千)</label>
 
                 <div class="col-sm-3">
                     {{ Form::text('rentprice', $setting['rentprice'], array('id' => 'inputRentPrice','class'=>'form-control',
@@ -163,7 +163,7 @@
 
 
             <div class="form-group">
-                <label for="inputSize" class="col-sm-5 control-label">Apartment Area</label>
+                <label for="inputSize" class="col-sm-5 control-label">實用 (呎)</label>
 
                 <div class="col-sm-3">
                     {{ Form::text('actualsize', $setting['actualsize'], array('id' =>
@@ -171,7 +171,7 @@
                 </div>
             </div>
 
-
+<!--
             {{ Form::label('Categories') }}
             <br/>
             @for ($i = 0; $i < count($categories); $i++)
@@ -193,7 +193,7 @@
                     </td>
                 </tr>
             </table>
-            @endfor
+            @endfor -->
 
 
 
@@ -203,7 +203,7 @@
 
 
 
-
+<!--
             <br/>
 
 
@@ -228,7 +228,7 @@
                     </td>
                 </tr>
             </table>
-            @endfor
+            @endfor -->
 
 
 

@@ -43,8 +43,8 @@ class ConversationController extends BaseController {
             Session::flash('flash_message', 'The following errors occurred');
 
             return Redirect::to('property/detail')
-                ->with('properties', $property)
-                ->withErrors($validator)->withInput();
+            ->with('properties', $property)
+            ->withErrors($validator)->withInput();
         }
     }
 
@@ -63,14 +63,14 @@ class ConversationController extends BaseController {
         $conversation_id = Input::get('conversationId');
 
         $this->layout->content = View::make('conversation.reply')
-            ->with('attr', $attr)
-            ->with('features', $features)
-            ->with('transportations', $transportations)
-            ->with('facilities', $facilities)
-            ->with('messages', $message)
-            ->with('property', $property[0])
-            ->with('photos', $photo)
-            ->with('conversation_id', $conversation_id);
+        ->with('attr', $attr)
+        ->with('features', $features)
+        ->with('transportations', $transportations)
+        ->with('facilities', $facilities)
+        ->with('messages', $message)
+        ->with('property', $property[0])
+        ->with('photos', $photo)
+        ->with('conversation_id', $conversation_id);
     }
 
     public function saveMessage()
@@ -80,11 +80,11 @@ class ConversationController extends BaseController {
 //        if ($validator->passes())
 //        {
 
-            $conversation_id = $this->conversation->saveConversation(Input::get('conversationId'));
+        $conversation_id = $this->conversation->saveConversation(Input::get('conversationId'));
 //            $newMessage = Input::get('message');
-            $newMessage = $this->conversation->loadMessageInDatabase($conversation_id);
+        $newMessage = $this->conversation->loadMessageInDatabase($conversation_id);
 
-            return Response::json(array('response' => $newMessage));
+        return Response::json(array('response' => $newMessage));
 //        } else
 //        {
 //            return Response::json(array('response' => false));
@@ -135,21 +135,21 @@ class ConversationController extends BaseController {
             $conversation_id = Input::get('conversationId');
 
             $this->layout->content = View::make('conversation.reply')
-                ->with('attr', $attr)
-                ->with('features', $features)
-                ->with('transportations', $transportations)
-                ->with('facilities', $facilities)
-                ->with('messages', $message)
-                ->with('property', $property[0])
-                ->with('photos', $photo)
-                ->with('conversation_id', $conversation_id);
+            ->with('attr', $attr)
+            ->with('features', $features)
+            ->with('transportations', $transportations)
+            ->with('facilities', $facilities)
+            ->with('messages', $message)
+            ->with('property', $property[0])
+            ->with('photos', $photo)
+            ->with('conversation_id', $conversation_id);
 
 
         } else
         {
             $this->layout->content = View::make('conversation.reply')
-                ->with('flash_message', 'The following errors occurred')
-                ->withErrors($validator)->withInput();
+            ->with('flash_message', 'The following errors occurred')
+            ->withErrors($validator)->withInput();
         }
     }
 

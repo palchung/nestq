@@ -9,6 +9,7 @@ class SearchController extends BaseController {
     protected $search;
     protected $property;
 
+
     public function __construct(SearchRepository $search, PropertyRepository $property)
     {
         $this->beforeFilter('csrf', array('on' => 'post'));
@@ -26,40 +27,33 @@ class SearchController extends BaseController {
     }
 
 
-    public function getProperty()
+
+    public function getProperty($sort = null)
     {
 
         $validator = Validator::make(Input::all(), Search::$SearchRules);
         if ($validator->passes())
         {
 
-            $querystring = [
-                'region'         => Input::get('region'),
-                'category'       => Input::get('category'),
-                'rent'           => Input::get('rent'),
-                'sale'           => Input::get('sale'),
-                'price'          => Input::get('price'),
-                'priceRange'     => Input::get('priceRange'),
-                'rentprice'      => Input::get('rentprice'),
-                'rentpriceRange' => Input::get('rentpriceRange'),
-                'actualsize'     => Input::get('actualsize'),
-                'sizeRange'      => Input::get('sizeRange'),
-                'rent'           => Input::get('rent'),
-                'user'           => Input::get('user'),
-                'agent'          => Input::get('agent'),
-                'period'         => Input::get('period'),
-                'nosroom'        => Input::get('nosroom'),
-                'noslivingroom'  => Input::get('noslivingroom'),
-                'facility'       => Input::get('facility')
-            ];
+            $this->search->cacheInput();
+            $querystring = $this->search->storeQuerystring();
 
-            $result = $this->search->searchProperty();
+
+            if($sort){
+                $qstring = Session::get('querystring');
+            }else{
+                $qstring = $querystring;
+                Session::put('querystring', $querystring);
+            }
+
+            $result = $this->search->searchProperty($qstring, $sort);
 
             $properties = $result->paginate(Config::get('nestq.SEARCH_NOS_OF_RESULT'));
 
             if (sizeof($properties) == 0)
             {
                 return Redirect::to('inquiry/search')->with('flash_message', '沒有相配的物業資訊');
+
             } else
             {
 
@@ -70,9 +64,9 @@ class SearchController extends BaseController {
                 }
 
                 $this->layout->content = View::make('property.list')
-                    ->with('properties', $properties)
-                    ->with('photos', $photos)
-                    ->with('querystrings', $querystring);
+                ->with('properties', $properties)
+                ->with('photos', $photos)
+                ->with('querystrings', $querystring);
 
             }
         } else

@@ -7,8 +7,8 @@ Class Search extends Eloquent {
 //        'rentprice'  => 'integer',
 //        'actualsize' => 'integer',
         //spam prevention
-        'my_name'   => 'honeypot',
-        'my_time'   => 'required|honeytime:0'
+        // 'my_name'   => 'honeypot',
+        // 'my_time'   => 'required|honeytime:0'
     );
 
 }

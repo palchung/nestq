@@ -9,11 +9,12 @@ class PropertyController extends BaseController {
     protected $layout = "layout.main";
     protected $property;
 
-    public function __construct(PropertyRepository $property)
+    public function __construct(PropertyRepository $property, AccountRepository $account)
     {
         $this->beforeFilter('csrf', array('on' => 'post'));
         $this->beforeFilter('auth', array('only' => array('getAdd')));
         $this->property = $property;
+        $this->account = $account;
     }
 
     public function getAddproperty()
@@ -35,11 +36,11 @@ class PropertyController extends BaseController {
             $regionList = $this->property->loadRegionList();
 
             $data = [
-                'features'        => $feature,
-                'transportations' => $transportation,
-                'facilities'      => $facilities,
-                'categoryList'    => $categoryList,
-                'regionList'      => $regionList
+            'features'        => $feature,
+            'transportations' => $transportation,
+            'facilities'      => $facilities,
+            'categoryList'    => $categoryList,
+            'regionList'      => $regionList
             ];
             $this->layout->content = View::make('property.create', compact('data'));
         } else
@@ -63,12 +64,12 @@ class PropertyController extends BaseController {
         $categoryList = $this->property->loadCategoryList();
         $regionList = $this->property->loadRegionList();
         $this->layout->content = View::make('property.create')
-            ->with('features', $features)
-            ->with('transportations', $transportations)
-            ->with('facilities', $facilities)
-            ->with('property', $property)
-            ->with('categoryList', $categoryList)
-            ->with('regionList', $regionList);
+        ->with('features', $features)
+        ->with('transportations', $transportations)
+        ->with('facilities', $facilities)
+        ->with('property', $property)
+        ->with('categoryList', $categoryList)
+        ->with('regionList', $regionList);
 
 
     }
@@ -85,8 +86,7 @@ class PropertyController extends BaseController {
             $publish = $this->property->publishProperty($property_id);
             if ($publish == 'ok')
             {
-                Session::flash('flash_message', '成功為您發佈了物業資訊');
-
+                Flash::success('成功為您發佈了物業資訊');
                 return Redirect::to('account/dashboard/property');
             }
         } else
@@ -99,8 +99,8 @@ class PropertyController extends BaseController {
 
         $property_id = Input::get('propertyId');
         $this->property->laydownProperty($property_id);
-        Session::flash('flash_message', '停止發佈了物業資訊');
 
+        Flash::warning('停止發佈了物業資訊');
         return Redirect::to('account/dashboard/property');
 
     }
@@ -119,7 +119,7 @@ class PropertyController extends BaseController {
             $property_id = Input::get('propertyId');
             // if $property != null then it mean editing
             $createProperty = $this->property->createProperty($property_id);
-            Session::flash('flash_message', '物業資訊以被記錄了，您希望現在就發佈它嗎？');
+            Flash::success('物業資訊以被記錄了，您希望現在就發佈它嗎？');
 
             // add watermark
             $this->property->addWaterMarkToPhoto($createProperty->photo);
@@ -139,15 +139,16 @@ class PropertyController extends BaseController {
                 $photo = 'no_photo';
             }
             $this->layout->content = View::make('property.preview')
-                ->with('attr', $attr)
-                ->with('features', $features)
-                ->with('transportations', $transportations)
-                ->with('facilities', $facilities)
-                ->with('photos', $photo)
-                ->with('properties', $property);
+            ->with('attr', $attr)
+            ->with('features', $features)
+            ->with('transportations', $transportations)
+            ->with('facilities', $facilities)
+            ->with('photos', $photo)
+            ->with('properties', $property);
         } else
         {
-            return Redirect::to('property/addproperty')->with('flash_message', '以下錯誤發生了')->withErrors($validator)->withInput();
+            Flash::error('以下錯誤發生了');
+            return Redirect::to('property/addproperty')->withErrors($validator)->withInput();
         }
     }
 
@@ -162,7 +163,7 @@ class PropertyController extends BaseController {
 
         $property = $this->property->lookUpPropertyByID($property_id);
 
-        $nosOfProperty = AccountRepository::loadNosOfResponsibleProperty($property[0]->account_id);
+        $nosOfProperty = $this->account->loadNosOfResponsibleProperty($property[0]->account_id);
 
         $property_responsible = $property[0]->property_responsible_id;
         $property_owner = $property[0]->property_owner_id;
@@ -220,19 +221,22 @@ class PropertyController extends BaseController {
 
 
             // logic for request showing
+
+
+            // $user_allow_request = $this->property->checkUserAllowRequest($property_id);
+
             if (
                 ($property_responsible != Auth::user()->id) //
                 && ($property_responsible == $property_owner) //
                 && ($property_resonsible_identity != 1) //
                 && ($property_responible_allow_request == true)
-            )
+                // && ($user_allow_request)
+                )
             {
                 $identity = AccountRepository::checkIdentity();
                 $repeat_request = $this->property->checkRepeatRequest($property_id);
                 if (($identity == 'agent') && $repeat_request == 'no')
                 {
-
-
                     $service = Config::get('nestq.REQUISITION_ID');
                     $paid = Service::checkServicePayment($service);
 
@@ -284,21 +288,24 @@ class PropertyController extends BaseController {
             throw new Exception("Cant count page view", 1);
         }
 
+        $discloseUserContact = $this->account->checkContactPerssion($property[0]->account_identity, $property[0]->account_id);
+
 
         //render front end
         $this->layout->content = View::make('property.detail')
-            ->with('attr', $attr)
-            ->with('features', $features)
-            ->with('transportations', $transportations)
-            ->with('facilities', $facilities)
-            ->with('photos', $photo)
-            ->with('identity', $identity)
-            ->with('property', $property[0])
-            ->with('nosOfProperty', $nosOfProperty)
-            ->with('messages', $message)
-            ->with('showRequest', $showRequest)
-            ->with('showMessage', $showMessage)
-            ->with('template', $template);
+        ->with('attr', $attr)
+        ->with('features', $features)
+        ->with('transportations', $transportations)
+        ->with('facilities', $facilities)
+        ->with('photos', $photo)
+        ->with('identity', $identity)
+        ->with('property', $property[0])
+        ->with('discloseUserContact', $discloseUserContact)
+        ->with('nosOfProperty', $nosOfProperty)
+        ->with('messages', $message)
+        ->with('showRequest', $showRequest)
+        ->with('showMessage', $showMessage)
+        ->with('template', $template);
     }
 
     public function postRequisition()
@@ -334,13 +341,25 @@ class PropertyController extends BaseController {
 
         } else
         {
-            Session::flash('flash_message', '輸入的請求超過了字數限制');
+            Flash::error('輸入的請求超過了字數限制');
 
             return Redirect::action('PropertyController@getPropertyDetail', array($propertyId));
         }
 
 
     }
+
+    public function postCanelRequest($property_id){
+
+        $this->property->updatePropertyResponsible($property_id);
+        $this->property->updateActivityLogForRequestExpire($property_id);
+
+        Flash::success('以為您取回代理權');
+        return Redirect::to('account/dashboard/property');
+
+    }
+
+
 
     public function getRequestByProperty($property_id)
     {
@@ -352,8 +371,8 @@ class PropertyController extends BaseController {
             $request = $this->property->loadRequestByPropertyId($property_id);
             $property = $this->property->lookUpPropertyByID($property_id);
             $this->layout->content = View::make('property.request')
-                ->with('property', $property[0])
-                ->with('requests', $request);
+            ->with('property', $property[0])
+            ->with('requests', $request);
         } else
         {
             $this->layout->content = View::make('system.error');
@@ -366,14 +385,23 @@ class PropertyController extends BaseController {
         $agreement = $this->property->loadAgreementByRequestId();
 
         $this->layout->content = View::make('property.agreement')
-            ->with('agreement', $agreement[0]);
+        ->with('agreement', $agreement[0]);
     }
 
     public function postAccept()
     {
 
-        $this->property->handOverPropertyToAgent();
-        Session::flash('flash_message', '您的物業資訊成功轉交代理人');
+
+        $request_id = Input::get('requestId');
+        $agent_id = Input::get('agentId');
+        $property_id = Input::get('propertyId');
+
+        $this->property->handOverPropertyToAgent($request_id, $agent_id, $property_id);
+        // log code = 1 stand for hand over property
+        $this->property->informAgentRequestSuccess($agent_id, $property_id, Config::get('nestq.REQUEST_SUCCESS'));
+
+        Flash::success('您的物業資訊成功轉交代理人');
+
 
         // return Redirect::action('AccountController@getDashboard', array('dashboard_content'=>'property'));
         return Redirect::to('account/dashboard/property');

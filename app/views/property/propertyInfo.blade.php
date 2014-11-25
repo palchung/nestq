@@ -1,8 +1,7 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
 
-{{  "
-<script>var latLng = new google.maps.LatLng(" . $property->property_geolocation . ")</script>" }}
+{{  "<script>var latLng = new google.maps.LatLng(" . $property->property_geolocation . ")</script>" }}
 <script type="text/javascript">
     function initialize() {
         var map = new google.maps.Map(document.getElementById('mapCanvas'), {
@@ -80,127 +79,128 @@
                     <li class="">房間數量: <span class="pull-right">{{$property->property_nosroom}} 間</span></li>
                     <li class="">客廳數量: <span class="pull-right">{{$property->property_noslivingroom}} 個</span></li>
                     @if($property->property_price != 0)
-                    <li class=""><span class="std-bold">售價: <span
-                                class="pull-right">{{$property->property_price}} 萬</span></span></li>
-                    @endif
-                    @if($property->property_rentprice != 0)
-                    <li class=""><span class="std-bold">租金: <span
-                                class="pull-right">{{$property->property_rentprice}} 千</span></span></li>
-                    @endif
+                    <li class=""><span class="std-bold color-secondary">
+                        <span class="pull-right">售: {{$property->property_price}} 萬</span></span></li>
+                        @endif
+                        @if($property->property_rentprice != 0)
+                        <br/>
+                        <li class=""><span class="std-bold color-secondary">
+                            <span class="pull-right">租: {{$property->property_rentprice}} 千</span></span></li>
+                            @endif
 
 
-                </ul>
+                        </ul>
+                    </div>
+                </div>
             </div>
+
+
         </div>
-    </div>
 
 
-</div>
+        <hr/>
 
 
-<hr/>
+        <table class="std-table">
+            <tr>
+                <td>
+                    <span class="title">地圖位置 - </span><span id="address"></span>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="mapCanvas"></div>
+                </td>
+            </tr>
+
+        </table>
 
 
-<table class="std-table">
-    <tr>
-        <td>
-            <span class="title">地圖位置 - </span><span id="address"></span>
+        <hr/>
 
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div id="mapCanvas"></div>
-        </td>
-    </tr>
+        <?php $nosOfRow = 6; ?>
 
-</table>
+        <span class="sub-title">特色</span>
+        <br/>
+        <br/>
+        <table class="std-table">
 
+            @foreach (array_chunk($features->all(), $nosOfRow) as $row)
+            <span class='row'>
+              <tr>
+                  @foreach($row as $feature)
 
-<hr/>
+                  <?php $checked = null ?>
 
-<?php $nosOfRow = 6; ?>
+                  @if (isset($attr->id) )
+                  @for ($j = 0; $j < count($attr->feature); $j++)
+                  @if ($attr->feature[$j]->id == $feature->id)
+                  <?php $checked = true ?>
+                  @endif
+                  @endfor
+                  @endif
 
-<span class="title">特色</span>
-<br/>
-<br/>
-<table class="std-table">
+                  <td>
+                      <div class="boxcheck-label">{{ $feature->name }}</div>
+                  </td>
+                  <td>
+                      {{ Form::checkbox('featuresList[]', $feature->id, $checked, ['disabled','class'=>'std-checkbox','id' =>
+                      'property-create-feature' . $feature->id]) }}<label class="checkbox-label" for={{'property-create-feature'
+                      . $feature->id}}></label>
+                  </td>
 
-    @foreach (array_chunk($features->all(), $nosOfRow) as $row)
-    <span class='row'>
-      <tr>
-          @foreach($row as $feature)
-
-          <?php $checked = null ?>
-
-          @if (isset($attr->id) )
-          @for ($j = 0; $j < count($attr->feature); $j++)
-          @if ($attr->feature[$j]->id == $feature->id)
-          <?php $checked = true ?>
-          @endif
-          @endfor
-          @endif
-
-          <td>
-              <div class="searchbox-label">{{ $feature->name }}</div>
-          </td>
-          <td>
-              {{ Form::checkbox('featuresList[]', $feature->id, $checked, ['disabled','class'=>'std-checkbox','id' =>
-              'property-create-feature' . $feature->id]) }}<label class="checkbox-label" for={{'property-create-feature'
-              . $feature->id}}></label>
-          </td>
-
+                  @endforeach
+              </tr>
+          </span>
           @endforeach
-      </tr>
-</span>
-    @endforeach
 
-</table>
+      </table>
 
-<hr/>
-<span class="title">設施</span>
-<br/>
-<br/>
-<table class="std-table">
+      <hr/>
+      <span class="sub-title">設施</span>
+      <br/>
+      <br/>
+      <table class="std-table">
 
-    @foreach (array_chunk($facilities->all(), $nosOfRow) as $row)
-    <span class='row'>
-      <tr>
-          @foreach($row as $facility)
+        @foreach (array_chunk($facilities->all(), $nosOfRow) as $row)
+        <span class='row'>
+          <tr>
+              @foreach($row as $facility)
 
-          <?php $checked = null ?>
+              <?php $checked = null ?>
 
-          @if (isset($attr->id) )
-          @for ($j = 0; $j < count($attr->facility); $j++)
-          @if ($attr->facility[$j]->id == $facility->id)
-          <?php $checked = true ?>
-          @endif
-          @endfor
-          @endif
+              @if (isset($attr->id) )
+              @for ($j = 0; $j < count($attr->facility); $j++)
+              @if ($attr->facility[$j]->id == $facility->id)
+              <?php $checked = true ?>
+              @endif
+              @endfor
+              @endif
 
-          <td>
-              <div class="searchbox-label">{{ $facility->name }}</div>
-          </td>
-          <td>
-              {{ Form::checkbox('facilitiesList[]', $facility->id, $checked, ['disabled','class'=>'std-checkbox','id' =>
-              'property-create-facility' . $facility->id]) }}<label class="checkbox-label"
-                                                                    for={{'property-create-facility' .
-              $facility->id}}></label>
-          </td>
+              <td>
+                  <div class="boxcheck-label">{{ $facility->name }}</div>
+              </td>
+              <td>
+                  {{ Form::checkbox('facilitiesList[]', $facility->id, $checked, ['disabled','class'=>'std-checkbox','id' =>
+                  'property-create-facility' . $facility->id]) }}<label class="checkbox-label"
+                  for={{'property-create-facility' .
+                  $facility->id}}></label>
+              </td>
 
-          @endforeach
-      </tr>
-</span>
-    @endforeach
+              @endforeach
+          </tr>
+      </span>
+      @endforeach
 
-</table>
+  </table>
 
-<hr/>
+  <hr/>
 
-<span class="title">交通</span>
-<br/>
-<br/>
-<table class="std-table">
+  <span class="sub-title">交通</span>
+  <br/>
+  <br/>
+  <table class="std-table">
 
     @foreach (array_chunk($transportations->all(), $nosOfRow) as $row)
     <span class='row'>
@@ -218,18 +218,18 @@
           @endif
 
           <td>
-              <div class="searchbox-label">{{ $transportation->name }}</div>
+              <div class="boxcheck-label">{{ $transportation->name }}</div>
           </td>
           <td>
               {{ Form::checkbox('transportationsList[]', $transportation->id, $checked,
-              ['disabled','class'=>'std-checkbox','id' => 'property-create-transportation' . $transportation->id])
+                  ['disabled','class'=>'std-checkbox','id' => 'property-create-transportation' . $transportation->id])
               }}<label class="checkbox-label" for={{'property-create-transportation' . $transportation->id}}></label>
           </td>
 
           @endforeach
       </tr>
-</span>
-    @endforeach
+  </span>
+  @endforeach
 
 </table>
 

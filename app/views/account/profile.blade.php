@@ -2,7 +2,7 @@
 
 
 
-@foreach ($accounts as $account)
+
 
 
 
@@ -11,13 +11,13 @@
 <div class="media">
 	<a class="pull-left" href="#">
 		<img class="media-object" src="{{$account->profile_pic}}" alt="{{$account->firstname}}_{{$account->lastname}}">
-		
+
 	</a>
 
 	<div class="media-body">
-		
+
 		<span class="media-heading title">{{$account->firstname}} {{$account->lastname}}</span>
-		
+
 		<br/>
 		<br/>
 
@@ -60,13 +60,13 @@
 				@endif
 				@endif
 			</li>
-		</ul> 
+		</ul>
 	</div>
 	<a class ='button_normal'  href="{{URL::previous()}}">Back</a>
 </div>
 
 
-@endforeach
+
 
 
 

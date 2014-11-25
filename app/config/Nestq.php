@@ -2,7 +2,9 @@
 
 return array(
     'home' => 'localhost/nestq/public',
+    'FREE' => true,
     'USER_PUBLISH_NOS' => 2,
+    'POST_PERIOD' => 3, // 3 months
     // app useage setting
     'SEARCH_PRICE_RANGE' => null,
     'SEARCH_SIZE_RANGE' => null,
@@ -36,6 +38,9 @@ return array(
     'ACTIVE_PUSH_INTERVAL' => 14000, // 1000 = 1s
     // payment
     'PERMISSION_PERIOD' => 7, // 7 days
+    //Log code
+    'REQUEST_SUCCESS' => 1, // successfully handover
+    'RESPONSIBLE_EXPIRE' => 2, // A agent service expire, property return to owner
 
 
 );

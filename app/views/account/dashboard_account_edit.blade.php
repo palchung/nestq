@@ -1,19 +1,10 @@
 <span class="title">賬號管理</span>
 
 
-<div class="two-col-panel">
+<div class="two-col-panel-convert">
 
 
-    <div class="left-panel">
-
-        <p>
-
-        </p>
-
-    </div>
-
-
-    <div class="right-panel">
+    <div class="left-panel-convert">
 
         <div class="std-border white-bg std-padding">
 
@@ -252,7 +243,13 @@
         </div>
 
     </div>
+    <div class="right-panel-convert">
 
+        <p>
+
+        </p>
+
+    </div>
 
 </div>
 

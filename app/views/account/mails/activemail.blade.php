@@ -97,7 +97,7 @@
         /* Styling your links has become much simpler with the new Yahoo.  In fact, it falls in line with the main credo of styling in email and make sure to bring your styles inline.  Your link colors will be uniform across clients when brought inline.
         Bring inline: Yes. */
         a {
-            color: orange;
+            color: #354B5E;
         }
 
         /***************************************************
@@ -162,6 +162,12 @@
 
         /* end Android targeting */
 
+
+        .secondColor{
+            #D74B4B;
+        }
+
+
     </style>
 
     <!-- Targeting Windows Mobile -->
@@ -184,129 +190,90 @@
     <![endif]-->
 </head>
 <body>
-<!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
-<table cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
-    <tr>
-        <td valign="top">
-            <!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
-            <table cellpadding="0" cellspacing="0" border="0" align="center">
 
 
-                @foreach($properties as $property)
-                <tr>
-                    <td width="200" valign="top">
-
-                        <a href='{{action("PropertyController@getPropertyDetail", array("id"=>$property->property_id)) }}'>
-                            <li>
-                                <div class="list-wrapper">
-                                    <div class="thumbnail std-padding">
 
 
-                                        <div class="two-col">
-                                            <div class="left center">
-                                                @if($photos[$property->property_id] != 'no_photo')
-                                                {{ HTML::image( 'upload/' . $property->property_photo . '/thumbnail/' .
-                                                $photos[$property->property_id], 'alt-text') }}
-                                                @else
-                                                <i class="icon-home-5x"></i>
-                                                @endif
-                                            </div>
-                                            <div class="right">
 
-                                                建築面積:
-                            <span class="pull-right">
-                                {{$property->property_structuresize}} 呎
-                            </span>
-                                                <br/>
-                                                實用面積:
-                            <span class="pull-right">
-                                {{$property->property_actualsize}} 呎
-                            </span>
-                                                <br/>
-                                                房間數目:
-                            <span class="pull-right">
-                                {{$property->property_nosroom}} 間
-                            </span>
-                                                <br/>
-                                                客廳數目:
-                            <span class="pull-right">
-                                {{$property->property_noslivingroom}} 個
-                            </span>
-                                                <br/>
+    <!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
+    <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
+        <tr>
+            <td valign="top">
+                <!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
 
 
-                                            </div>
 
-                                        </div>
+                    @foreach($properties as $property)
+                    <table cellpadding="0" cellspacing="0" border="0" align="center">
+                    <tr>
+                        <td width="90%" valign="top">
+
+                            <a href='{{action("PropertyController@getPropertyDetail", array("id"=>$property->property_id)) }}'>
 
 
-                                        <hr/>
-
-
-                                        <div class="caption std-padding">
-                        <span class="title">
-                            {{$property->property_name}}
-                        </span>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            @if($photos[$property->property_id] != 'no_photo')
+                                            {{ HTML::image( 'upload/' . $property->property_photo . '/thumbnail/' .
+                                            $photos[$property->property_id], 'alt-text') }}
+                                            @else
+                                            <i class="icon-home-5x"></i>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($property->property_price != 0)
+                                            售: {{$property->property_price}} 萬
                                             <br/>
+                                            @endif
+                                            @if($property->property_rentprice != 0)
+                                            租: {{$property->property_rentprice}} 千
+                                            @endif
+                                            <br/>
+                                            建築: {{$property->property_structuresize}} 呎
+                                            <br/>
+                                            實用: {{$property->property_actualsize}} 呎
+                                            <br/>
+                                            房間: {{$property->property_nosroom}} 間
+                                            <br/>
+                                            客廳: {{$property->property_noslivingroom}} 個
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {{$property->property_name}}
                                             <small>{{$property->property_updated_at}}</small>
-                                            <hr/>
-
-                                            <p>
-
-
-                                                大廈名稱:
-                            <span class="pull-right">
-                                {{$property->property_address}}
-                            </span>
-                                                <br/>
-                                                座:
-                            <span class="pull-right">
-                                {{$property->property_block}}
-                            </span>
-                                                <br/>
-                                                層:
-                            <span class="pull-right">
-                                {{$property->property_floor}}
-                            </span>
-                                                <br/>
-                            <span class="std-bold color-primary">
-                                @if($property->property_price != 0)
-                                售價:
-                                <span class="pull-right">
-                                    {{$property->property_price}} 萬
-                                </span>
-                                <br/>
-                                @endif
-                                @if($property->property_rentprice != 0)
-                                租金:
-                                <span class="pull-right">
-                                    {{$property->property_rentprice}} 千
-                                </span>
-                                @endif
-                            </span>
-                                                <br/>
-
-                                            </p>
-                                        </div>
-                                    </div>
-                            </li>
-                        </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            大廈: {{$property->property_address}}
+                                            <br/>
+                                            座: {{$property->property_block}} 層: {{$property->property_floor}}
+                                        </td>
+                                    </tr>
+                                </table>
 
 
-                    </td>
-
-                </tr>
-                @endforeach
+                            </a>
 
 
-            </table>
-            <!-- End example table -->
+                        </td>
 
-            <!-- Yahoo Link color fix updated: Simply bring your link styling inline. -->
-            <!--            <a href="http://htmlemailboilerplate.com" target ="_blank" title="Styling Links" style="color: orange; text-decoration: none;">Coloring Links appropriately</a>-->
+                    </tr>
+                    </table>
+                    <br/>
+                    @endforeach
 
-            <!-- Gmail/Hotmail image display fix -->
-            <!--            <img class="image_fix" src="full path to image" alt="Your alt text" title="Your title text" width="x" height="x" />-->
+
+
+                <!-- End example table -->
+
+                <!-- Yahoo Link color fix updated: Simply bring your link styling inline. -->
+                <!--            <a href="http://htmlemailboilerplate.com" target ="_blank" title="Styling Links" style="color: orange; text-decoration: none;">Coloring Links appropriately</a>-->
+
+                <!-- Gmail/Hotmail image display fix -->
+                <!--            <img class="image_fix" src="full path to image" alt="Your alt text" title="Your title text" width="x" height="x" />-->
 
             <!-- Working with telephone numbers (including sms prompts).  Use the "mobile" class to style appropriately in desktop clients
             versus mobile clients. -->

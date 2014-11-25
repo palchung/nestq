@@ -17,7 +17,7 @@
 
                     <div class="messenger-two-col">
                       <div class="left">
-                         <img src="http://localhost:8888/nestq/public/upload/<[property.property_photo]>/thumbnail/<[property.thumbnail]>" alt="<[property.property_name]>">
+                         <img src="/upload/<[property.property_photo]>/thumbnail/<[property.thumbnail]>" alt="<[property.property_name]>">
                      </div>
                      <div class="right">
                        <[property.property_name]><br/>
@@ -48,7 +48,7 @@
     <div class="messenger-block" ng-click="switchToMessage(conversation.conversation_id, conversation.property_id)">
      <div class="messenger-two-col">
       <div class="left">
-       <img src="http://localhost:8888/nestq/public/profilepic/<[conversation.account_profile_pic]>" alt="<[conversation.property_name]>">
+       <img src="/profilepic/<[conversation.account_profile_pic]>" alt="<[conversation.property_name]>">
    </div>
    <div class="right">
        <[conversation.account_firstname]> <[conversation.account_lastname]>
@@ -74,7 +74,7 @@
     <div class="messenger-block">
      <div class="messenger-two-col">
       <div class="left">
-       <img src="http://localhost:8888/nestq/public/profilepic/<[message.account_profile_pic]>" alt="<[message.account_firstname]> <[message.account_lastname]>">
+       <img src="/profilepic/<[message.account_profile_pic]>" alt="<[message.account_firstname]> <[message.account_lastname]>">
    </div>
    <div class="right">
        <b><[message.account_firstname]> <[message.account_lastname]></b>
@@ -104,7 +104,7 @@
 <div class="messenger-block" ng-show="hideMessage" ng-hide="hideMessage" ng-repeat="newMessage in message.toDisplay track by $index" >
     <div class="messenger-two-col">
      <div class="left">
-      <img src="http://localhost:8888/nestq/public/profilepic/<[newMessage.account_profile_pic]>" alt="profile pic">
+      <img src="/profilepic/<[newMessage.account_profile_pic]>" alt="profile pic">
   </div>
   <div class="right">
       <b><[newMessage.account_firstname]> <[newMessage.account_lastname]></b>
@@ -120,7 +120,7 @@
 <div class="messenger-input-block">
     <div class="messenger-two-col">
      <div class="left">
-      <img src="http://localhost:8888/nestq/public/profilepic/{{Auth::user()->profile_pic}}" alt="profile pic">
+      <img src="/profilepic/{{Auth::user()->profile_pic}}" alt="profile pic">
   </div>
   <div class="right">
   <span class="std-bold">{{Auth::user()->firstname}} {{Auth::user()->lastname}}</span>

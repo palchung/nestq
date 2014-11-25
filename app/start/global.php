@@ -62,7 +62,7 @@ App::error(function(Exception $exception, $code) {
 //            return Response::view('system.500', array(), 500);
 //
 //        default:
-//            return Response::view('system.default', array(), $code);
+//            return Response::view('system.error', array(), $code);
     }
 });
 
@@ -78,7 +78,7 @@ App::error(function(Exception $exception, $code) {
  */
 
 App::down(function() {
-    return Response::make("Be right back!", 503);
+    return Response::view('system.maintenance', array(), 503);
 });
 
 /*

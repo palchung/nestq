@@ -30,19 +30,23 @@ class RemindersController extends BaseController {
         switch ($response)
         {
             case Password::INVALID_USER:
-                Session::flash('flash_message', 'Invalid account');
+            Session::flash('flash_message', 'Invalid account');
 
 //				return Redirect::back()->with('error', Lang::get($response));
-                return Redirect::back();
+            return Redirect::back();
 
 //			case Password::REMINDER_SENT:
 //				return Redirect::back()->with('status', Lang::get($response));
 
             case Password::REMINDER_SENT:
-                Session::flash('flash_message', 'A reset password email sent');
-
-                return Redirect::to('account/login');
+            Session::flash('flash_message', 'A reset password email sent');
+            return Redirect::to('account/login');
         }
+
+        Flash::success('以向您發送重設密碼電郵');
+        return Redirect::to('account/login');
+
+
     }
 
     /**
@@ -67,7 +71,7 @@ class RemindersController extends BaseController {
     {
         $credentials = Input::only(
             'email', 'password', 'password_confirmation', 'token'
-        );
+            );
 
         $response = Password::reset($credentials, function ($account, $password)
         {
@@ -81,15 +85,15 @@ class RemindersController extends BaseController {
             case Password::INVALID_PASSWORD:
             case Password::INVALID_TOKEN:
             case Password::INVALID_USER:
-                Session::flash('flash_message', Lang::get($response));
+            Session::flash('flash_message', Lang::get($response));
 
 //				return Redirect::back()->with('error', Lang::get($response));
-                return Redirect::back()->with('error', Lang::get($response));
+            return Redirect::back()->with('error', Lang::get($response));
 
             case Password::PASSWORD_RESET:
-                Session::flash('flash_message', 'Password have Reset');
+            Flash::success('成功重設密碼');
 
-                return Redirect::to('/');
+            return Redirect::to('/');
         }
     }
 
