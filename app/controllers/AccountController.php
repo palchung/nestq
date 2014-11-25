@@ -74,6 +74,8 @@ class AccountController extends BaseController {
 
     public function postEdit()
     {
+        // trim all input
+        Input::merge(array_map('trim', Input::all()));
 
         if (Auth::check())
         {
@@ -209,10 +211,10 @@ class AccountController extends BaseController {
             $payments = PaymentRepository::loadPaymentHistoryByAccountId(Auth::user()->id);
 
             $this->layout->content = View::make('account.dashboard')
-                ->with('payments', $payments)
-                ->with('account', $account)
-                ->with('nosProperty', $nos_active_property)
-                ->with('dashboard_content', $dashboard_content);
+            ->with('payments', $payments)
+            ->with('account', $account)
+            ->with('nosProperty', $nos_active_property)
+            ->with('dashboard_content', $dashboard_content);
 
         } elseif ($dashboard_content == 'permission_deny')
         {
@@ -231,10 +233,10 @@ class AccountController extends BaseController {
             }
 
             $this->layout->content = View::make('account.dashboard')
-                ->with('account', $account)
-                ->with('nosProperty', $nos_active_property)
-                ->with('activity_log', $activity_log)
-                ->with('dashboard_content', $dashboard_content);
+            ->with('account', $account)
+            ->with('nosProperty', $nos_active_property)
+            ->with('activity_log', $activity_log)
+            ->with('dashboard_content', $dashboard_content);
 
 
         } elseif ($dashboard_content == 'account_setting')
@@ -258,11 +260,11 @@ class AccountController extends BaseController {
                 $templates = null;
             }
             $this->layout->content = View::make('account.dashboard')
-                ->with('account', $account)
-                ->with('nosProperty', $nos_active_property)
-                ->with('dashboard_content', $dashboard_content)
-                ->with('identity', $identity)->with('setting', $setting)
-                ->with('regions', $region)->with('categories', $category)->with('templates', $templates);
+            ->with('account', $account)
+            ->with('nosProperty', $nos_active_property)
+            ->with('dashboard_content', $dashboard_content)
+            ->with('identity', $identity)->with('setting', $setting)
+            ->with('regions', $region)->with('categories', $category)->with('templates', $templates);
         } elseif ($dashboard_content == 'account_edit')
         {
 
@@ -310,10 +312,10 @@ class AccountController extends BaseController {
 
         $this->layout->content = View::make('account.profile')
             //->with('identity', $identity)
-            ->with('account', $account)
-            ->with('showContact', $showContact)
-            ->with('isAgent', $isAgent)
-            ->with('showRatingLink', $showRatingLink);
+        ->with('account', $account)
+        ->with('showContact', $showContact)
+        ->with('isAgent', $isAgent)
+        ->with('showRatingLink', $showRatingLink);
     }
 
     public function getSetting()
@@ -361,6 +363,8 @@ class AccountController extends BaseController {
 
     public function postCreate()
     {
+        // trim all input
+        Input::merge(array_map('trim', Input::all()));
 
         $identity = Input::get('identity');
 
