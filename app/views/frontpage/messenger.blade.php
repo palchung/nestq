@@ -11,15 +11,20 @@
 	<div id="full-slider">
 
 		<div class="slide-panel active" >
-			<a class="messenger-content" ng-repeat="property in properties | unique:'property_id'">
 
+			<a class="messenger-content" ng-repeat="property in properties | unique:'property_id'">
 				<div class="messenger-block" ng-click="switchToConversation(property.property_id)">
 
                     <div class="messenger-two-col">
                       <div class="left">
-                         <img src="/upload/<[property.property_photo]>/thumbnail/<[property.thumbnail]>" alt="<[property.property_name]>">
-                     </div>
-                     <div class="right">
+
+                           <i ng-if="!property.thumbnail" class="icon-home-5x"></i>
+
+
+                           <img ng-if="property.thumbnail" src="/upload/<[property.property_photo]>/thumbnail/<[property.thumbnail]>" alt="<[property.property_name]>">
+
+                   </div>
+                   <div class="right">
                        <[property.property_name]><br/>
                        <[property.property_region]> / <[property.property_category]><br/>
                        <[property.property_price]>
@@ -123,7 +128,7 @@
       <img src="/profilepic/{{Auth::user()->profile_pic}}" alt="profile pic">
   </div>
   <div class="right">
-  <span class="std-bold">{{Auth::user()->firstname}} {{Auth::user()->lastname}}</span>
+      <span class="std-bold">{{Auth::user()->firstname}} {{Auth::user()->lastname}}</span>
       <small class="light-color pull-right"> <!-- now --> </small>
       <br/>
       <[message.new]>

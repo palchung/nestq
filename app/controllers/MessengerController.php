@@ -130,7 +130,7 @@ class messengerController extends BaseController {
             ])
         ->where('conversation_account.account_id', '=', Auth::user()->id)
         ->where('property.publish','=', 1)
-        ->orderBy('conversation_account.updated_at')
+        ->orderBy('conversation_account.updated_at','desc')
         ->distinct()
         ->get();
 
