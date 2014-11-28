@@ -13,7 +13,7 @@
                 <ul class="media-list">
                     <li class="media">
                         <a class="pull-left" href="#">
-                            @if($property->property_photo)
+                            @if($photos == 'no_photo')
                             {{ HTML::image( 'upload/' . $property->property_photo . '/thumbnail/' .
                             $photos[$property->property_id], 'alt-text') }}
                             @else
@@ -24,14 +24,14 @@
                         <div class="media-body">
                             @if ($property->property_publish == 1)
                             <span class="color-secondary std-bold">
-                               已發佈 -
-                           </span>
-                           @elseif ($property->property_publish == 0)
-                           <span class="std-bold">
-                               未發佈 -
-                           </span>
-                           @endif
-                           <span class="media-heading underline">
+                             已發佈 -
+                         </span>
+                         @elseif ($property->property_publish == 0)
+                         <span class="std-bold">
+                             未發佈 -
+                         </span>
+                         @endif
+                         <span class="media-heading underline">
                             {{ link_to_action('PropertyController@getPropertyDetail',
                                 $property->property_name,
                                 $parameters = array('id' => $property->property_id),
@@ -115,12 +115,12 @@
 
                         @endif
 
-
-                        總瀏覽: <span class="std-badge-primary">{{$property->view}}</span> -
-                        推播: <span class="std-badge-primary">{{$property->activepush}}</span> -
-                        物業報: <span class="std-badge-primary">{{$property->activemail}}</span> -
-                        會話: <span class="std-badge-primary">{{$property->conversation}}</span>
-
+                        <div class="pull-right">
+                            總瀏覽: <span class="std-badge-primary">{{$property->view}}</span> -
+                            推播: <span class="std-badge-primary">{{$property->activepush}}</span> -
+                            物業報: <span class="std-badge-primary">{{$property->activemail}}</span> -
+                            會話: <span class="std-badge-primary">{{$property->conversation}}</span>
+                        </div>
                     </div>
 
                 </li>
