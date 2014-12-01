@@ -45,6 +45,7 @@ class PropertyController extends BaseController {
             $this->layout->content = View::make('property.create', compact('data'));
         } else
         {
+            Flash::error('您以超出發佈限額');
             $this->layout->content = View::make('property.exceed');
         }
     }
@@ -113,12 +114,6 @@ class PropertyController extends BaseController {
     {
         // trim all input
         // Input::merge(array_map('trim', Input::all()));
-
-
-
-
-
-
 
         $validator = Validator::make(Input::all(), Property::$PropertyRules);
         if ($validator->passes())
