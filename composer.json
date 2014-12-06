@@ -12,7 +12,8 @@
         "guzzlehttp/guzzle": "~4.0",
         "msurguy/honeypot": "dev-master",
         "phpunit/phpunit": "3.7.*",
-        "laracasts/flash": "~1.0"
+        "laracasts/flash": "~1.0",
+        "fadion/maneuver": "~1.0"
     },
     "autoload": {
         "classmap": [

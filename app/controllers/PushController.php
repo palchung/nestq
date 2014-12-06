@@ -16,49 +16,32 @@ class PushController extends BaseController {
       }
      */
 
-    public function ActivePush()
-    {
+      public function ActivePush()
+      {
 
         header("Content-Type: text/event-stream\n\n");
         header('Cache-Control: no-cache');
 
-        $selected = [];
-        $propertyId = $this->loadActiveProperty();
 
+        // $property = $this->loadActiveProperty();
 
-//        if (in_array($propertyId, $selected))
-//        {
-//            do
-//            {
-//                $propertyId = $this->loadActiveProperty();
-//            } while (in_array($propertyId, $selected) == false);
-//        }
-//        array_push($selected, $propertyId);
+        // $photoFile = $this->loadPropertyThumbnail($property->property_photo);
 
-
-        $property = $this->loadPropertyData($propertyId);
-
-        // update property stat
-//        $this->updatePropertyStat($property->property_id);
-
-
-        $photoFile = $this->loadPropertyThumbnail($property->property_photo);
-
-        $msg = [
-            "id"         => $property->property_id,
-            "name"       => $property->property_name,
-            "actualsize" => $property->property_actualsize,
-            "price"      => $property->property_price,
-            "rentprice"  => $property->property_rentprice,
-            "photoPath"  => $property->property_photo,
-            "photoFile"  => $photoFile,
-            "region"     => $property->region_name,
-            "category"   => $property->category_name,
-            "address"    => $property->property_address
-        ];
-//        $msg = [
-//          "hi" => 'hi'
-//        ];
+        // $msg = [
+        // "id"         => $property->property_id,
+        // "name"       => $property->property_name,
+        // "actualsize" => $property->property_actualsize,
+        // "price"      => $property->property_price,
+        // "rentprice"  => $property->property_rentprice,
+        // "photoPath"  => $property->property_photo,
+        // "photoFile"  => $photoFile,
+        // "region"     => $property->region_name,
+        // "category"   => $property->category_name,
+        // "address"    => $property->property_address
+        // ];
+       $msg = [
+         "hi" => 'hi'
+       ];
         $this->pushMessage($msg);
     }
 
@@ -114,7 +97,7 @@ class PushController extends BaseController {
     public function pushMessage($msg)
     {
         echo "retry: " . Config::get('nestq.ACTIVE_PUSH_INTERVAL') . "\n\n";
-        echo "data:" . json_encode($msg) . "\n\n";
+        // echo "data:" . json_encode($msg) . "\n\n";
 
         echo "data:" . $msg . PHP_EOL;
         // echo PHP_EOL;
@@ -128,24 +111,24 @@ class PushController extends BaseController {
     {
 
         $property = DB::table('property')
-            ->join('region', 'property.region_id', '=', 'region.id')
-            ->join('category', 'property.category_id', '=', 'category.id')
-            ->select([
-                'property.id as property_id',
-                'property.name as property_name',
-                'property.address as property_address',
-                'property.actualsize as property_actualsize',
-                'property.price as property_price',
-                'property.rentprice as property_rentprice',
-                'property.photo as property_photo',
-                'category.name as category_name',
-                'region.name as region_name'
+        ->join('region', 'property.region_id', '=', 'region.id')
+        ->join('category', 'property.category_id', '=', 'category.id')
+        ->select([
+            'property.id as property_id',
+            'property.name as property_name',
+            'property.address as property_address',
+            'property.actualsize as property_actualsize',
+            'property.price as property_price',
+            'property.rentprice as property_rentprice',
+            'property.photo as property_photo',
+            'category.name as category_name',
+            'region.name as region_name'
             ])
-            ->where('property.id', '=', $property_id)
+        ->where('property.id', '=', $property_id)
 //            ->where('category.active', '=', 1)
 //            ->where('region.active', '=', 1)
-            ->groupBy('property.id')
-            ->get();
+        ->groupBy('property.id')
+        ->get();
 
         return $property[0];
     }
@@ -184,15 +167,17 @@ class PushController extends BaseController {
                 $query->where('account.identity', '=', 1); //property post from agent
             }
         }
+
+        $query->join('region', 'property.region_id', '=', 'region.id');
         if ( ! is_null($this->region))
         {
-            $query->join('region', 'property.region_id', '=', 'region.id');
             $query->whereIn('region.id', $this->region);
             $query->where('region.active', '=', 1);
         }
+
+        $query->join('category', 'property.category_id', '=', 'category.id');
         if ( ! is_null($this->category))
         {
-            $query->join('category', 'property.category_id', '=', 'category.id');
             $query->whereIn('category.id', $this->category);
             $query->where('category.active', '=', 1);
         }
@@ -238,7 +223,15 @@ class PushController extends BaseController {
 
         $query->select([
             'property.id as property_id',
-        ]);
+            'property.name as property_name',
+            'property.address as property_address',
+            'property.actualsize as property_actualsize',
+            'property.price as property_price',
+            'property.rentprice as property_rentprice',
+            'property.photo as property_photo',
+            'category.name as category_name',
+            'region.name as region_name'
+            ]);
 
         // check if the user paid for active push
         $query->join('service', 'property.responsible_id', '=', 'service.account_id');
@@ -254,7 +247,7 @@ class PushController extends BaseController {
 
         $nos_of_properties = sizeof($result);
         $i = rand(0, $nos_of_properties - 1);
-        $property_id = $result[$i]->property_id;
+        $property = $result[$i];
 
 
         // if (in_array($property_id, $this->selected))
@@ -268,7 +261,7 @@ class PushController extends BaseController {
 
         // $this->selected = array_push($this->selected, $property_id);
 
-        return $property_id;
+        return $property;
     }
 
     public function CountActivePush()
