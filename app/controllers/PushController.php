@@ -1,8 +1,9 @@
 <?php
 
 
-//use DateTime;
+use DateTime;
 //use Repository\PushRepository;
+use Illuminate\Support\Facades\Config;
 
 
 class PushController extends BaseController {
@@ -22,27 +23,38 @@ class PushController extends BaseController {
         header("Content-Type: text/event-stream\n\n");
         header('Cache-Control: no-cache');
 
-
-        // $property = $this->loadActiveProperty();
-
-        // $photoFile = $this->loadPropertyThumbnail($property->property_photo);
-
+        $property = $this->loadActiveProperty();
+        // $property = $this->loadPropertyData(23);
+        $photoFile = $this->loadPropertyThumbnail($property->property_photo);
+        $msg = [
+        "id"         => $property->property_id,
+        "name"       => $property->property_name,
+        "actualsize" => $property->property_actualsize,
+        "price"      => $property->property_price,
+        "rentprice"  => $property->property_rentprice,
+        "photoPath"  => $property->property_photo,
+        "photoFile"  => $photoFile,
+        "region"     => $property->region_name,
+        "category"   => $property->category_name,
+        "address"    => $property->property_address
+        ];
         // $msg = [
-        // "id"         => $property->property_id,
-        // "name"       => $property->property_name,
-        // "actualsize" => $property->property_actualsize,
-        // "price"      => $property->property_price,
-        // "rentprice"  => $property->property_rentprice,
-        // "photoPath"  => $property->property_photo,
-        // "photoFile"  => $photoFile,
-        // "region"     => $property->region_name,
-        // "category"   => $property->category_name,
-        // "address"    => $property->property_address
+        // "hi" => 'hi'
         // ];
-       $msg = [
-         "hi" => 'hi'
-       ];
         $this->pushMessage($msg);
+    }
+
+    public function pushMessage($msg)
+    {
+        echo "retry: " . Config::get('nestq.ACTIVE_PUSH_INTERVAL') . "\n\n";
+        echo "data:" . json_encode($msg) . "\n\n";
+
+        // echo "data:" . $msg . PHP_EOL;
+        echo PHP_EOL;
+        ob_flush();
+        flush();
+//        sleep(Config::get('nestq.ACTIVE_PUSH_INTERVAL'));
+//        sleep(1000000); //1000000 = 1 seconds
     }
 
 
@@ -77,36 +89,6 @@ class PushController extends BaseController {
     }
 
 
-    public function updatePropertyStat($propertyId)
-    {
-        if ($propertyId)
-        {
-            $stat = PropertyStat::firstOrCreate(array('property_id' => $propertyId));
-            $stat->activepush = $stat->activepush + 1;
-            $stat->save();
-
-            return true;
-
-        } else
-        {
-            return false;
-        }
-
-    }
-
-    public function pushMessage($msg)
-    {
-        echo "retry: " . Config::get('nestq.ACTIVE_PUSH_INTERVAL') . "\n\n";
-        // echo "data:" . json_encode($msg) . "\n\n";
-
-        echo "data:" . $msg . PHP_EOL;
-        // echo PHP_EOL;
-        ob_flush();
-        flush();
-//        sleep(Config::get('nestq.ACTIVE_PUSH_INTERVAL'));
-//        sleep(1000000); //1000000 = 1 seconds
-    }
-
     public function loadPropertyData($property_id)
     {
 
@@ -133,16 +115,72 @@ class PushController extends BaseController {
         return $property[0];
     }
 
+
+// public function loadActiveProperty(){
+
+//     $this->selected = [];
+//     $this->region = Session::get('region', null);
+//     $this->category = Session::get('category', null);
+//     $this->rent = Session::get('rent','');
+//     $this->sale = Session::get('sale','');
+//     $this->user = Session::get('user','');
+//     $this->agent = Session::get('agent','');
+//     $this->price = Session::get('price', '');
+//     $this->priceRange = Session::get('priceRange', '');
+//     $this->rentprice = Session::get('rentprice', '');
+//     $this->rentpriceRange = Session::get('rentpriceRange', '');
+//     $this->actualsize = Session::get('actualsize', '');
+//     $this->sizeRange = Session::get('sizeRange', '');
+
+//     $query = DB::table('property');
+//     $query->join('region', 'property.region_id', '=', 'region.id');
+//     $query->join('category', 'property.category_id', '=', 'category.id');
+
+//     $query->select([
+//         'property.id as property_id',
+//         'property.name as property_name',
+//         'property.address as property_address',
+//         'property.actualsize as property_actualsize',
+//         'property.price as property_price',
+//         'property.rentprice as property_rentprice',
+//         'property.photo as property_photo',
+//         'category.name as category_name',
+//         'region.name as region_name'
+//         ]);
+
+//         // check if the user paid for active push
+//     // $query->join('service', 'property.responsible_id', '=', 'service.account_id');
+//     // $query->where('service.item_id', '=', Config::get('nestq.ACTIVE_PUSH_ID'));
+//     // $query->where('service.period', '>', new DateTime('today'));
+
+//     $query->where('property.publish', '=', 1);
+//     $query->groupBy('property.id');
+//     // $query->orderBy('property.updated_at', 'desc');
+
+//     $result = $query->get();
+//     $nos_of_properties = sizeof($result);
+//     $i = rand(0, $nos_of_properties - 1);
+//     $property = $result[$i];
+
+
+//     return $property;
+
+
+// }
+
+
+
+
     public function loadActiveProperty()
     {
 
         $this->selected = [];
         $this->region = Session::get('region', null);
         $this->category = Session::get('category', null);
-        $this->rent = Session::get('rent');
-        $this->sale = Session::get('sale');
-        $this->user = Session::get('user');
-        $this->agent = Session::get('agent');
+        $this->rent = Session::get('rent','');
+        $this->sale = Session::get('sale','');
+        $this->user = Session::get('user','');
+        $this->agent = Session::get('agent','');
         $this->price = Session::get('price', '');
         $this->priceRange = Session::get('priceRange', '');
         $this->rentprice = Session::get('rentprice', '');
@@ -234,9 +272,13 @@ class PushController extends BaseController {
             ]);
 
         // check if the user paid for active push
-        $query->join('service', 'property.responsible_id', '=', 'service.account_id');
-        $query->where('service.item_id', '=', Config::get('nestq.ACTIVE_PUSH_ID'));
-        $query->where('service.period', '>', new DateTime('today'));
+        $free = Config::get('nestq.FREE');
+        if ($free == false){
+            $query->join('service', 'property.responsible_id', '=', 'service.account_id');
+            $query->where('service.item_id', '=', Config::get('nestq.ACTIVE_PUSH_ID'));
+            $query->where('service.period', '>', new DateTime('today'));
+        }
+
 
         $query->where('property.publish', '=', 1);
         $query->groupBy('property.id');
@@ -270,13 +312,30 @@ class PushController extends BaseController {
         $countActivePush = $this->updatePropertyStat(Input::get('propertyId'));
         if ($countActivePush)
         {
-            return Response::json(array('response' => $countActivePush));
+            return Response::json(array('response' => true));
         } else
         {
             return Response::json(array('response' => false));
         }
-
-
     }
+
+    public function updatePropertyStat($propertyId)
+    {
+        if ($propertyId)
+        {
+            $stat = PropertyStat::firstOrCreate(array('property_id' => $propertyId));
+            $stat->activepush = $stat->activepush + 1;
+            $stat->save();
+
+            return true;
+
+        } else
+        {
+            return false;
+        }
+    }
+
+
+
 
 }
