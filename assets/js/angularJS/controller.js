@@ -10,7 +10,7 @@ var nestq = angular.module('nestq', ['ui.bootstrap', 'messengerService', 'active
 nestq.controller('ActivePushCtrl', ['$scope', '$interval', '$http', 'Activepush',
     function ($scope, $interval, $http, Activepush) {
 
-        $scope.showpush = true;
+        $scope.showpush = false;
         $scope.ajax = {};
         var activepush = new EventSource("http://" + window.location.host + "/activepush");
         activepush.onopen = function (event) {
@@ -23,7 +23,7 @@ nestq.controller('ActivePushCtrl', ['$scope', '$interval', '$http', 'Activepush'
                 $interval(function () {
                     $scope.showpush = true;
                 }, 7000);  //1000 = 1s
-                // $scope.showpush = false;
+                $scope.showpush = false;
 
 
                 $scope.ajax.propertyId = $scope.pushproperty.id;
