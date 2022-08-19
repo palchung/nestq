@@ -50,7 +50,7 @@ angular.module('messengerService', [])
                     save: function (pushData) {
                         return $http({
                             method: 'POST',
-                            url: 'http://' + window.location.host + '/nestq/public/count_active_push',
+                            url: 'http://' + window.location.host + '/count_active_push',
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                             data: $.param(pushData)
                         });

@@ -48,11 +48,13 @@
 
         {{ Form::textarea('template', $temp_content, array('class'=>'textarea-100', 'placeholder'=>'入行年資 經驗 負責地區等')) }}
         <br/>
+
         {{ Form::honeypot('my_name', 'my_time') }}
         {{ Form::submit('Submit', array('class'=>'button_normal'))}}
         {{ Form::close() }}
 
         @endforeach
+
 
 
     </div>

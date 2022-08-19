@@ -5,22 +5,27 @@ var nestq = angular.module('nestq', ['ui.bootstrap', 'messengerService', 'active
     });
 
 
+
+
 nestq.controller('ActivePushCtrl', ['$scope', '$interval', '$http', 'Activepush',
     function ($scope, $interval, $http, Activepush) {
 
         $scope.showpush = false;
         $scope.ajax = {};
         var activepush = new EventSource("http://" + window.location.host + "/activepush");
-        //activepush.onopen = function (event) {
-        //    console.log("open: ", event.data);
-        //};
+        activepush.onopen = function (event) {
+           console.log("open: ", event.data);
+        };
         activepush.onmessage = function (event) {
+
             $scope.$apply(function () {
                 $scope.pushproperty = JSON.parse(event.data);
                 $interval(function () {
                     $scope.showpush = true;
                 }, 7000);  //1000 = 1s
                 $scope.showpush = false;
+
+
                 $scope.ajax.propertyId = $scope.pushproperty.id;
                 Activepush.save($scope.ajax)
                 .success(function (data) {
@@ -30,11 +35,11 @@ nestq.controller('ActivePushCtrl', ['$scope', '$interval', '$http', 'Activepush'
                     console.log(data);
                 });
             });
-            console.log("pushProperty: ", $scope.pushproperty.id);
+            console.log("pushProperty: ", $scope.pushproperty);
         };
-        //activepush.onerror = function (event) {
-        //    console.log("error: ", event.data);
-        //};
+        activepush.onerror = function (event) {
+           console.log("error: ", event.data);
+        };
     }]);
 
 

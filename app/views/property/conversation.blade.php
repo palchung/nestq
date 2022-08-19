@@ -10,6 +10,7 @@
         {{ Form::submit('送出', array('class'=>'button_normal', 'disabled'))}}
         {{ Form::close() }}
 
+
         @else
 
 

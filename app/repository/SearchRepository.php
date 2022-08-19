@@ -52,16 +52,19 @@ class SearchRepository {
 
         $this->rent = Input::get('rent');
         Session::put('rent', $this->rent);
+
         $this->sale = Input::get('sale');
         Session::put('sale', $this->sale);
 
         $this->user = Input::get('user');
         Session::put('user', $this->user);
+
         $this->agent = Input::get('agent');
         Session::put('agent', $this->agent);
 
         $this->price = Input::get('price');
         Session::put('price', $this->price);
+
         $this->priceRange = Input::get('priceRange');
         $this->priceRange = ( ! empty($this->priceRange) || trim($this->priceRange) != '') ? $this->priceRange : Config::get('nestq.SEARCH_PRICE_RANGE');
         Session::put('priceRange', $this->priceRange);
