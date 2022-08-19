@@ -11,15 +11,18 @@
 	<div id="full-slider">
 
 		<div class="slide-panel active" >
-			<a class="messenger-content" ng-repeat="property in properties | unique:'property_id'">
 
+			<a class="messenger-content" ng-repeat="property in properties | unique:'property_id'">
 				<div class="messenger-block" ng-click="switchToConversation(property.property_id)">
 
                     <div class="messenger-two-col">
-                      <div class="left">
-                         <img src="/upload/<[property.property_photo]>/thumbnail/<[property.thumbnail]>" alt="<[property.property_name]>">
-                     </div>
-                     <div class="right">
+                      <div class="left center">
+
+                       <i ng-if="!property.thumbnail" class="icon-home-5x"></i>
+                       <img ng-if="property.thumbnail" src="/upload/<[property.property_photo]>/thumbnail/<[property.thumbnail]>" alt="<[property.property_name]>">
+
+                   </div>
+                   <div class="right">
                        <[property.property_name]><br/>
                        <[property.property_region]> / <[property.property_category]><br/>
                        <[property.property_price]>
@@ -47,10 +50,11 @@
 
     <div class="messenger-block" ng-click="switchToMessage(conversation.conversation_id, conversation.property_id)">
      <div class="messenger-two-col">
-      <div class="left">
-       <img src="/profilepic/<[conversation.account_profile_pic]>" alt="<[conversation.property_name]>">
-   </div>
-   <div class="right">
+      <div class="left center">
+          <i ng-if="!conversation.account_profile_pic" class="icon-user-3x"></i>
+          <img ng-if="conversation.account_profile_pic" src="/profilepic/thumbnail/<[conversation.account_profile_pic]>" alt="<[conversation.property_name]>">
+      </div>
+      <div class="right">
        <[conversation.account_firstname]> <[conversation.account_lastname]>
        <small class="light-color pull-right"><[conversation.message_created_at]></small>
    </div>
@@ -73,10 +77,11 @@
  <div ng-repeat="message in pushMessage | filter:{conversation_id:message.conversation_id}">
     <div class="messenger-block">
      <div class="messenger-two-col">
-      <div class="left">
-       <img src="/profilepic/<[message.account_profile_pic]>" alt="<[message.account_firstname]> <[message.account_lastname]>">
-   </div>
-   <div class="right">
+      <div class="left center">
+          <i ng-if="!message.account_profile_pic" class="icon-user-3x"></i>
+          <img ng-if="message.account_profile_pic" src="/profilepic/thumbnail/<[message.account_profile_pic]>" alt="<[message.account_firstname]> <[message.account_lastname]>">
+      </div>
+      <div class="right">
        <b><[message.account_firstname]> <[message.account_lastname]></b>
        <small class="light-color pull-right"><[message.message_created_at]></small>
        <br/>
@@ -103,10 +108,11 @@
 
 <div class="messenger-block" ng-show="hideMessage" ng-hide="hideMessage" ng-repeat="newMessage in message.toDisplay track by $index" >
     <div class="messenger-two-col">
-     <div class="left">
-      <img src="/profilepic/<[newMessage.account_profile_pic]>" alt="profile pic">
-  </div>
-  <div class="right">
+     <div class="left center">
+         <i ng-if="!newMessage.account_profile_pic" class="icon-user-3x"></i>
+         <img ng-if="newMessage.account_profile_pic" src="/profilepic/thumbnail/<[newMessage.account_profile_pic]>" alt="profile pic">
+     </div>
+     <div class="right">
       <b><[newMessage.account_firstname]> <[newMessage.account_lastname]></b>
       <small class="light-color pull-right"> <[newMessage.message_created_at]> </small>
       <br/>
@@ -119,11 +125,18 @@
 
 <div class="messenger-input-block">
     <div class="messenger-two-col">
-     <div class="left">
-      <img src="/profilepic/{{Auth::user()->profile_pic}}" alt="profile pic">
-  </div>
-  <div class="right">
-  <span class="std-bold">{{Auth::user()->firstname}} {{Auth::user()->lastname}}</span>
+     <div class="left center">
+
+        @if (Auth::user()->profile_pic)
+        <img src="/profilepic/thumbnail/{{Auth::user()->profile_pic}}" alt="profile pic">
+        @else
+        <i class="icon-user-3x"></i>
+
+        @endif
+
+    </div>
+    <div class="right">
+      <span class="std-bold">{{Auth::user()->firstname}} {{Auth::user()->lastname}}</span>
       <small class="light-color pull-right"> <!-- now --> </small>
       <br/>
       <[message.new]>
